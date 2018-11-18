@@ -1,6 +1,6 @@
 {
   "linters": {
-    "*.{ts,tsx}": ["yarn run prettier", "yarn run lint", "git add"],
+    "*.{ts,tsx}": ["yarn run prettier", "git add"],
     "package.json": ["sort-package-json", "git add"]
   },
   "ignore": ["yarn.lock", "node_modules/**/*"]

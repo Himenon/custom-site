@@ -23,11 +23,30 @@
     "noUnusedLocals": true,
     "baseUrl": "./",
     "noLib": false,
+    "allowUnusedLabels": true,
     "declaration": true
+  },
+  "typeRoots": [
+    "./src/typings",
+    "./node_modules/@types"
+  ],
+  "paths": {
+    "gray-matter": [
+      "./src/typings/gray-matter" 
+    ],
+    "@babel/*": [
+      "./src/typings/@babel/*"
+    ],
+    "@mdx-js/*": [
+      "./src/typings/@mdx-js/*"
+    ],
+    "@rocu/*": [
+      "./src/typings/@rocu/*"
+    ]
   },
   "include": [
     "src/**/*.ts",
-    "../scripts/**/*.ts"
+    "src/**/*.tsx"
   ],
   "exclude": [
     "node_modules"
