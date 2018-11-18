@@ -6,7 +6,8 @@
     "commitmsg",
     "codecov",
     "webhook",
-    "rocu"
+    "rocu",
+    "promisify"
   ],
   "flagWords": [
       "hte"

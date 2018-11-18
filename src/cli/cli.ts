@@ -9,7 +9,7 @@ import * as readPkgUp from "read-pkg-up";
 import { UpdateNotifier } from "update-notifier";
 import { log } from "../logger";
 
-const pkg = require("../package.json");
+const pkg = require("../../package.json");
 new UpdateNotifier({ pkg }).notify();
 
 import { server } from "../server";

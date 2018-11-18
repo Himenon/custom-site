@@ -9,8 +9,10 @@
     ],
     "experimentalDecorators": true,
     "removeComments": true,
+    "composite": true,
     "sourceMap": true,
     "allowJs": false,
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "./src",
     "forceConsistentCasingInFileNames": true,
@@ -22,14 +24,10 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "baseUrl": "./",
-    "noLib": false,
-    "allowUnusedLabels": true,
-    "declaration": true
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
-  "typeRoots": [
-    "./src/typings",
-    "./node_modules/@types"
-  ],
   "paths": {
     "gray-matter": [
       "./src/typings/gray-matter" 
@@ -49,7 +47,9 @@
     "src/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "./node_modules",
+    "./lib",
+    "jest"
   ],
   "ordered-imports": [
     true,
