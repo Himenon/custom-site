@@ -16,18 +16,20 @@ export const applyMarkdownTextToMdxTag = (markdownText: string): string => {
   });
 };
 
-export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
-  customComponent: MDXTagProps<T>["components"],
-  props?: JSX.IntrinsicElements[T],
-) => (content: string) => {
+export interface TransformConfig<T extends keyof JSX.IntrinsicElements> {
+  customComponents: MDXTagProps<T>["components"];
+  props: MDXTagProps<T>["props"];
+}
+export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(config: TransformConfig<T>) => (
+  content: string,
+): React.ReactElement<any> => {
   const raw = applyMarkdownTextToMdxTag(content);
   const code = convertWithBabel(raw);
   const scope = {};
-
   const fullScope = {
     MDXTag,
-    components: customComponent,
-    props,
+    components: config.customComponents,
+    props: config.props,
     ...scope,
   };
   const keys = Object.keys(fullScope);
