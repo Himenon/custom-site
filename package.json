@@ -22,6 +22,9 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "bin": {
+    "rocu": "./lib/cli.js"
+  },
   "directories": {
     "lib": "lib"
   },
@@ -33,7 +36,7 @@
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser": "dependency-cruiser --validate .dependency-cruiser.json src",
     "develop": "yarn run build -- --watch",
-    "develop:server": "./lib/cli.js examples -Do --port 9000",
+    "develop:server": "chmod +x ./lib/cli.js && ./lib/cli.js example -Do --port 9000",
     "format": "prettier --config .prettierrc --write src/*.{ts,tsx}",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "yarn run lint --fix",

@@ -8,7 +8,7 @@ import { PageElement, Source } from "@rocu/page";
 
 const readdir = promisify(fs.readdir);
 
-export const getContent = async (dirname: string, opts: Options): Promise<Source> => {
+export const getData = async (dirname: string, opts: Options): Promise<Source> => {
   const allFiles = await readdir(dirname);
   const filenames = allFiles.filter(name => !/^\./.test(name));
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name));
@@ -55,5 +55,3 @@ const getLayout = (pages: PageElement[]) => (page: PageElement): PageElement => 
   page.layoutJSX = layout.content;
   return page;
 };
-
-export { getContent as getData };

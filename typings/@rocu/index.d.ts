@@ -25,7 +25,8 @@ declare module "@rocu/page" {
     layoutJSX?: string;
   }
 
-  export interface RenderedPage extends PageElement {
+  export interface RenderedStaticPage {
+    name: PageElement["name"];
     html: string;
   }
 

@@ -10,7 +10,7 @@
     "experimentalDecorators": true,
     "removeComments": true,
     "composite": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "allowJs": false,
     "jsx": "react",
     "moduleResolution": "node",
@@ -43,8 +43,10 @@
     ]
   },
   "include": [
+    "src/index.ts",
+    "src/cli.ts",
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "typings/**/*.ts"
   ],
   "exclude": [
     "./node_modules",

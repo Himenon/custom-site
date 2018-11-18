@@ -8,9 +8,9 @@ import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
 import { Options } from "@rocu/cli";
-import { RenderedPage } from "@rocu/page";
+import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
-import { getData } from "./getPage";
+import { getData } from "../structure";
 import { makeScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -69,14 +69,15 @@ const start = async (dirname: string, opts: Options) => {
     }
 
     const name = pathname === "/" ? "index" : pathname.replace(/^\//, "").replace(/\/$/, "");
-    const page: RenderedPage | undefined = gPages.find((targetPage: RenderedPage) => targetPage.name === name);
+    // tslint:disable:max-line-length
+    const renderStaticPage: RenderedStaticPage | undefined = gPages.find((targetPage: RenderedStaticPage) => targetPage.name === name);
 
-    if (!page) {
+    if (!renderStaticPage) {
       res.write("page not found: " + pathname);
       res.end();
       return;
     }
-    res.write(page.html);
+    res.write(renderStaticPage.html);
     res.write(makeScript(socketPort));
     res.end();
   });
