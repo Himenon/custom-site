@@ -5,7 +5,12 @@
     "commitlint",
     "commitmsg",
     "codecov",
-    "webhook"
+    "webhook",
+    "rocu",
+    "promisify",
+    "portfinder",
+    "prettierrc",
+    "himenon"
   ],
   "flagWords": [
       "hte"
