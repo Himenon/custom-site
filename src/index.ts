@@ -1,3 +1,4 @@
+export * from "./transformer";
 export { generateStaticPage } from "./generator";
 export { log } from "./logger";
 export { render } from "./renderer";

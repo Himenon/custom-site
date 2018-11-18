@@ -25,22 +25,20 @@
     "noUnusedLocals": true,
     "baseUrl": "./",
     "typeRoots": [
+      "./typings",
       "./node_modules/@types"
-    ]
-  },
-  "paths": {
-    "gray-matter": [
-      "./src/typings/gray-matter" 
     ],
-    "@babel/*": [
-      "./src/typings/@babel/*"
-    ],
-    "@mdx-js/*": [
-      "./src/typings/@mdx-js/*"
-    ],
-    "@rocu/*": [
-      "./src/typings/@rocu/*"
-    ]
+    "paths": {
+      "gray-matter": [
+        "./typings/gray-matter/index.d.ts"
+      ],
+      "@babel/*": [
+        "./typings/@babel/*"
+      ],
+      "@mdx-js/*": [
+        "./typings/@mdx-js/*"
+      ]
+    },
   },
   "include": [
     "src/index.ts",

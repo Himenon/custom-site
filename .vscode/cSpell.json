@@ -8,7 +8,9 @@
     "webhook",
     "rocu",
     "promisify",
-    "portfinder"
+    "portfinder",
+    "prettierrc",
+    "himenon"
   ],
   "flagWords": [
       "hte"

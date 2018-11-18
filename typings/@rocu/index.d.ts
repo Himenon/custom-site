@@ -4,6 +4,12 @@ declare module "@rocu/cli" {
   }
 }
 
+declare module "@rocu/component" {
+  export type ElementNames = keyof JSX.IntrinsicElements;
+  export type Component = {};
+  export type Option = {};
+}
+
 declare module "@rocu/page" {
   export interface HtmlMetaData {
     description?: string;

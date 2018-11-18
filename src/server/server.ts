@@ -11,7 +11,7 @@ import { Options } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
 import { getData } from "../structure";
-import { makeScript } from "./reloadScript";
+import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
 const start = async (dirname: string, opts: Options) => {
@@ -61,10 +61,10 @@ const start = async (dirname: string, opts: Options) => {
     if (!pathname) {
       return;
     }
-    const filepath = path.join(dirname, pathname);
+    const filePath = path.join(dirname, pathname);
     // serve local images and files
-    if (fs.existsSync(filepath) && fs.statSync(filepath).isFile()) {
-      fs.createReadStream(filepath).pipe(res);
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      fs.createReadStream(filePath).pipe(res);
       return;
     }
 
@@ -78,7 +78,7 @@ const start = async (dirname: string, opts: Options) => {
       return;
     }
     res.write(renderStaticPage.html);
-    res.write(makeScript(socketPort));
+    res.write(reloadScript(socketPort));
     res.end();
   });
 

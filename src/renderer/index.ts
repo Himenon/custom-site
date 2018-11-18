@@ -4,7 +4,7 @@ import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
 const renderPage = (page: PageElement): RenderedStaticPage => {
   return {
     name: page.name,
-    html: "<body>Hello</body>",
+    html: page.raw,
   };
 };
 

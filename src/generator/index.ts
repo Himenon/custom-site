@@ -10,12 +10,11 @@ export const generateStatic = async (source: Source, opts: Options): Promise<Ren
 
 export const generateStaticPage = async (dirname: string, options: Options): Promise<void> => {
   const initialSource = await getData(dirname, options);
-  generateStatic(initialSource, options)
-    .then((result: any) => {
-      log("files saved to", dirname);
-    })
-    .catch((err: any) => {
-      log("error", err);
-      process.exit(1);
-    });
+  try {
+    await generateStatic(initialSource, options);
+    log("files saved to", dirname);
+  } catch (err) {
+    log("error", err);
+    process.exit(1);
+  }
 };
