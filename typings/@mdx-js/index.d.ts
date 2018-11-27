@@ -7,6 +7,8 @@ declare module "@mdx-js/mdx" {
     compilers?: any[];
     blocks?: string[];
     skipExport?: boolean;
+    layout?: boolean;
+    preserveNewlines?: boolean;
   }
   function mdx(content: string, options?: Options): string;
   export function sync(content: string, options?: Options): string;

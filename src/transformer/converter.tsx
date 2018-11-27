@@ -11,15 +11,18 @@ const convertWithBabel = (raw: string): string | null =>
   }).code;
 
 export const applyMarkdownTextToMdxTag = (markdownText: string): string => {
-  return mdx.sync(markdownText, {
-    skipExport: true,
-  });
+  return mdx
+    .sync(markdownText, {
+      skipExport: true,
+    })
+    .trim();
 };
 
 export interface TransformConfig<T extends keyof JSX.IntrinsicElements> {
   customComponents: MDXTagProps<T>["components"];
   props: MDXTagProps<T>["props"];
 }
+
 export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(config: TransformConfig<T>) => (
   content: string,
 ): React.ReactElement<any> => {
@@ -34,7 +37,8 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
   };
   const keys = Object.keys(fullScope);
   const values = keys.map(key => fullScope[key]);
-  const fn = new Function("React", ...keys, `return ${code}`);
+  const mainLogic = `${code} return React.createElement(MDXContent, { components, ...props });`;
+  const fn = new Function("React", ...keys, mainLogic);
   const resultComponent = fn(React, ...values);
   return resultComponent;
 };
