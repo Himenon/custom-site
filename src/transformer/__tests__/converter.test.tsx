@@ -1,6 +1,10 @@
 jest.unmock("../converter.tsx");
+import * as fs from "fs";
+import * as path from "path";
 import * as ReactDOM from "react-dom/server";
-import { transformRawStringToHtml } from "../converter";
+import { applyMarkdownTextToMdxTag, transformRawStringToHtml } from "../converter";
+
+const removeAllNewLine = (inputString: string): string => inputString.replace(/\r?\n|\r|\n|\s/g, "").trim();
 
 describe("transformer test", () => {
   const templateText: string = `
@@ -13,7 +17,13 @@ body message
 highlight
 `;
 
+  const rawResult: string = fs.readFileSync(path.join(__dirname, "./expectedResult.js"), { encoding: "utf8" });
   const resultTest = "<div><h1>Hello World</h1><p>body message</p><h2>h2 title</h2><p>highlight</p></div>";
+
+  test("applyMarkdownTextToMdxtag", () => {
+    const raw = removeAllNewLine(applyMarkdownTextToMdxTag(templateText));
+    expect(raw).toEqual(removeAllNewLine(rawResult));
+  });
 
   test("default converter", () => {
     const converter = transformRawStringToHtml({
