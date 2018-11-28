@@ -1,37 +1,21 @@
 # rocu
 
+[![npm version](https://badgen.net/npm/v/rocu)](https://npm.im/rocu)
 [![Build Status](https://travis-ci.org/Himenon/rocu.svg?branch=develop)](https://travis-ci.org/Himenon/rocu)
 [![codecov](https://codecov.io/gh/Himenon/rocu/branch/develop/graph/badge.svg)](https://codecov.io/gh/Himenon/rocu)
 [![dependencies Status](https://david-dm.org/Himenon/rocu/status.svg)](https://david-dm.org/Himenon/rocu)
 [![devDependencies Status](https://david-dm.org/Himenon/rocu/dev-status.svg)](https://david-dm.org/Himenon/rocu?type=dev)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 
 ## Usage
+
+## Development
 
 ```sh
 yarn install
 yarn start
 ```
 
-## Update
-
-```sh
-yarn outdated
-yarn upgrade
-```
-
-## Publish
-
-```
-yarn publish
-```
-
-# Options
-
-## Linter
-
-* [tslint-react](https://github.com/palantir/tslint-react)
-
 ## License
 
-MIT
+MIT &copy; [Himenon](https://github.com/Himenon)
