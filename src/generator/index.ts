@@ -1,6 +1,6 @@
 import { Options } from "@rocu/cli";
 import { RenderedStaticPage, Source } from "@rocu/page";
-import { log } from "../logger";
+import { notifyLog } from "../logger";
 import { render } from "../renderer";
 import { getData } from "../structure";
 
@@ -12,9 +12,9 @@ export const generateStaticPage = async (dirname: string, options: Options): Pro
   const initialSource = await getData(dirname, options);
   try {
     await generateStatic(initialSource, options);
-    log("files saved to", dirname);
+    notifyLog("files saved to", dirname);
   } catch (err) {
-    log("error", err);
+    notifyLog("error", err);
     process.exit(1);
   }
 };
