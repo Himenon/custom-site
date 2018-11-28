@@ -2,15 +2,16 @@ sudo: false
 language: node_js
 branches:
   only:
+  - master
   - develop
 cache: yarn
 stages:
 - name: lint
-  if: branch = develop
+  if: branch = develop OR branch = master
 - name: compile
-  if: branch = develop
+  if: branch = develop OR branch = master
 - name: test
-  if: branch = develop
+  if: branch = develop OR branch = master
 - name: deploy
   if: branch = master AND type = push
 jobs:
@@ -18,13 +19,13 @@ jobs:
   - stage: lint
     script: yarn run lint
     node_js:
-    - '10'
+    - '11'
   - stage: compile
     script: yarn build
     node_js:
-    - '10'
+    - '11'
   - stage: test
-    script: yarn test
+    script: yarn test:ci
     node_js:
     - '10'
     - '11'
@@ -36,5 +37,4 @@ jobs:
     - npm publish
     - cp .npmrc.template .npmrc
     node_js:
-    - '10'
     - '11'
