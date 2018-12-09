@@ -7,7 +7,7 @@ import opn = require("opn");
 import * as path from "path";
 import * as readPkgUp from "read-pkg-up";
 import { UpdateNotifier } from "update-notifier";
-import { log } from "./logger";
+import { notifyLog } from "./logger";
 
 const pkg = require("../package.json");
 new UpdateNotifier({ pkg }).notify();
@@ -56,20 +56,20 @@ const localOpts = {
   outDir: path.join(process.cwd(), cli.flags.outDir || ""),
 };
 
-log("rocu");
+notifyLog("rocu");
 
 if (localOpts.dev) {
-  log("starting dev server");
+  notifyLog("starting dev server");
   server(localDirname, localOpts)
     .then((srv: http.Server) => {
       const address = srv.address();
       let url: string;
       if (typeof address === "string") {
-        log(`listening on ${address}`);
+        notifyLog(`listening on ${address}`);
         url = address;
       } else {
         const { port } = address;
-        log(`listening on port: ${port}`);
+        notifyLog(`listening on port: ${port}`);
         url = `http://localhost:${port}`;
       }
       if (localOpts.open) {
@@ -77,7 +77,7 @@ if (localOpts.dev) {
       }
     })
     .catch((err: Error) => {
-      log("error", err);
+      notifyLog("error", err);
       process.exit(1);
     });
 } else {

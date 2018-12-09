@@ -6,8 +6,21 @@
 [![dependencies Status](https://david-dm.org/Himenon/rocu/status.svg)](https://david-dm.org/Himenon/rocu)
 [![devDependencies Status](https://david-dm.org/Himenon/rocu/dev-status.svg)](https://david-dm.org/Himenon/rocu?type=dev)
 
-
 ## Usage
+
+### Install
+
+```
+npm i -g rocu
+```
+
+### CLI
+
+
+```
+rocu
+```
+
 
 ## Development
 
@@ -15,6 +28,10 @@
 yarn install
 yarn start
 ```
+
+## Architecture
+
+![architecture](docs/dependencygraph.png)
 
 ## License
 

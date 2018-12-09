@@ -1,6 +1,3 @@
-export * from "./transformer";
 export { generateStaticPage } from "./generator";
-export { log } from "./logger";
-export { render } from "./renderer";
+export { notifyLog } from "./logger";
 export { server } from "./server";
-export { getData } from "./structure";
