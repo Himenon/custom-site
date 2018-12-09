@@ -1,8 +1,7 @@
-export const reloadScript = (port: number) => `<script type='text/javascript'>
+export const reloadScript = (port: number) => `<script>
 const socket = new WebSocket('ws://localhost:${port}')
-socket.onmessage = (msg) => {
-  console.log("message:", msg);
-  const data = JSON.parse(msg.data)
+socket.onmessage = (message) => {
+  const data = JSON.parse(message.data)
   if (data.reload) {
     window.location.reload();
   }

@@ -28,7 +28,7 @@ const start = async (dirname: string, opts: Options) => {
   });
 
   watcher.on("all", (event: any, eventPath: any) => {
-    debugLog({ event, eventPath });
+    debugLog({ name: "all", event, eventPath });
   });
 
   makeWebSocketServer(socketPort, (res: WebSocket) => {
@@ -36,7 +36,6 @@ const start = async (dirname: string, opts: Options) => {
   });
 
   const update = async () => {
-    debugLog("update!");
     if (!socket) {
       return;
     }
@@ -46,13 +45,10 @@ const start = async (dirname: string, opts: Options) => {
   };
 
   watcher.on("change", async (filename: string) => {
-    if (!socket) {
-      return;
-    }
     debugLog({ filename });
     const base = path.basename(filename);
     const ext = path.extname(base);
-    if (!/\.(jsx|md|json)$/.test(ext)) {
+    if (!/\.(jsx|md|mdx|json)$/.test(ext)) {
       return;
     }
     // todo: handle this per file
