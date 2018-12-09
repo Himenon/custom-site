@@ -41,7 +41,6 @@ const getLayout = (pages: PageElement[]) => (page: PageElement): PageElement => 
 
 export const getData = async (dirname: string, _opts: Options): Promise<Source> => {
   const allFiles = await recursive(dirname);
-  console.log(allFiles);
   const filenames = allFiles.filter(name => !/^\./.test(name));
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name));
   const mdFilenames = filenames.filter(name => /\.mdx?/.test(name));
