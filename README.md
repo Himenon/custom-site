@@ -29,6 +29,10 @@ yarn install
 yarn start
 ```
 
+## Architecture
+
+![architecture](docs/dependencygraph.png)
+
 ## License
 
 MIT &copy; [Himenon](https://github.com/Himenon)

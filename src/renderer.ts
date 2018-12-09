@@ -1,7 +1,7 @@
 import { Options } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
 import { renderToStaticMarkup } from "react-dom/server";
-import { transformRawStringToHtml } from "../transformer";
+import { transformRawStringToHtml } from "./transformer/converter";
 
 const renderPage = (page: PageElement): RenderedStaticPage => {
   const converter = transformRawStringToHtml({

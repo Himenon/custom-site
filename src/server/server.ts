@@ -11,7 +11,7 @@ import { Options } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
 import { debugLog } from "../logger";
-import { getData } from "../structure";
+import { getData } from "../structure/getPage";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
