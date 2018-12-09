@@ -23,7 +23,6 @@ const start = async (dirname: string, opts: Options) => {
   let gPages = await generateStatic(initialSource, opts);
 
   const watcher: chokidar.FSWatcher = chokidar.watch(dirname, {
-    depth: 1,
     ignoreInitial: true,
   });
 

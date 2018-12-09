@@ -71,6 +71,7 @@
     "react-dom": "^16.6.3",
     "read-pkg": "^4.0.1",
     "read-pkg-up": "^4.0.0",
+    "recursive-readdir": "^2.2.2",
     "update-notifier": "^2.5.0",
     "ws": "^6.1.2"
   },
@@ -88,6 +89,7 @@
     "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
     "@types/read-pkg-up": "^3.0.1",
+    "@types/recursive-readdir": "^2.2.0",
     "@types/update-notifier": "^2.5.0",
     "codecov": "^3.1.0",
     "dependency-cruiser": "^4.8.0",
