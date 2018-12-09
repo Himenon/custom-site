@@ -40,5 +40,5 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
   const mainLogic = `${code} return React.createElement(MDXContent, { components, ...props });`;
   const fn = new Function("React", ...keys, mainLogic);
   const resultComponent = fn(React, ...values);
-  return resultComponent;
+  return <body>{resultComponent}</body>;
 };

@@ -18,7 +18,7 @@ highlight
 `;
 
   const rawResult: string = fs.readFileSync(path.join(__dirname, "./expectedResult.js"), { encoding: "utf8" });
-  const resultTest = "<div><h1>Hello World</h1><p>body message</p><h2>h2 title</h2><p>highlight</p></div>";
+  const resultTest = "<body><div><h1>Hello World</h1><p>body message</p><h2>h2 title</h2><p>highlight</p></div></body>";
 
   test("applyMarkdownTextToMdxtag", () => {
     const raw = removeAllNewLine(applyMarkdownTextToMdxTag(templateText));

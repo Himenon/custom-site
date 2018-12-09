@@ -1,16 +1,22 @@
 import { Options } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
-import { renderToStaticMarkup } from "react-dom/server";
+import { combine } from "./transformer/combine";
 import { transformRawStringToHtml } from "./transformer/converter";
+import { createHeadContent } from "./transformer/head";
 
 const renderPage = (page: PageElement): RenderedStaticPage => {
   const converter = transformRawStringToHtml({
     customComponents: {},
     props: {},
   });
+  const bodyContent = converter(page.content);
+  const headContent = createHeadContent(page.data);
   return {
     name: page.name,
-    html: renderToStaticMarkup(converter(page.raw)),
+    html: combine({
+      head: headContent,
+      body: bodyContent,
+    }),
   };
 };
 
