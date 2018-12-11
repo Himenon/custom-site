@@ -8,11 +8,12 @@ export const generateStatic = async (source: Source, opts: Options): Promise<Ren
   return render(source, opts);
 };
 
-export const generateStaticPage = async (dirname: string, options: Options): Promise<void> => {
+export const generateStaticPages = async (dirname: string, options: Options): Promise<RenderedStaticPage[] | undefined> => {
   const initialSource = await getData(dirname, options);
   try {
-    await generateStatic(initialSource, options);
+    const result = await generateStatic(initialSource, options);
     notifyLog("files saved to", dirname);
+    return result;
   } catch (err) {
     notifyLog("error", err);
     process.exit(1);

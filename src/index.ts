@@ -1,3 +1,3 @@
-export { generateStaticPage } from "./generator";
+export { generateStaticPages } from "./generator";
 export { notifyLog } from "./logger";
 export { server } from "./server";
