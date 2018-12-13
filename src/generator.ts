@@ -18,4 +18,5 @@ export const generateStaticPages = async (dirname: string, options: Options): Pr
     notifyLog("error", err);
     process.exit(1);
   }
+  return;
 };

@@ -17,7 +17,7 @@ const writePages = async (pages: RenderedStaticPage[], opts: Options): Promise<v
     const dir = page.name === "index" ? "" : page.name;
     const filename = path.join(outDir, dir, "index.html");
     if (!fs.existsSync(path.dirname(filename))) {
-      fs.mkdirSync(path.dirname(filename));
+      fs.mkdirSync(path.dirname(filename), { recursive: true });
     }
     return write(filename, page.html);
   });
