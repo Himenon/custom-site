@@ -15,7 +15,7 @@ new UpdateNotifier({ pkg }).notify();
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
-import { writePages } from "./writeRepository";
+import { exportPages } from "./exportPage";
 
 const cli = meow(
   `
@@ -87,7 +87,7 @@ const main = async () => {
     // 開発環境ではなく、サイトを生成する
     const pages = await generateStaticPages(localDirname, localOpts);
     if (pages) {
-      await writePages(pages, localOpts);
+      await exportPages(pages, localOpts);
     }
   }
 };
