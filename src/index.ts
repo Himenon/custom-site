@@ -1,7 +1,3 @@
-export const hello = (name: string): string => {
-  const params = {
-    hoge: 1,
-    fuga: 2,
-  };
-  return `Hello ${name} ${JSON.stringify(params)}`;
-};
+export { generateStaticPages } from "./generator";
+export { notifyLog } from "./logger";
+export { server } from "./server";

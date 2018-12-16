@@ -1,37 +1,44 @@
-# roku
+# rocu
 
-[![Build Status](https://travis-ci.org/Himenon/roku.svg?branch=master)](https://travis-ci.org/Himenon/roku)
-[![codecov](https://codecov.io/gh/Himenon/roku/branch/master/graph/badge.svg)](https://codecov.io/gh/Himenon/roku)
-[![dependencies Status](https://david-dm.org/Himenon/roku/status.svg)](https://david-dm.org/Himenon/roku)
-[![devDependencies Status](https://david-dm.org/Himenon/roku/dev-status.svg)](https://david-dm.org/Himenon/roku?type=dev)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![npm version](https://badgen.net/npm/v/rocu)](https://npm.im/rocu)
+[![Build Status](https://travis-ci.org/Himenon/rocu.svg?branch=develop)](https://travis-ci.org/Himenon/rocu)
+[![codecov](https://codecov.io/gh/Himenon/rocu/branch/develop/graph/badge.svg)](https://codecov.io/gh/Himenon/rocu)
+[![dependencies Status](https://david-dm.org/Himenon/rocu/status.svg)](https://david-dm.org/Himenon/rocu)
+[![devDependencies Status](https://david-dm.org/Himenon/rocu/dev-status.svg)](https://david-dm.org/Himenon/rocu?type=dev)
 
 ## Usage
+
+### Install
+
+```
+npm i -g rocu
+```
+
+### CLI
+
+Run debug server
+
+```sh
+rocu mysite -Do
+```
+
+Generate static site
+
+```
+rocu mysite --out-dir site
+```
+
+## Development
 
 ```sh
 yarn install
 yarn start
 ```
 
-## Update
+## Architecture
 
-```sh
-yarn outdated
-yarn upgrade
-```
-
-## Publish
-
-```
-yarn publish
-```
-
-# Options
-
-## Linter
-
-* [tslint-react](https://github.com/palantir/tslint-react)
+![architecture](docs/dependencygraph.png)
 
 ## License
 
-MIT
+MIT &copy; [Himenon](https://github.com/Himenon)

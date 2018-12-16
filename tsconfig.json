@@ -9,8 +9,10 @@
     ],
     "experimentalDecorators": true,
     "removeComments": true,
-    "sourceMap": true,
+    "composite": true,
+    "sourceMap": false,
     "allowJs": false,
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "./src",
     "forceConsistentCasingInFileNames": true,
@@ -21,16 +23,34 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "baseUrl": "./",
-    "noLib": false,
-    "declaration": true
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "gray-matter": [
+        "./typings/gray-matter/index.d.ts"
+      ],
+      "@babel/*": [
+        "./typings/@babel/*"
+      ],
+      "@mdx-js/*": [
+        "./typings/@mdx-js/*"
+      ]
+    },
   },
   "include": [
+    "src/index.ts",
+    "src/cli.ts",
     "src/**/*.ts",
-    "../scripts/**/*.ts"
+    "typings/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "./node_modules",
+    "./lib",
+    "jest"
   ],
   "ordered-imports": [
     true,
