@@ -1,6 +1,6 @@
 {
   "name": "rocu",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Frontend Performance Tool",
   "keywords": [
     "template",
@@ -34,6 +34,7 @@
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib",
     "cli": "node ./lib/cli.js",
+    "cli:build": "node ./lib/cli.js example --out-dir out",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser:image": "depcruise  --exclude \"^node_modules\" --output-type dot src/server | dot -T png > docs/dependencygraph.png",
     "develop": "yarn run build --watch",

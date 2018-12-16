@@ -12,8 +12,10 @@ import { notifyLog } from "./logger";
 const pkg = require("../package.json");
 new UpdateNotifier({ pkg }).notify();
 
-import { generateStaticPage } from "./generator";
+import { generateStaticPages } from "./generator";
 import { server } from "./server";
+
+import { exportPages } from "./exportPage";
 
 const cli = meow(
   `
@@ -58,29 +60,36 @@ const localOpts = {
 
 notifyLog("rocu");
 
-if (localOpts.dev) {
-  notifyLog("starting dev server");
-  server(localDirname, localOpts)
-    .then((srv: http.Server) => {
-      const address = srv.address();
-      let url: string;
-      if (typeof address === "string") {
-        notifyLog(`listening on ${address}`);
-        url = address;
-      } else {
-        const { port } = address;
-        notifyLog(`listening on port: ${port}`);
-        url = `http://localhost:${port}`;
-      }
-      if (localOpts.open) {
-        opn(url);
-      }
-    })
-    .catch((err: Error) => {
-      notifyLog("error", err);
-      process.exit(1);
-    });
-} else {
-  // 開発環境ではなく、サイトを生成する
-  generateStaticPage(localDirname, localOpts);
-}
+const main = async () => {
+  if (localOpts.dev) {
+    notifyLog("starting dev server");
+    server(localDirname, localOpts)
+      .then((srv: http.Server) => {
+        const address = srv.address();
+        let url: string;
+        if (typeof address === "string") {
+          notifyLog(`listening on ${address}`);
+          url = address;
+        } else {
+          const { port } = address;
+          notifyLog(`listening on port: ${port}`);
+          url = `http://localhost:${port}`;
+        }
+        if (localOpts.open) {
+          opn(url);
+        }
+      })
+      .catch((err: Error) => {
+        notifyLog("error", err);
+        process.exit(1);
+      });
+  } else {
+    // 開発環境ではなく、サイトを生成する
+    const pages = await generateStaticPages(localDirname, localOpts);
+    if (pages) {
+      await exportPages(pages, localOpts);
+    }
+  }
+};
+
+main();

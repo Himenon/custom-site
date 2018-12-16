@@ -11,7 +11,7 @@ export const makeWebSocketServer = (socketPort: number, setSocket: (res: WebSock
     console.error("connection error:", JSON.stringify(err));
   });
 
-  socketServer.on("close", (res: WebSocket) => {
+  socketServer.on("close", (_res: WebSocket) => {
     console.log("connection closed");
   });
   return socketServer;
