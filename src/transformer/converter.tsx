@@ -28,12 +28,10 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
 ): React.ReactElement<any> => {
   const raw = applyMarkdownTextToMdxTag(content);
   const code = convertWithBabel(raw);
-  const scope = {};
   const fullScope = {
     MDXTag,
     components: config.customComponents,
     props: config.props,
-    ...scope,
   };
   const keys = Object.keys(fullScope);
   const values = keys.map(key => fullScope[key]);

@@ -5,11 +5,11 @@ import { transformRawStringToHtml } from "./transformer/converter";
 import { createHeadContent } from "./transformer/head";
 
 const renderPage = (page: PageElement): RenderedStaticPage => {
-  const converter = transformRawStringToHtml({
+  const createBodyContent = transformRawStringToHtml({
     customComponents: {},
     props: {},
   });
-  const bodyContent = converter(page.content);
+  const bodyContent = createBodyContent(page.content);
   const headContent = createHeadContent(page.data);
   return {
     name: page.name,
