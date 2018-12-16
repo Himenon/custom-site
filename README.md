@@ -16,11 +16,17 @@ npm i -g rocu
 
 ### CLI
 
+Run debug server
+
+```sh
+rocu mysite -Do
+```
+
+Generate static site
 
 ```
-rocu
+rocu mysite --out-dir site
 ```
-
 
 ## Development
 

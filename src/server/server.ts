@@ -10,7 +10,6 @@ import * as WebSocket from "ws";
 import { Options } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
-import { debugLog } from "../logger";
 import { getData } from "../structure/getPage";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
@@ -24,10 +23,6 @@ const start = async (dirname: string, opts: Options) => {
 
   const watcher: chokidar.FSWatcher = chokidar.watch(dirname, {
     ignoreInitial: true,
-  });
-
-  watcher.on("all", (event: any, eventPath: any) => {
-    debugLog({ name: "all", event, eventPath });
   });
 
   makeWebSocketServer(socketPort, (res: WebSocket) => {
@@ -44,7 +39,6 @@ const start = async (dirname: string, opts: Options) => {
   };
 
   watcher.on("change", async (filename: string) => {
-    debugLog({ filename });
     const base = path.basename(filename);
     const ext = path.extname(base);
     if (!/\.(jsx|md|mdx|json)$/.test(ext)) {
