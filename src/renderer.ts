@@ -20,7 +20,7 @@ const renderPage = (page: PageElement): RenderedStaticPage => {
   };
 };
 
-const render = async ({ dirname, pages = [] }: Source, opts: Options): Promise<RenderedStaticPage[]> => {
+const render = async ({ pages = [] }: Source, _opts: Options): Promise<RenderedStaticPage[]> => {
   return pages.map(renderPage);
 };
 
