@@ -3,8 +3,9 @@ import * as React from "react";
 
 export const createHeadContent = (htmlMetaData: PageElement["data"]): React.ReactElement<any> => {
   return (
-    <head>
+    <head lang="en">
       <title>{htmlMetaData.title}</title>
+      <meta key="charset" {...{ charset: "utf-8" }} />
       {htmlMetaData.description && <meta name="description" content={htmlMetaData.description} />}
     </head>
   );
