@@ -10,7 +10,7 @@ const renderPage = (page: PageElement): RenderedStaticPage => {
     props: {},
   });
   const bodyContent = createBodyContent(page.content);
-  const headContent = createHeadContent(page.data);
+  const headContent = createHeadContent(page.metaData);
   return {
     name: page.name,
     html: combine({

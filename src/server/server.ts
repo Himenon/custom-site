@@ -29,11 +29,11 @@ const start = async (dirname: string, opts: Options) => {
     socket = res;
   });
 
-  const update = async () => {
+  const update = async (updateParams: { filename: string }) => {
     if (!socket) {
       return;
     }
-    const updatedSource = await getData(dirname, opts);
+    const updatedSource = await getData(dirname, { ...opts, watcher: updateParams });
     gPages = await generateStatic(updatedSource, opts);
     socket.send(JSON.stringify({ reload: true }));
   };
@@ -45,7 +45,7 @@ const start = async (dirname: string, opts: Options) => {
       return;
     }
     // todo: handle this per file
-    await update();
+    await update({ filename });
   });
 
   const app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
