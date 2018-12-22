@@ -1,4 +1,5 @@
 {
   "lang": "en",
-  "keywords": "static site generator,NodeJS,React"
+  "keywords": "static site generator,NodeJS,React",
+  "copyright": "@Himenon"
 }

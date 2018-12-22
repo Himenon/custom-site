@@ -10,7 +10,7 @@ import * as WebSocket from "ws";
 import { Options } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
-import { getData } from "../structure/getPage";
+import { getData } from "../repository/getPage";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 

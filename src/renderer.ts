@@ -1,8 +1,6 @@
 import { Options } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
-import { combine } from "./transformer/combine";
-import { transformRawStringToHtml } from "./transformer/converter";
-import { createHeadContent } from "./transformer/head";
+import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 
 const renderPage = (page: PageElement): RenderedStaticPage => {
   const createBodyContent = transformRawStringToHtml({
