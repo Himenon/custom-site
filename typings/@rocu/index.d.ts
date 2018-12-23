@@ -31,12 +31,17 @@ declare module "@rocu/page" {
     "og:image"?: string;
   }
 
-  export interface HtmlMetaData extends OGP, TwitterMeta {
+  export interface ExternalJavaScript {
+    scripts?: string[];
+    localScripts?: string[];
+    globalScripts?: string[];
+  }
+
+  export interface HtmlMetaData extends OGP, TwitterMeta, ExternalJavaScript {
     lang?: string;
     description?: string;
     keywords?: string;
     title?: string;
-    scripts?: string[];
     stylesheets?: string[];
     layout?: string;
     copyright?: string;
