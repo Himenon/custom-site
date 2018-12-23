@@ -36,13 +36,18 @@ declare module "@rocu/page" {
     description?: string;
     keywords?: string;
     title?: string;
-    og?: { [key: string]: string };
-    twitter?: { [key: string]: string };
     scripts?: string[];
     stylesheets?: string[];
     layout?: string;
     copyright?: string;
     author?: string;
+    viewport?: {
+      "initial-scale"?: number;
+      "maximum-scale"?: number;
+      "minimum-scale"?: number;
+      "user-scalable"?: "no";
+      width?: number | "device-width";
+    };
   }
 
   export interface PageElement {

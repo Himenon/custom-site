@@ -1,6 +1,16 @@
 import { HtmlMetaData } from "@rocu/page";
 import * as React from "react";
 
+const generateViewportMetaTag = (viewport: HtmlMetaData["viewport"]): JSX.Element | undefined => {
+  if (!viewport) {
+    return;
+  }
+  const content = Object.keys(viewport)
+    .map(key => `${key}=${viewport[key]}`)
+    .join(",");
+  return <meta name="viewport" content={content} />;
+};
+
 export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElement<any> => {
   return (
     <head lang={htmlMetaData.lang || "en"}>
@@ -14,6 +24,7 @@ export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElemen
       {htmlMetaData["og:description"] && <meta property="og:description" content={htmlMetaData["og:description"]} />}
       {htmlMetaData["og:image"] && <meta property="og:image" content={htmlMetaData["og:image"]} />}
       {htmlMetaData["og:url"] && <meta property="og:url" content={htmlMetaData["og:url"]} />}
+      {generateViewportMetaTag(htmlMetaData.viewport)}
     </head>
   );
 };
