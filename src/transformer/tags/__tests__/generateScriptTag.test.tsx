@@ -14,6 +14,10 @@ describe("Generate Script Tag", () => {
     expect(trimScriptSourcePath("/a/b/c", false)).toBe("/a/b/c");
     expect(trimScriptSourcePath("a/b/c", true)).toBe("./a/b/c");
     expect(trimScriptSourcePath("a/b/c", false)).toBe("/a/b/c");
+    expect(trimScriptSourcePath("http://a/b/c", true)).toBe("http://a/b/c");
+    expect(trimScriptSourcePath("http://a/b/c", false)).toBe("http://a/b/c");
+    expect(trimScriptSourcePath("https://a/b/c", true)).toBe("https://a/b/c");
+    expect(trimScriptSourcePath("https://a/b/c", false)).toBe("https://a/b/c");
   });
 
   test("generateScriptTag", () => {
