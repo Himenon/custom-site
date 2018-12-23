@@ -15,7 +15,7 @@ new UpdateNotifier({ pkg }).notify();
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
-import { exportPages } from "./exportPage";
+import { exportPages } from "./repository/exportPage";
 
 const cli = meow(
   `
