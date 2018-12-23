@@ -3,20 +3,20 @@ import * as matter from "gray-matter";
 import * as path from "path";
 
 import { Options } from "@rocu/cli";
-import { HtmlMetaData, PageElement, Source } from "@rocu/page";
+import { HtmlMetaProperties, PageElement, Source } from "@rocu/page";
 import * as recursive from "recursive-readdir";
 
 /**
  * TODO load parameters from local setting file.
  */
-const defaultMetaData: HtmlMetaData = {
+const defaultMetaData: HtmlMetaProperties = {
   lang: "en",
 };
 
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 
-const getDefaultSetting = (dirname: string, opts: Options, filename: string = "rocu.json"): HtmlMetaData => {
-  let globalSetting: undefined | HtmlMetaData;
+const getDefaultSetting = (dirname: string, opts: Options, filename: string = "rocu.json"): HtmlMetaProperties => {
+  let globalSetting: undefined | HtmlMetaProperties;
   const filePath = path.join(dirname, filename);
   // clear cache
   if (opts.watcher && opts.watcher.filename === filePath) {
@@ -31,7 +31,7 @@ const getDefaultSetting = (dirname: string, opts: Options, filename: string = "r
   return defaultMetaData;
 };
 
-const rewriteMetaData = (globalSetting: HtmlMetaData, localSetting: HtmlMetaData): HtmlMetaData => ({
+const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties): HtmlMetaProperties => ({
   ...globalSetting,
   ...localSetting,
   globalScripts: globalSetting.scripts,

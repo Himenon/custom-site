@@ -1,4 +1,10 @@
 {
+  "include": [
+    "src/index.ts",
+    "src/cli.ts",
+    "src/**/*.ts",
+    "typings/**/*.ts"
+  ],
   "extends": "./tsconfig",
   "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
 }

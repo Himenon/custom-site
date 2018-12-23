@@ -9,6 +9,6 @@ describe("Create Head Content Test", () => {
         "initial-scale": "1.0",
       },
     });
-    expect(ReactDOM.renderToStaticMarkup(vdom)).toBe(`<meta name="viewport" content="initial-scale=1.0"/>`);
+    expect(ReactDOM.renderToStaticMarkup(vdom!)).toBe(`<meta name="viewport" content="initial-scale=1.0"/>`);
   });
 });

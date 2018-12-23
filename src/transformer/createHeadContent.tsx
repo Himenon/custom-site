@@ -1,7 +1,8 @@
-import { HtmlMetaData } from "@rocu/page";
+import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
+import { generateScriptTag } from "./tags/generateScriptTag";
 
-export const generateViewportMetaTag = ({ viewport }: HtmlMetaData): JSX.Element | undefined => {
+export const generateViewportMetaTag = ({ viewport }: HtmlMetaProperties): JSX.Element | undefined => {
   if (!viewport) {
     return;
   }
@@ -11,19 +12,7 @@ export const generateViewportMetaTag = ({ viewport }: HtmlMetaData): JSX.Element
   return <meta name="viewport" content={content} />;
 };
 
-export const generateScriptTag = ({ localScripts, globalScripts }: HtmlMetaData): JSX.Element | JSX.Element[] | undefined => {
-  const mergeScript: string[] = [];
-  if (globalScripts) {
-    globalScripts.map(script => mergeScript.push(script));
-  }
-  if (localScripts) {
-    localScripts.map(script => mergeScript.push(script));
-  }
-  console.log({ globalScripts, localScripts, mergeScript });
-  return mergeScript.map(scriptSource => <script src={scriptSource} />);
-};
-
-export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElement<any> => {
+export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.ReactElement<any> => {
   return (
     <head lang={htmlMetaData.lang || "en"}>
       <title>{htmlMetaData.title}</title>
