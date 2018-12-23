@@ -1,6 +1,6 @@
-jest.unmock("../converter.tsx");
+jest.unmock("../createBodyContent.tsx");
 import * as ReactDOM from "react-dom/server";
-import { transformRawStringToHtml } from "../converter";
+import { transformRawStringToHtml } from "../createBodyContent";
 
 describe("anchore tag link", () => {
   const converter = (rawString: string) =>

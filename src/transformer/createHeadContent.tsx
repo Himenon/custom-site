@@ -1,7 +1,7 @@
 import { HtmlMetaData } from "@rocu/page";
 import * as React from "react";
 
-const generateViewportMetaTag = (viewport: HtmlMetaData["viewport"]): JSX.Element | undefined => {
+export const generateViewportMetaTag = (viewport: HtmlMetaData["viewport"]): JSX.Element | undefined => {
   if (!viewport) {
     return;
   }

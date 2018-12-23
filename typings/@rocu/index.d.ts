@@ -42,9 +42,9 @@ declare module "@rocu/page" {
     copyright?: string;
     author?: string;
     viewport?: {
-      "initial-scale"?: number;
-      "maximum-scale"?: number;
-      "minimum-scale"?: number;
+      "initial-scale"?: number | string;
+      "maximum-scale"?: number | string;
+      "minimum-scale"?: number | string;
       "user-scalable"?: "no";
       width?: number | "device-width";
     };

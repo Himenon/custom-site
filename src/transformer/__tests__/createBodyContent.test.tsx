@@ -1,12 +1,12 @@
-jest.unmock("../converter.tsx");
+jest.unmock("../createBodyContent.tsx");
 import * as fs from "fs";
 import * as path from "path";
 import * as ReactDOM from "react-dom/server";
-import { applyMarkdownTextToMdxTag, transformRawStringToHtml } from "../converter";
+import { applyMarkdownTextToMdxTag, transformRawStringToHtml } from "../createBodyContent";
 
 const removeAllNewLine = (inputString: string): string => inputString.replace(/\r?\n|\r|\n|\s/g, "").trim();
 
-describe("transformer test", () => {
+describe("Create Body Content Test", () => {
   const templateText: string = `
 # Hello World
 
