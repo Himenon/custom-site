@@ -1,75 +1,59 @@
 import { HtmlMetaProperties, ScriptHTMLAttributes } from "@rocu/page";
 import * as React from "react";
+import { normalizerSourcePath } from "./normalizer";
 
-export interface DryScriptCheck {
+export interface DryCheckParameter {
   src: string;
   isLocal: boolean;
 }
 
-export const trimScriptSourcePath = (src: string, isLocal: boolean): string => {
-  const isIgnorePattern = !!src.match(/^https?\:\/\//);
-  if (isLocal && src.match(/^\//)) {
-    return src.replace(/^\//, "./");
-  }
-  if (isLocal && !src.match(/^\.\//) && !isIgnorePattern) {
-    return `./${src}`;
-  }
-  if (!isLocal && src.match(/^\.\//)) {
-    return src.replace(/^\.\//, "/");
-  }
-  if (!isLocal && !src.match(/^\//) && !isIgnorePattern) {
-    return `/${src}`;
-  }
-  return src;
-};
-
-const isIncludes = (target: DryScriptCheck[], searchElement: DryScriptCheck): boolean => {
-  const hitElements = target.filter(elem => elem.isLocal === searchElement.isLocal && elem.src === searchElement.src);
-  hitElements.forEach(element => {
+const isIncludes = (params: DryCheckParameter[], searchElement: DryCheckParameter): boolean => {
+  const hitParams = params.filter(param => param.isLocal === searchElement.isLocal && param.src === searchElement.src);
+  hitParams.forEach(element => {
     console.error(`[Duplicated Error]: Scope: ${element.isLocal ? "local" : "global"}, src: ${element.src}`);
   });
-  return hitElements.length > 0;
+  return hitParams.length > 0;
 };
 
-const getMakeScriptTag = (dryScriptCheck: DryScriptCheck[] = []) => (
-  attribute: ScriptHTMLAttributes | string,
+const getMakeScriptTag = (dryParameter: DryCheckParameter[] = []) => (
+  attributes: ScriptHTMLAttributes | string,
   isLocal: boolean,
 ): JSX.Element | undefined => {
-  if (typeof attribute === "string") {
-    const trimSrc = trimScriptSourcePath(attribute, isLocal);
-    if (isIncludes(dryScriptCheck, { src: attribute, isLocal })) {
+  if (typeof attributes === "string") {
+    const normalizedSource1 = normalizerSourcePath(attributes, isLocal);
+    if (isIncludes(dryParameter, { src: attributes, isLocal })) {
       return;
     } else {
-      dryScriptCheck.push({
-        src: attribute,
+      dryParameter.push({
+        src: attributes,
         isLocal,
       });
     }
-    return <script src={trimSrc} key={trimSrc} />;
+    return <script src={normalizedSource1} key={normalizedSource1} />;
   }
-  if (!attribute.src) {
+  if (!attributes.src) {
     return;
   }
-  const src = trimScriptSourcePath(attribute.src, isLocal);
-  if (isIncludes(dryScriptCheck, { src, isLocal })) {
+  const normalizedSource2 = normalizerSourcePath(attributes.src, isLocal);
+  if (isIncludes(dryParameter, { src: normalizedSource2, isLocal })) {
     return;
   } else {
-    dryScriptCheck.push({
-      src,
+    dryParameter.push({
+      src: normalizedSource2,
       isLocal,
     });
   }
-  return <script {...{ ...attribute, src }} key={src} />;
+  return <script {...{ ...attributes, src: normalizedSource2 }} key={normalizedSource2} />;
 };
 
 export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMetaProperties): JSX.Element[] => {
-  const scriptTagElements: JSX.Element[] = [];
+  const elements: JSX.Element[] = [];
   const makeScriptTag = getMakeScriptTag();
   if (globalScripts) {
     globalScripts.forEach(attribute => {
       const tagElement = makeScriptTag(attribute, false);
       if (tagElement) {
-        scriptTagElements.push(tagElement);
+        elements.push(tagElement);
       }
     });
   }
@@ -77,9 +61,9 @@ export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMeta
     localScripts.forEach(attribute => {
       const tagElement = makeScriptTag(attribute, true);
       if (tagElement) {
-        scriptTagElements.push(tagElement);
+        elements.push(tagElement);
       }
     });
   }
-  return scriptTagElements;
+  return elements;
 };
