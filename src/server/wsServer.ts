@@ -12,7 +12,7 @@ export const makeWebSocketServer = (socketPort: number, setSocket: (res: WebSock
   });
 
   socketServer.on("close", (_res: WebSocket) => {
-    console.log("connection closed");
+    console.info("connection closed");
   });
   return socketServer;
 };

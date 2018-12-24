@@ -31,12 +31,18 @@ const getDefaultSetting = (dirname: string, opts: Options, filename: string = "r
   return defaultMetaData;
 };
 
-const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties): HtmlMetaProperties => ({
-  ...globalSetting,
-  ...localSetting,
-  globalScripts: globalSetting.scripts,
-  localScripts: localSetting.scripts,
-});
+const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties): HtmlMetaProperties => {
+  const globalLinks = [...(globalSetting.link ? globalSetting.link : []), ...(globalSetting.css ? globalSetting.css : [])];
+  const localLinks = [...(localSetting.link ? localSetting.link : []), ...(localSetting.css ? localSetting.css : [])];
+  return {
+    ...globalSetting,
+    ...localSetting,
+    globalScripts: globalSetting.js,
+    localScripts: localSetting.js,
+    globalLinks,
+    localLinks,
+  };
+};
 
 const getPage = (dirname: string, opts: Options) => async (filename: string): Promise<PageElement> => {
   const globalSetting = getDefaultSetting(dirname, opts);
