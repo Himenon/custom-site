@@ -31,7 +31,7 @@ const isIncludes = (target: DryScriptCheck[], searchElement: DryScriptCheck): bo
   return hitElements.length > 0;
 };
 
-const getMakeScriptTag = (dryScriptCheck: DryScriptCheck[]) => (
+const getMakeScriptTag = (dryScriptCheck: DryScriptCheck[] = []) => (
   attribute: ScriptHTMLAttributes | string,
   isLocal: boolean,
 ): JSX.Element | undefined => {
@@ -62,10 +62,9 @@ const getMakeScriptTag = (dryScriptCheck: DryScriptCheck[]) => (
   return <script {...{ ...attribute, src }} key={src} />;
 };
 
-export const generateScriptTag = ({ localScripts, globalScripts }: HtmlMetaProperties): JSX.Element[] => {
+export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMetaProperties): JSX.Element[] => {
   const scriptTagElements: JSX.Element[] = [];
-  const dryScriptCheck: DryScriptCheck[] = [];
-  const makeScriptTag = getMakeScriptTag(dryScriptCheck);
+  const makeScriptTag = getMakeScriptTag();
   if (globalScripts) {
     globalScripts.forEach(attribute => {
       const tagElement = makeScriptTag(attribute, false);

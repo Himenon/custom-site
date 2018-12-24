@@ -47,7 +47,6 @@ const getPage = (dirname: string, opts: Options) => async (filename: string): Pr
   const { data, content } = matter(raw);
 
   const metaData = rewriteMetaData(globalSetting, data);
-  console.log(metaData);
 
   return {
     content,

@@ -1,10 +1,10 @@
 jest.unmock("../createHeadContent.tsx");
 import * as ReactDOM from "react-dom/server";
-import { generateViewportMetaTag } from "../createHeadContent";
+import { generateViewportMetaElements } from "../createHeadContent";
 
 describe("Create Head Content Test", () => {
   test("generateViewportMetaTag", () => {
-    const vdom = generateViewportMetaTag({
+    const vdom = generateViewportMetaElements({
       viewport: {
         "initial-scale": "1.0",
       },

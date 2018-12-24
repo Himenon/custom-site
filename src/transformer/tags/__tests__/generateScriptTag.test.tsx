@@ -1,11 +1,11 @@
-jest.unmock("../generateScriptTag.tsx");
+jest.unmock("../generateScriptElements");
 import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
-import { generateScriptTag, trimScriptSourcePath } from "../generateScriptTag";
+import { generateScriptElements, trimScriptSourcePath } from "../generateScriptElements";
 
 describe("Generate Script Tag", () => {
-  const generator = (params: HtmlMetaProperties) => ReactDOM.renderToStaticMarkup(<div>{generateScriptTag(params)}</div>);
+  const generator = (params: HtmlMetaProperties) => ReactDOM.renderToStaticMarkup(<div>{generateScriptElements(params)}</div>);
 
   test("trimScriptSourcePath", () => {
     expect(trimScriptSourcePath("./a/b/c", true)).toBe("./a/b/c");

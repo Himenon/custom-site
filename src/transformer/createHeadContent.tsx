@@ -1,8 +1,8 @@
 import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
-import { generateScriptTag } from "./tags/generateScriptTag";
+import { generateScriptElements } from "./tags/generateScriptElements";
 
-export const generateViewportMetaTag = ({ viewport }: HtmlMetaProperties): JSX.Element | undefined => {
+export const generateViewportMetaElements = ({ viewport }: HtmlMetaProperties): JSX.Element | undefined => {
   if (!viewport) {
     return;
   }
@@ -25,8 +25,8 @@ export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.React
       {htmlMetaData["og:description"] && <meta property="og:description" content={htmlMetaData["og:description"]} />}
       {htmlMetaData["og:image"] && <meta property="og:image" content={htmlMetaData["og:image"]} />}
       {htmlMetaData["og:url"] && <meta property="og:url" content={htmlMetaData["og:url"]} />}
-      {generateViewportMetaTag(htmlMetaData)}
-      {generateScriptTag(htmlMetaData)}
+      {generateViewportMetaElements(htmlMetaData)}
+      {generateScriptElements(htmlMetaData)}
     </head>
   );
 };
