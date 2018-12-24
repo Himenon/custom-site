@@ -29,7 +29,7 @@ describe("Link Element", () => {
     });
     // tslint:disable max-line-length
     expect(domString).toBe(
-      '<head><link href="/a.css" src="/a.css"/><link href="./a/b/c.css"/><link href="./a/b/d.css" src="./a/b/d.css"/><link href="./a/b/c.css"/></head>',
+      '<head><link href="/a.css"/><link href="./a/b/c.css" rel="stylesheet"/><link href="./a/b/d.css"/><link href="./a/b/c.css" rel="stylesheet"/></head>',
     );
   });
 
