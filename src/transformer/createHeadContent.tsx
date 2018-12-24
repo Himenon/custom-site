@@ -1,5 +1,6 @@
 import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
+import { generateLinkElements } from "./tags/generateLinkElements";
 import { generateScriptElements } from "./tags/generateScriptElements";
 
 export const generateViewportMetaElements = ({ viewport }: HtmlMetaProperties): JSX.Element | undefined => {
@@ -27,6 +28,7 @@ export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.React
       {htmlMetaData["og:url"] && <meta property="og:url" content={htmlMetaData["og:url"]} />}
       {generateViewportMetaElements(htmlMetaData)}
       {generateScriptElements(htmlMetaData)}
+      {generateLinkElements(htmlMetaData)}
     </head>
   );
 };

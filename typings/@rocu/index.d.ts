@@ -36,18 +36,22 @@ declare module "@rocu/page" {
   export type LinkHTMLAttributes = React.LinkHTMLAttributes<HTMLLinkElement>;
 
   export interface ExternalJavaScript {
-    scripts?: Array<string | ScriptHTMLAttributes>;
+    js?: Array<string | ScriptHTMLAttributes>;
     localScripts?: Array<string | ScriptHTMLAttributes>;
     globalScripts?: Array<string | ScriptHTMLAttributes>;
   }
 
+  export interface ExternalCSS {
+    css?: Array<string | LinkHTMLAttributes>;
+  }
+
   export interface ExternalLink {
-    links?: Array<string | LinkHTMLAttributes>;
+    link?: Array<string | LinkHTMLAttributes>;
     localLinks?: Array<string | LinkHTMLAttributes>;
     globalLinks?: Array<string | LinkHTMLAttributes>;
   }
 
-  export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript, ExternalLink {
+  export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
     lang?: string;
     description?: string;
     keywords?: string;

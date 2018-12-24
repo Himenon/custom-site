@@ -29,7 +29,7 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
         isLocal,
       });
     }
-    return <link href={normalizedSource1} key={normalizedSource1} />;
+    return <link href={normalizedSource1} key={normalizedSource1} rel="stylesheet" />;
   }
   if (!attributes.href) {
     return;
@@ -43,22 +43,22 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
       isLocal,
     });
   }
-  return <link {...{ ...attributes, src: normalizedSource2 }} key={normalizedSource2} />;
+  return <link {...{ ...attributes, href: normalizedSource2 }} key={normalizedSource2} />;
 };
 
-export const generateLinkElements = ({ localLinks: localStyles, globalLinks: globalStyles }: HtmlMetaProperties): JSX.Element[] => {
+export const generateLinkElements = ({ localLinks, globalLinks }: HtmlMetaProperties): JSX.Element[] => {
   const elements: JSX.Element[] = [];
   const makeTag = getMakeTag();
-  if (globalStyles) {
-    globalStyles.forEach(attribute => {
+  if (globalLinks) {
+    globalLinks.forEach(attribute => {
       const tagElement = makeTag(attribute, false);
       if (tagElement) {
         elements.push(tagElement);
       }
     });
   }
-  if (localStyles) {
-    localStyles.forEach(attribute => {
+  if (localLinks) {
+    localLinks.forEach(attribute => {
       const tagElement = makeTag(attribute, true);
       if (tagElement) {
         elements.push(tagElement);

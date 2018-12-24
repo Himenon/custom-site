@@ -41,7 +41,7 @@ const start = async (dirname: string, opts: Options) => {
   watcher.on("change", async (filename: string) => {
     const base = path.basename(filename);
     const ext = path.extname(base);
-    if (!/\.(jsx|md|mdx|json)$/.test(ext)) {
+    if (!/\.(js|css|jsx|md|mdx|json)$/.test(ext)) {
       return;
     }
     // todo: handle this per file
@@ -81,7 +81,7 @@ const start = async (dirname: string, opts: Options) => {
     const server = await app.listen(socketPort + 2);
     return server;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw err;
   }
 };
