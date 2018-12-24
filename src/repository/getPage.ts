@@ -3,49 +3,50 @@ import * as matter from "gray-matter";
 import * as path from "path";
 
 import { Options } from "@rocu/cli";
-import { HtmlMetaData, PageElement, Source } from "@rocu/page";
+import { HtmlMetaProperties, PageElement, Source } from "@rocu/page";
 import * as recursive from "recursive-readdir";
 
 /**
  * TODO load parameters from local setting file.
  */
-const defaultMetaData: HtmlMetaData = {
+const defaultMetaData: HtmlMetaProperties = {
   lang: "en",
 };
 
-let localSetting: undefined | HtmlMetaData;
-
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 
-const getDefaultSetting = (dirname: string, opts: Options, filename: string = "rocu.json"): HtmlMetaData => {
+const getDefaultSetting = (dirname: string, opts: Options, filename: string = "rocu.json"): HtmlMetaProperties => {
+  let globalSetting: undefined | HtmlMetaProperties;
   const filePath = path.join(dirname, filename);
   // clear cache
   if (opts.watcher && opts.watcher.filename === filePath) {
-    localSetting = undefined;
+    globalSetting = undefined;
   }
-  if (localSetting) {
-    return localSetting;
+  if (globalSetting) {
+    return globalSetting;
   }
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-    return (localSetting = loadJsonFile(filePath));
+    return (globalSetting = loadJsonFile(filePath));
   }
   return defaultMetaData;
 };
 
-const overrideDefaultMetaData = (defaultSetting: HtmlMetaData, data: HtmlMetaData): HtmlMetaData => ({
-  ...defaultSetting,
-  ...data,
+const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties): HtmlMetaProperties => ({
+  ...globalSetting,
+  ...localSetting,
+  globalScripts: globalSetting.scripts,
+  localScripts: localSetting.scripts,
 });
 
 const getPage = (dirname: string, opts: Options) => async (filename: string): Promise<PageElement> => {
-  const defaultSetting = getDefaultSetting(dirname, opts);
+  const globalSetting = getDefaultSetting(dirname, opts);
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
   const name = relativePath.slice(0, relativePath.length - ext.length);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = overrideDefaultMetaData(defaultSetting, data);
+  const metaData = rewriteMetaData(globalSetting, data);
 
   return {
     content,

@@ -1,7 +1,8 @@
-import { HtmlMetaData } from "@rocu/page";
+import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
+import { generateScriptElements } from "./tags/generateScriptElements";
 
-export const generateViewportMetaTag = (viewport: HtmlMetaData["viewport"]): JSX.Element | undefined => {
+export const generateViewportMetaElements = ({ viewport }: HtmlMetaProperties): JSX.Element | undefined => {
   if (!viewport) {
     return;
   }
@@ -11,7 +12,7 @@ export const generateViewportMetaTag = (viewport: HtmlMetaData["viewport"]): JSX
   return <meta name="viewport" content={content} />;
 };
 
-export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElement<any> => {
+export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.ReactElement<any> => {
   return (
     <head lang={htmlMetaData.lang || "en"}>
       <title>{htmlMetaData.title}</title>
@@ -24,7 +25,8 @@ export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElemen
       {htmlMetaData["og:description"] && <meta property="og:description" content={htmlMetaData["og:description"]} />}
       {htmlMetaData["og:image"] && <meta property="og:image" content={htmlMetaData["og:image"]} />}
       {htmlMetaData["og:url"] && <meta property="og:url" content={htmlMetaData["og:url"]} />}
-      {generateViewportMetaTag(htmlMetaData.viewport)}
+      {generateViewportMetaElements(htmlMetaData)}
+      {generateScriptElements(htmlMetaData)}
     </head>
   );
 };

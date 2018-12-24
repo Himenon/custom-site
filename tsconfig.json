@@ -42,9 +42,8 @@
     },
   },
   "include": [
-    "src/index.ts",
-    "src/cli.ts",
     "src/**/*.ts",
+    "src/**/*.tsx",
     "typings/**/*.ts"
   ],
   "exclude": [

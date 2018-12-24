@@ -31,12 +31,19 @@ declare module "@rocu/page" {
     "og:image"?: string;
   }
 
-  export interface HtmlMetaData extends OGP, TwitterMeta {
+  export type ScriptHTMLAttributes = React.ScriptHTMLAttributes<HTMLScriptElement>;
+
+  export interface ExternalJavaScript {
+    scripts?: Array<string | ScriptHTMLAttributes>;
+    localScripts?: Array<string | ScriptHTMLAttributes>;
+    globalScripts?: Array<string | ScriptHTMLAttributes>;
+  }
+
+  export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript {
     lang?: string;
     description?: string;
     keywords?: string;
     title?: string;
-    scripts?: string[];
     stylesheets?: string[];
     layout?: string;
     copyright?: string;
@@ -52,7 +59,7 @@ declare module "@rocu/page" {
 
   export interface PageElement {
     content: string;
-    metaData: HtmlMetaData;
+    metaData: HtmlMetaProperties;
     ext: string;
     filename: string;
     name: string;
