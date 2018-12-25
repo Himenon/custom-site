@@ -1,6 +1,14 @@
+declare module "@rocu/development" {
+  export interface FileWatchFlag {
+    filename: string;
+  }
+}
+
 declare module "@rocu/cli" {
+  import { FileWatchFlag } from "@rocu/development";
   export interface Options {
     outDir?: string;
+    watcher?: FileWatchFlag;
   }
 }
 
@@ -11,19 +19,59 @@ declare module "@rocu/component" {
 }
 
 declare module "@rocu/page" {
-  export interface HtmlMetaData {
+  export interface TwitterMeta {
+    "twitter:card"?: "summary" | "summary_large_image";
+    "twitter:site"?: string;
+  }
+
+  export interface OGP {
+    "og:title"?: string;
+    "og:description"?: string;
+    "og:url"?: string;
+    "og:image"?: string;
+  }
+
+  export type ScriptHTMLAttributes = React.ScriptHTMLAttributes<HTMLScriptElement>;
+
+  export type LinkHTMLAttributes = React.LinkHTMLAttributes<HTMLLinkElement>;
+
+  export interface ExternalJavaScript {
+    js?: Array<string | ScriptHTMLAttributes>;
+    localScripts?: Array<string | ScriptHTMLAttributes>;
+    globalScripts?: Array<string | ScriptHTMLAttributes>;
+  }
+
+  export interface ExternalCSS {
+    css?: Array<string | LinkHTMLAttributes>;
+  }
+
+  export interface ExternalLink {
+    link?: Array<string | LinkHTMLAttributes>;
+    localLinks?: Array<string | LinkHTMLAttributes>;
+    globalLinks?: Array<string | LinkHTMLAttributes>;
+  }
+
+  export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
+    lang?: string;
     description?: string;
+    keywords?: string;
     title?: string;
-    og?: { [key: string]: string };
-    twitter?: { [key: string]: string };
-    scripts?: string[];
     stylesheets?: string[];
     layout?: string;
+    copyright?: string;
+    author?: string;
+    viewport?: {
+      "initial-scale"?: number | string;
+      "maximum-scale"?: number | string;
+      "minimum-scale"?: number | string;
+      "user-scalable"?: "no";
+      width?: number | "device-width";
+    };
   }
 
   export interface PageElement {
     content: string;
-    data: HtmlMetaData;
+    metaData: HtmlMetaProperties;
     ext: string;
     filename: string;
     name: string;

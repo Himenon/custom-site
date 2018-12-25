@@ -1,0 +1,48 @@
+---
+title: ローカルスコープ機能
+description: rocuが提供するローカルスコープ機能の紹介
+js:
+  - ./assets/local.js
+css:
+  - ./assets/local.css
+---
+
+# ローカルスコープ機能
+
+## JavaScript / CSSのローカルスコープ参照
+
+この記事はJavaScript、CSSがローカルスコープの参照を持っています。
+
+```yaml
+title: ローカルスコープ機能
+description: rocuが提供するローカルスコープ機能の紹介
+js:
+  - ./assets/local.js
+css:
+  - ./assets/local.css
+```
+
+このように記述することで、現在のURLから相対的な位置にあるディレクトリを参照し、JS/CSSの影響範囲を局所的にしています。
+
+## 正規化（Normalize）
+
+記事の元となるMarkdownのヘッダー部分にYAML形式で記述する`js`、`css`プロパティの絶対パスは自動的に相対パスに変換されます。
+`/^https?/`で始まるリンクは、そのまま利用されます。
+
+### 変換パターン
+
+```
+./a/b/c.js --> ./a/b/c.js
+ /a/b/c.js --> ./a/b/c.js
+  a/b/c.js --> ./a/b/c.js
+```
+
+```
+http://example.com/a/b/c.js  --> http://example.com/a/b/c.js
+https://example.com/a/b/c.js --> https://example.com/a/b/c.js
+```
+
+## リンク
+
+* [article2](./nest/article-2)
+* [back](../)
