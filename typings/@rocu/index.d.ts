@@ -7,7 +7,7 @@ declare module "@rocu/development" {
 declare module "@rocu/cli" {
   import { FileWatchFlag } from "@rocu/development";
   export interface Options {
-    outDir: string;
+    outDir?: string;
     watcher?: FileWatchFlag;
     open: boolean;
     dev: boolean;
