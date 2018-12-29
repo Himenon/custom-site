@@ -15,7 +15,10 @@ new UpdateNotifier({ pkg }).notify();
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
+import { copyAssetFiles } from "./build/copyFiles";
 import { exportPages } from "./repository/exportPage";
+
+import { Options } from "@rocu/cli";
 
 const cli = meow(
   `
@@ -52,10 +55,10 @@ const cli = meow(
 
 const [localDirname = process.cwd()] = cli.input;
 const userPkg = readPkgUp.sync({ cwd: localDirname }) || {};
-const localOpts = {
+const localOpts: Options = {
   ...dot.get(userPkg, "pkg.rocu"),
   ...cli.flags,
-  outDir: path.join(process.cwd(), cli.flags.outDir || ""),
+  outDir: cli.flags.outDir ? path.join(process.cwd(), cli.flags.outDir) : undefined,
 };
 
 notifyLog("rocu");
@@ -85,9 +88,14 @@ const main = async () => {
       });
   } else {
     // 開発環境ではなく、サイトを生成する
+    const dest = localOpts.outDir;
+    if (!dest) {
+      console.error("Error: did not set output directory");
+      return;
+    }
     const pages = await generateStaticPages(localDirname, localOpts);
     if (pages) {
-      await exportPages(pages, localOpts);
+      Promise.all([exportPages(pages, dest), copyAssetFiles(localDirname, dest)]);
     }
   }
 };

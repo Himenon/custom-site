@@ -9,6 +9,8 @@ declare module "@rocu/cli" {
   export interface Options {
     outDir?: string;
     watcher?: FileWatchFlag;
+    open: boolean;
+    dev: boolean;
   }
 }
 

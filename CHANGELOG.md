@@ -1,3 +1,17 @@
+#### 0.0.4 (2018-12-29)
+
+##### Chores
+
+* **docs:**  update readme and packages ([43349407](https://github.com/Himenon/rocu/commit/43349407d8e531a3ea1d7498b7af683e43f60eda))
+
+##### New Features
+
+* **assets:**  add assets file copy ([6f089cf5](https://github.com/Himenon/rocu/commit/6f089cf5e0878b4a79ec754351b963cf1b44c8bc))
+
+##### Refactors
+
+* **dest:**  refactor output directory option ([e95a8c11](https://github.com/Himenon/rocu/commit/e95a8c118696e7ba04da16a4cdf9be89af551012))
+
 #### 0.0.3 (2018-12-25)
 
 ##### Chores
