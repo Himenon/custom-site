@@ -5,7 +5,7 @@ import { Options } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 
 const exportPages = async (pages: RenderedStaticPage[], opts: Options): Promise<void> => {
-  const { outDir = process.cwd() } = opts;
+  const { outDir } = opts;
   /**
    * ファイルの出力先の確認
    */

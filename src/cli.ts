@@ -15,7 +15,10 @@ new UpdateNotifier({ pkg }).notify();
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
+import { copyAssetFiles } from "./build/copyFiles";
 import { exportPages } from "./repository/exportPage";
+
+import { Options } from "@rocu/cli";
 
 const cli = meow(
   `
@@ -52,7 +55,7 @@ const cli = meow(
 
 const [localDirname = process.cwd()] = cli.input;
 const userPkg = readPkgUp.sync({ cwd: localDirname }) || {};
-const localOpts = {
+const localOpts: Options = {
   ...dot.get(userPkg, "pkg.rocu"),
   ...cli.flags,
   outDir: path.join(process.cwd(), cli.flags.outDir || ""),
@@ -87,7 +90,7 @@ const main = async () => {
     // 開発環境ではなく、サイトを生成する
     const pages = await generateStaticPages(localDirname, localOpts);
     if (pages) {
-      await exportPages(pages, localOpts);
+      Promise.all([exportPages(pages, localOpts), copyAssetFiles(localDirname, localOpts.outDir)]);
     }
   }
 };
