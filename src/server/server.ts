@@ -7,19 +7,19 @@ import * as chokidar from "chokidar";
 import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
-import { Options } from "@rocu/cli";
+import { CommonOption } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
 import { getData } from "../repository/getPage";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
-const start = async (dirname: string, opts: Options) => {
+const start = async (dirname: string, options: CommonOption) => {
   const socketPort: number = await portfinder.getPortPromise();
 
-  const initialSource = await getData(dirname, opts);
+  const initialSource = await getData(dirname, options);
   let socket: WebSocket;
-  let gPages = await generateStatic(initialSource, opts);
+  let gPages = await generateStatic(initialSource);
 
   const watcher: chokidar.FSWatcher = chokidar.watch(dirname, {
     ignoreInitial: true,
@@ -33,8 +33,8 @@ const start = async (dirname: string, opts: Options) => {
     if (!socket) {
       return;
     }
-    const updatedSource = await getData(dirname, { ...opts, watcher: updateParams });
-    gPages = await generateStatic(updatedSource, opts);
+    const updatedSource = await getData(dirname, { ...options, watcher: updateParams });
+    gPages = await generateStatic(updatedSource);
     socket.send(JSON.stringify({ reload: true }));
   };
 

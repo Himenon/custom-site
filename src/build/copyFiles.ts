@@ -1,14 +1,14 @@
 import * as fsExtra from "fs-extra";
 import * as path from "path";
 
-const ASSET_EXTENSIONS = [".css", ".js", ".png", ".jpeg", ".jpg", ".gif"];
+const BLACK_LIST = [".css", ".js", ".png", ".jpeg", ".jpg", ".gif"];
 
 const isDirectory = (src: string) => {
   return fsExtra.existsSync(src) && fsExtra.statSync(src).isDirectory();
 };
 
 const isAssetFile = (src: string) => {
-  return ASSET_EXTENSIONS.includes(path.extname(src));
+  return BLACK_LIST.includes(path.extname(src));
 };
 
 export const copyAssetFiles = async (src: string, dest: string) => {

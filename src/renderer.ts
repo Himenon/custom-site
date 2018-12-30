@@ -1,4 +1,3 @@
-import { Options } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 
@@ -18,7 +17,7 @@ const renderPage = (page: PageElement): RenderedStaticPage => {
   };
 };
 
-const render = async ({ pages = [] }: Source, _opts: Options): Promise<RenderedStaticPage[]> => {
+const render = async ({ pages = [] }: Source): Promise<RenderedStaticPage[]> => {
   return pages.map(renderPage);
 };
 

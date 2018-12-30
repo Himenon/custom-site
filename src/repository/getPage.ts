@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as matter from "gray-matter";
 import * as path from "path";
 
-import { Options } from "@rocu/cli";
+import { CommonOption, DevelopOption } from "@rocu/cli";
 import { HtmlMetaProperties, PageElement, Source } from "@rocu/page";
 import * as recursive from "recursive-readdir";
 
@@ -15,11 +15,11 @@ const defaultMetaData: HtmlMetaProperties = {
 
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 
-const getDefaultSetting = (dirname: string, opts: Options, filename: string = "rocu.json"): HtmlMetaProperties => {
+const getDefaultSetting = (dirname: string, options: DevelopOption, filename: string = "rocu.json"): HtmlMetaProperties => {
   let globalSetting: undefined | HtmlMetaProperties;
   const filePath = path.join(dirname, filename);
   // clear cache
-  if (opts.watcher && opts.watcher.filename === filePath) {
+  if (options.watcher && options.watcher.filename === filePath) {
     globalSetting = undefined;
   }
   if (globalSetting) {
@@ -44,7 +44,7 @@ const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMe
   };
 };
 
-const getPage = (dirname: string, opts: Options) => async (filename: string): Promise<PageElement> => {
+const getPage = (dirname: string, opts: CommonOption) => async (filename: string): Promise<PageElement> => {
   const globalSetting = getDefaultSetting(dirname, opts);
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
@@ -80,14 +80,14 @@ const getLayout = (pages: PageElement[]) => (page: PageElement): PageElement => 
   return page;
 };
 
-export const getData = async (dirname: string, opts: Options): Promise<Source> => {
+export const getData = async (dirname: string, options: DevelopOption): Promise<Source> => {
   const allFiles = await recursive(dirname);
   const filenames = allFiles.filter(name => !/^\./.test(name));
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name));
   const mdFilenames = filenames.filter(name => /\.mdx?/.test(name));
 
   const contentFiles = [...jsxFilenames, ...mdFilenames];
-  const promises = contentFiles.map(getPage(dirname, opts));
+  const promises = contentFiles.map(getPage(dirname, options));
   const pages = await Promise.all(promises);
   const withLayouts = pages.map(getLayout(pages));
   return {
