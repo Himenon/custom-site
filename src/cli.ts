@@ -16,7 +16,7 @@ import { server } from "./server";
 import { copyAssetFiles } from "./build/copyFiles";
 import { exportPages } from "./repository/exportPage";
 
-import { parser } from "./cliParser";
+import { flags, parser } from "./parser";
 
 const cli = meow(
   `
@@ -30,24 +30,7 @@ const cli = meow(
     --open, -o      Open development server in default browser
 `,
   {
-    flags: {
-      dev: {
-        alias: "D",
-        type: "boolean",
-      },
-      open: {
-        alias: "o",
-        type: "boolean",
-      },
-      outDir: {
-        alias: "d",
-        type: "string",
-      },
-      port: {
-        alias: "p",
-        type: "string",
-      },
-    },
+    flags,
   },
 );
 
@@ -87,7 +70,7 @@ const main = async () => {
     }
     const pages = await generateStaticPages(buildOptions.source, buildOptions);
     if (pages) {
-      Promise.all([exportPages(pages, dest), copyAssetFiles(buildOptions.source, dest)]);
+      Promise.all([exportPages(pages, dest), copyAssetFiles(buildOptions.source, dest, buildOptions.blacklist)]);
     }
   }
 };

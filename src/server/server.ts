@@ -14,6 +14,8 @@ import { getData } from "../repository/getPage";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
+const OBSERVE_FILE_EXTENSION = /\.(js|css|jsx|md|mdx|json)$/;
+
 const start = async (dirname: string, options: CommonOption) => {
   const socketPort: number = await portfinder.getPortPromise();
 
@@ -41,7 +43,7 @@ const start = async (dirname: string, options: CommonOption) => {
   watcher.on("change", async (filename: string) => {
     const base = path.basename(filename);
     const ext = path.extname(base);
-    if (!/\.(js|css|jsx|md|mdx|json)$/.test(ext)) {
+    if (!OBSERVE_FILE_EXTENSION.test(ext)) {
       return;
     }
     // todo: handle this per file
