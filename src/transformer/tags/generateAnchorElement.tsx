@@ -13,12 +13,16 @@ export const rewriteHyperReference = (uri: string, page: PageElement, option: Co
     return path.join(option.serverBasePath, uri);
   }
   if (uri.startsWith("../")) {
-    return path.join(page.uri, uri).replace(/\/$/, "");
+    return path.join(path.dirname(page.uri), uri).replace(/\/$/, "");
   }
   // start current directory
-  const uriParts = page.uri.endsWith("/") ? page.uri.split("/") : (page.uri + "/").split("/");
-  uriParts[uriParts.length - 1] = uri.startsWith("./") ? uri.slice(2) : uri;
-  return path.join("/", ...uriParts.map(part => (part === "" ? "/" : part))).replace(/\/$/, "");
+  // const uriParts = page.uri.endsWith("/") ? page.uri.split("/") : (page.uri + "/").split("/");
+  // uriParts[uriParts.length - 1] = uri.startsWith("./") ? uri.slice(2) : uri;
+  const t = path.join("/", path.dirname(page.uri), uri).replace(/\/$/, "");
+  if (option.serverBasePath !== "" && !t.startsWith(option.serverBasePath)) {
+    return path.join(option.serverBasePath, t);
+  }
+  return t;
 };
 
 export const generateAnchorElement = (page: PageElement, option: CommonOption) => (props: JSX.IntrinsicElements["a"]) => {
