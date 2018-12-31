@@ -34,6 +34,16 @@ export interface InputFlags {
   basePath?: string;
 }
 
+export const getServerBasePath = (text: string | undefined): string => {
+  if (!text) {
+    return "/";
+  }
+  if (text.startsWith("/")) {
+    return text.trim();
+  }
+  return path.join("/", text).trim();
+};
+
 /**
  * Overwrite Priority
  * cli arguments < package.json < config file
@@ -49,15 +59,18 @@ export const parser = (cli: meow.Result): Options => {
   const commonOption: CommonOption = {
     source,
     destination: inputFlags.outDir ? path.join(process.cwd(), inputFlags.outDir) : undefined,
-    serverBasePath: inputFlags.basePath,
+    serverBasePath: getServerBasePath(inputFlags.basePath),
     blacklist: {
       extensions: [".mdx"],
     },
   };
 
+  console.log({ commonOption });
+
   if (inputFlags.dev) {
     return {
       develop: {
+        open: true,
         ...commonOption,
         ...dot.get(pkg, "pkg.rocu"),
       },

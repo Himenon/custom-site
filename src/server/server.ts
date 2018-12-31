@@ -7,7 +7,7 @@ import * as chokidar from "chokidar";
 import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
-import { CommonOption } from "@rocu/cli";
+import { DevelopOption } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 import { generateStatic } from "../generator";
 import { getData } from "../repository/getPage";
@@ -16,12 +16,32 @@ import { makeWebSocketServer } from "./wsServer";
 
 const OBSERVE_FILE_EXTENSION = /\.(js|css|jsx|md|mdx|json)$/;
 
-const start = async (dirname: string, options: CommonOption) => {
-  const socketPort: number = await portfinder.getPortPromise();
+export const isFileExist = (filePath: string, res: http.ServerResponse): boolean => {
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    fs.createReadStream(filePath).pipe(res);
+    return true;
+  }
+  return false;
+};
 
-  const initialSource = await getData(dirname, options);
+/**
+ * 整形する
+ */
+export const redirectPath = (pathname: string, option: DevelopOption): string => {
+  if (option.serverBasePath === "/") {
+    return pathname === "/" ? "/index" : pathname;
+  }
+  if (pathname === "/" || pathname === option.serverBasePath) {
+    return path.join(pathname, "index");
+  }
+  return pathname;
+};
+
+const start = async (dirname: string, option: DevelopOption) => {
+  const socketPort: number = await portfinder.getPortPromise();
+  const initialSource = await getData(dirname, option);
   let socket: WebSocket;
-  let gPages = await generateStatic(initialSource);
+  let generatedPages = await generateStatic(initialSource, option);
 
   const watcher: chokidar.FSWatcher = chokidar.watch(dirname, {
     ignoreInitial: true,
@@ -35,8 +55,8 @@ const start = async (dirname: string, options: CommonOption) => {
     if (!socket) {
       return;
     }
-    const updatedSource = await getData(dirname, { ...options, watcher: updateParams });
-    gPages = await generateStatic(updatedSource);
+    const updatedSource = await getData(dirname, { ...option, watcher: updateParams });
+    generatedPages = await generateStatic(updatedSource, option);
     socket.send(JSON.stringify({ reload: true }));
   };
 
@@ -59,21 +79,24 @@ const start = async (dirname: string, options: CommonOption) => {
       return;
     }
     const filePath = path.join(dirname, pathname);
-    // serve local images and files
-    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-      fs.createReadStream(filePath).pipe(res);
+    // そのまま返せるファイルが有る場合は返す
+    if (isFileExist(filePath, res)) {
+      console.log("なんかファイルが有ったっぽい？");
       return;
     }
-
-    const name = pathname === "/" ? "index" : pathname.replace(/^\//, "").replace(/\/$/, "");
+    // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
+    const name = redirectPath(pathname, option);
+    console.log({ basePath: option.serverBasePath, filePath, name });
     // tslint:disable:max-line-length
-    const renderStaticPage: RenderedStaticPage | undefined = gPages.find((targetPage: RenderedStaticPage) => targetPage.name === name);
+    const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
+    generatedPages.map(page => console.log(page.name));
 
     if (!renderStaticPage) {
-      res.write("page not found: " + pathname);
+      res.write("page not found: " + name);
       res.end();
       return;
     }
+
     res.write(renderStaticPage.html);
     res.write(reloadScript(socketPort));
     res.end();

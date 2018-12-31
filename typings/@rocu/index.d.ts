@@ -9,7 +9,7 @@ declare module "@rocu/cli" {
   export interface CommonOption {
     source: string;
     destination?: string;
-    serverBasePath: string | undefined;
+    serverBasePath: string;
     blacklist: {
       extensions: string[];
     };

@@ -38,7 +38,7 @@
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser:image": "depcruise  --exclude \"^node_modules\" --output-type dot src/server | dot -T png > docs/dependencygraph.png",
     "develop": "yarn run build --watch",
-    "develop:server": "chmod +x ./lib/cli.js && ./lib/cli.js example -Do --port 9000",
+    "develop:server": "chmod +x ./lib/cli.js && ./lib/cli.js example -Do --port 9000 --base-path=/hoge",
     "format": "prettier --config .prettierrc --write src/*.{ts,tsx}",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "yarn run lint --fix",

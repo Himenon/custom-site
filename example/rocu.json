@@ -14,7 +14,6 @@
     "/assets/main.css"
   ],
   "build": {
-    "basePath": "/hoge",
     "blacklist": {
       "extensions": [".html"]
     }

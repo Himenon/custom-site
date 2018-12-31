@@ -3,6 +3,7 @@
 import * as http from "http";
 import * as meow from "meow";
 import opn = require("opn");
+import * as path from "path";
 
 import { UpdateNotifier } from "update-notifier";
 import { notifyLog } from "./logger";
@@ -51,7 +52,7 @@ const main = async () => {
       } else {
         const { port } = address;
         notifyLog(`listening on port: ${port}`);
-        url = `http://localhost:${port}`;
+        url = path.join(`http://localhost:${port}`, developOptions.serverBasePath);
       }
       if (developOptions.open) {
         opn(url);
