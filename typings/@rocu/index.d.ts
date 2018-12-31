@@ -89,6 +89,7 @@ declare module "@rocu/page" {
   }
 
   export interface PageElement {
+    uri: string;
     content: string;
     metaData: HtmlMetaProperties;
     ext: string;

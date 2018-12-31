@@ -44,22 +44,26 @@ const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMe
   };
 };
 
-const getPage = (dirname: string, opts: CommonOption) => async (filename: string): Promise<PageElement> => {
-  const globalSetting = getDefaultSetting(dirname, opts);
+const formatUri = (uri: string, option: CommonOption): string => {
+  return path.join(option.serverBasePath, uri).replace(/\/index$/, "");
+};
+
+const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageElement> => {
+  const globalSetting = getDefaultSetting(dirname, option);
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
-  const name = relativePath.slice(0, relativePath.length - ext.length);
+  const uri = relativePath.slice(0, relativePath.length - ext.length);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
   const metaData = rewriteMetaData(globalSetting, data);
-
   return {
+    uri: formatUri(uri, option),
     content,
     metaData,
     ext,
     filename,
-    name,
+    name: uri,
     raw,
   };
 };

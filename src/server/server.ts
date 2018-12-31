@@ -81,15 +81,12 @@ const start = async (dirname: string, option: DevelopOption) => {
     const filePath = path.join(dirname, pathname);
     // そのまま返せるファイルが有る場合は返す
     if (isFileExist(filePath, res)) {
-      console.log("なんかファイルが有ったっぽい？");
       return;
     }
     // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
     const name = redirectPath(pathname, option);
-    console.log({ basePath: option.serverBasePath, filePath, name });
     // tslint:disable:max-line-length
     const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
-    generatedPages.map(page => console.log(page.name));
 
     if (!renderStaticPage) {
       res.write("page not found: " + name);

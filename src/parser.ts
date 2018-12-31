@@ -65,8 +65,6 @@ export const parser = (cli: meow.Result): Options => {
     },
   };
 
-  console.log({ commonOption });
-
   if (inputFlags.dev) {
     return {
       develop: {

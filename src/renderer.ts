@@ -1,18 +1,12 @@
 import { BuildOption, CommonOption } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
 import * as path from "path";
-import * as React from "react";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
+import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 
-const getCustomComponents = (option: CommonOption) => {
+const getCustomComponents = (page: PageElement, option: CommonOption) => {
   return {
-    a: (props: JSX.IntrinsicElements["a"]) => {
-      console.log(props);
-      const rewriteHref =
-        typeof props.href === "string" && props.href.startsWith("./") ? props.href : path.join(option.serverBasePath, props.href || "");
-      const rewriteProps: JSX.IntrinsicElements["a"] = { ...props, href: rewriteHref };
-      return <a {...rewriteProps} />;
-    },
+    a: generateAnchorElement(page, option),
   };
 };
 
@@ -20,8 +14,9 @@ const getCustomComponents = (option: CommonOption) => {
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
 const renderPage = (option: BuildOption) => (page: PageElement): RenderedStaticPage => {
+  console.log(`uri: ${page.uri}`);
   const createBodyContent = transformRawStringToHtml({
-    customComponents: getCustomComponents(option),
+    customComponents: getCustomComponents(page, option),
     props: {},
   });
   const bodyContent = createBodyContent(page.content);
