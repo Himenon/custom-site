@@ -15,14 +15,14 @@ declare module "@rocu/cli" {
     };
   }
   /**
-   * optional飲みの追加を認める
+   * optionalのみの追加を認める
    */
   export interface DevelopOption extends CommonOption {
     watcher?: FileWatchFlag;
     open?: boolean;
   }
   /**
-   * optional飲みの追加を認める
+   * optionalのみの追加を認める
    */
   export interface BuildOption extends CommonOption {}
   export interface Options {

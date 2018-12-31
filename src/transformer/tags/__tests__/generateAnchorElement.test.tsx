@@ -47,6 +47,9 @@ describe("Link Element", () => {
   });
 
   test("../", () => {
+    expect(rewriteHyperReference("../", currentUri("/a/b"), basePath("/"))).toBe("/");
+    expect(rewriteHyperReference("../", currentUri("/a/b/c"), basePath("/"))).toBe("/a");
+
     expect(rewriteHyperReference("../target-file", currentUri("/a/b"), basePath("/"))).toBe("/target-file");
     expect(rewriteHyperReference("../target-file", currentUri("/a/b/c"), basePath("/"))).toBe("/a/target-file");
     expect(rewriteHyperReference("../target-file", currentUri("/a/b/c/"), basePath("/"))).toBe("/a/target-file");

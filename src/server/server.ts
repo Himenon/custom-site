@@ -25,7 +25,8 @@ export const isFileExist = (filePath: string, res: http.ServerResponse): boolean
 };
 
 /**
- * 整形する
+ * Request URLを規格化する
+ * TODO Request URLではなく、ファイルの方を規格化する
  */
 export const redirectPath = (pathname: string, option: DevelopOption): string => {
   if (option.serverBasePath === "/") {

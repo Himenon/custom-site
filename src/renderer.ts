@@ -14,7 +14,6 @@ const getCustomComponents = (page: PageElement, option: CommonOption) => {
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
 const renderPage = (option: BuildOption) => (page: PageElement): RenderedStaticPage => {
-  console.log(`uri: ${page.uri}`);
   const createBodyContent = transformRawStringToHtml({
     customComponents: getCustomComponents(page, option),
     props: {},
