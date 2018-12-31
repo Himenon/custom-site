@@ -8,21 +8,23 @@ import * as React from "react";
  * @param page page.uriはoption.serverBasePathをすでに加算した状態で存在する
  * @param option 相対パスの算出では利用しない
  */
-export const rewriteHyperReference = (uri: string, page: PageElement, option: CommonOption) => {
-  if (uri.startsWith("./")) {
-    const splitPath = page.uri.split("/");
-    splitPath[splitPath.length - 1] = uri.slice(2);
-    return path.join(...splitPath.map(p => (p === "" ? "/" : p))).replace(/\/$/, "");
+export const rewriteHyperReference = (uri: string, page: PageElement, option: CommonOption): string => {
+  if (uri.startsWith("/")) {
+    return path.join(option.serverBasePath, uri);
   }
   if (uri.startsWith("../")) {
     return path.join(page.uri, uri).replace(/\/$/, "");
   }
-  return path.join(option.serverBasePath, uri);
+  // start current directory
+  const uriParts = page.uri.endsWith("/") ? page.uri.split("/") : (page.uri + "/").split("/");
+  uriParts[uriParts.length - 1] = uri.startsWith("./") ? uri.slice(2) : uri;
+  return path.join("/", ...uriParts.map(part => (part === "" ? "/" : part))).replace(/\/$/, "");
 };
 
 export const generateAnchorElement = (page: PageElement, option: CommonOption) => (props: JSX.IntrinsicElements["a"]) => {
   const href: string = props.href ? rewriteHyperReference(props.href, page, option) : "";
-  console.log({ uri: props.href, puri: page.uri, s: option.serverBasePath, href });
+  console.log({ uri: props.href, pageUri: page.uri, basePath: option.serverBasePath, href });
   const rewriteProps: JSX.IntrinsicElements["a"] = { ...props, href };
+  console.log(rewriteProps);
   return <a {...rewriteProps} />;
 };
