@@ -1,3 +1,9 @@
+#### 0.0.6 (2019-01-01)
+
+##### Bug Fixes
+
+* **build:**  export page directory ([aaa549b3](https://github.com/Himenon/rocu/commit/aaa549b3055b072e9dbf5e9f4e92ef99ed4803d3))
+
 #### 0.0.5 (2019-01-01)
 
 ##### New Features

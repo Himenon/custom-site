@@ -1,4 +1,4 @@
-import { BuildOption, CommonOption } from "@rocu/cli";
+import { CommonOption } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
 import * as path from "path";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
@@ -13,7 +13,7 @@ const getCustomComponents = (page: PageElement, option: CommonOption) => {
 /**
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
-const renderPage = (option: BuildOption) => (page: PageElement): RenderedStaticPage => {
+const renderPage = (option: CommonOption) => (page: PageElement): RenderedStaticPage => {
   const createBodyContent = transformRawStringToHtml({
     customComponents: getCustomComponents(page, option),
     props: {},
@@ -22,6 +22,7 @@ const renderPage = (option: BuildOption) => (page: PageElement): RenderedStaticP
   const headContent = createHeadContent(page.metaData);
   return {
     name: path.join(option.serverBasePath, page.name),
+    originalName: page.name,
     html: combine({
       head: headContent,
       body: bodyContent,
@@ -29,7 +30,7 @@ const renderPage = (option: BuildOption) => (page: PageElement): RenderedStaticP
   };
 };
 
-const render = async ({ pages = [] }: Source, option: BuildOption): Promise<RenderedStaticPage[]> => {
+const render = async ({ pages = [] }: Source, option: CommonOption): Promise<RenderedStaticPage[]> => {
   return pages.map(renderPage(option));
 };
 
