@@ -25,10 +25,9 @@ export const isFileExist = (filePath: string, res: http.ServerResponse): boolean
 };
 
 /**
- * Request URLを規格化する
- * TODO Request URLではなく、ファイルの方を規格化する
+ * GenerateしたPageのkeyにマッチするようなパスに変換
  */
-export const redirectPath = (pathname: string, option: DevelopOption): string => {
+export const redirectPagePath = (pathname: string, option: DevelopOption): string => {
   if (option.serverBasePath === "/") {
     return pathname === "/" ? "/index" : pathname;
   }
@@ -36,6 +35,16 @@ export const redirectPath = (pathname: string, option: DevelopOption): string =>
     return path.join(pathname, "index");
   }
   return pathname;
+};
+
+/**
+ * ローカルディレクトリにあるファイル名を探索できるようなパスに変換
+ */
+export const redirectLocalDirectoryPath = (dirname: string, pathname: string, option: DevelopOption): string => {
+  if (pathname.startsWith(option.serverBasePath)) {
+    return path.join(dirname, pathname.slice(option.serverBasePath.length));
+  }
+  return path.join(dirname, pathname);
 };
 
 const start = async (dirname: string, option: DevelopOption) => {
@@ -84,20 +93,24 @@ const start = async (dirname: string, option: DevelopOption) => {
     if (isFileExist(filePath, res)) {
       return;
     }
+    // basepathが存在する場合
+    if (isFileExist(redirectLocalDirectoryPath(dirname, pathname, option), res)) {
+      return;
+    }
     // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
-    const name = redirectPath(pathname, option);
+    const name = redirectPagePath(pathname, option);
     // tslint:disable:max-line-length
     const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
-
-    if (!renderStaticPage) {
-      res.write("page not found: " + name);
+    if (renderStaticPage) {
+      res.write(renderStaticPage.html);
+      res.write(reloadScript(socketPort));
       res.end();
       return;
     }
 
-    res.write(renderStaticPage.html);
-    res.write(reloadScript(socketPort));
+    res.write("page not found: " + name);
     res.end();
+    return;
   });
 
   try {

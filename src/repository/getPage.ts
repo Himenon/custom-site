@@ -3,7 +3,7 @@ import * as matter from "gray-matter";
 import * as path from "path";
 
 import { CommonOption, DevelopOption } from "@rocu/cli";
-import { HtmlMetaProperties, PageElement, Source } from "@rocu/page";
+import { HtmlMetaProperties, LinkHTMLAttributes, PageElement, ScriptHTMLAttributes, Source } from "@rocu/page";
 import * as recursive from "recursive-readdir";
 
 /**
@@ -31,16 +31,32 @@ const getDefaultSetting = (dirname: string, options: DevelopOption, filename: st
   return defaultMetaData;
 };
 
-const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties): HtmlMetaProperties => {
+const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, option: CommonOption): string | ScriptHTMLAttributes => {
+  if (typeof attribute === "string") {
+    return path.join(option.serverBasePath, attribute);
+  }
+  const src = attribute.src ? path.join(option.serverBasePath, attribute.src) : undefined;
+  return { ...attribute, src };
+};
+
+const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, option: CommonOption): string | LinkHTMLAttributes => {
+  if (typeof attribute === "string") {
+    return path.join(option.serverBasePath, attribute);
+  }
+  const href = attribute.href ? path.join(option.serverBasePath, attribute.href) : undefined;
+  return { ...attribute, href };
+};
+
+const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties, option: CommonOption): HtmlMetaProperties => {
   const globalLinks = [...(globalSetting.link ? globalSetting.link : []), ...(globalSetting.css ? globalSetting.css : [])];
   const localLinks = [...(localSetting.link ? localSetting.link : []), ...(localSetting.css ? localSetting.css : [])];
   return {
     ...globalSetting,
     ...localSetting,
-    globalScripts: globalSetting.js,
-    localScripts: localSetting.js,
-    globalLinks,
-    localLinks,
+    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, option)) : globalSetting.js,
+    localScripts: localSetting.js ? localSetting.js.map(js => rewriteScriptSource(js, option)) : localSetting.js,
+    globalLinks: globalLinks.map(link => rewriteLinkSource(link, option)),
+    localLinks: localLinks.map(link => rewriteLinkSource(link, option)),
   };
 };
 
@@ -56,7 +72,7 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting, data);
+  const metaData = rewriteMetaData(globalSetting, data, option);
   return {
     uri: formatUri(uri, option),
     content,

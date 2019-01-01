@@ -1,6 +1,6 @@
 jest.unmock("../server.ts");
 import { DevelopOption } from "@rocu/cli";
-import { redirectPath } from "../server";
+import { redirectPagePath } from "../server";
 
 describe("routing test", () => {
   const option1: DevelopOption = {
@@ -20,18 +20,18 @@ describe("routing test", () => {
   };
 
   test("default redirect path", () => {
-    expect(redirectPath("/", option1)).toBe("/index");
-    expect(redirectPath("/index", option1)).toBe("/index");
-    expect(redirectPath("/index/", option1)).toBe("/index/");
-    expect(redirectPath("/hoge", option1)).toBe("/hoge");
+    expect(redirectPagePath("/", option1)).toBe("/index");
+    expect(redirectPagePath("/index", option1)).toBe("/index");
+    expect(redirectPagePath("/index/", option1)).toBe("/index/");
+    expect(redirectPagePath("/hoge", option1)).toBe("/hoge");
   });
 
   test("use server base path", () => {
-    expect(redirectPath("/", option2)).toBe("/index");
-    expect(redirectPath("/index", option2)).toBe("/index");
-    expect(redirectPath("/index/", option2)).toBe("/index/");
-    expect(redirectPath("/test", option2)).toBe("/test/index");
-    expect(redirectPath("/hoge", option2)).toBe("/hoge");
-    expect(redirectPath("/test/hoge", option2)).toBe("/test/hoge");
+    expect(redirectPagePath("/", option2)).toBe("/index");
+    expect(redirectPagePath("/index", option2)).toBe("/index");
+    expect(redirectPagePath("/index/", option2)).toBe("/index/");
+    expect(redirectPagePath("/test", option2)).toBe("/test/index");
+    expect(redirectPagePath("/hoge", option2)).toBe("/hoge");
+    expect(redirectPagePath("/test/hoge", option2)).toBe("/test/hoge");
   });
 });
