@@ -24,7 +24,9 @@ declare module "@rocu/cli" {
   /**
    * optionalのみの追加を認める
    */
-  export interface BuildOption extends CommonOption {}
+  export interface BuildOption extends CommonOption {
+    destination: string;
+  }
   export interface Options {
     develop?: DevelopOption;
     build?: BuildOption;
@@ -101,6 +103,7 @@ declare module "@rocu/page" {
 
   export interface RenderedStaticPage {
     name: PageElement["name"];
+    originalName: string;
     html: string;
   }
 

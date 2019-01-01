@@ -1,9 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
 
+import { BuildOption } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
 
-const exportPages = async (pages: RenderedStaticPage[], dest: string): Promise<void> => {
+const exportPages = async (pages: RenderedStaticPage[], option: BuildOption): Promise<void> => {
+  const dest = option.destination;
   /**
    * ファイルの出力先の確認
    */
@@ -16,7 +18,7 @@ const exportPages = async (pages: RenderedStaticPage[], dest: string): Promise<v
    */
   const promises = pages.map(async (page: RenderedStaticPage) => {
     // TODO Redirectの手順を一つにまとめる
-    const dir = page.name.endsWith("index") ? path.dirname(page.name) : page.name;
+    const dir = page.originalName.endsWith("index") ? path.dirname(page.originalName) : page.originalName;
     const filename = path.join(dest, dir, "index.html");
     if (!fs.existsSync(path.dirname(filename))) {
       fs.mkdirSync(path.dirname(filename), { recursive: true });
