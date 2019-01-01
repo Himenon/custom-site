@@ -34,7 +34,7 @@
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib",
     "cli": "node ./lib/cli.js",
-    "cli:build": "node ./lib/cli.js example --out-dir out",
+    "cli:build": "rm -rf ./out && node ./lib/cli.js example --out-dir out --base-path=/hoge",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "cruiser:image": "depcruise  --exclude \"^node_modules\" --output-type dot src/server | dot -T png > docs/dependencygraph.png",
     "develop": "yarn run build --watch",

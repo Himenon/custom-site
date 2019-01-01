@@ -71,7 +71,7 @@ const main = async () => {
     }
     const pages = await generateStaticPages(buildOptions.source, buildOptions);
     if (pages) {
-      Promise.all([exportPages(pages, dest), copyAssetFiles(buildOptions.source, dest, buildOptions.blacklist)]);
+      Promise.all([exportPages(pages, dest), copyAssetFiles(buildOptions.source, dest, buildOptions)]);
     }
   }
 };

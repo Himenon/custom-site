@@ -1,4 +1,3 @@
-import { CommonOption } from "@rocu/cli";
 import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
 import { generateLinkElements } from "./tags/generateLinkElements";
