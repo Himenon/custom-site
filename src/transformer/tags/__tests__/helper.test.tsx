@@ -21,6 +21,12 @@ describe("Link Element", () => {
       extensions: [],
     },
   });
+
+  test("http,https", () => {
+    expect(rewriteUrl("http://a", currentUri("/a/b/c"), basePath("/"))).toBe("http://a");
+    expect(rewriteUrl("https://a", currentUri("/a/b/c/d"), basePath("/"))).toBe("https://a");
+  });
+
   test("normal", () => {
     expect(rewriteUrl("/a/b/c", currentUri("/a/b/c"), basePath("/"))).toBe("/a/b/c");
     expect(rewriteUrl("/a/b/c", currentUri("/a/b/c/d"), basePath("/"))).toBe("/a/b/c");

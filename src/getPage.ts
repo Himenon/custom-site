@@ -57,14 +57,6 @@ const rewriteMetaData = (
   const localLinks = [...(localSetting.link ? localSetting.link : []), ...(localSetting.css ? localSetting.css : [])];
   const rewriteLocalScripts = localSetting.js ? localSetting.js.map(src => rewriteScriptSource(src, uri)) : localSetting.js;
   const rewriteLocalLinks = localLinks.map(attribute => rewriteLinkSource(attribute, uri));
-  console.log({
-    uri,
-    beforeLink: localLinks,
-    afterLink: rewriteLocalLinks,
-    beforeScript: localSetting.js,
-    afterScript: rewriteLocalScripts,
-  });
-  console.log("----------");
   return {
     ...globalSetting,
     ...localSetting,
@@ -88,7 +80,6 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  console.log(`fUri: ${fUri}`, `dirname: ${path.dirname(fUri)}`);
   const metaData = rewriteMetaData(globalSetting, data, path.dirname(fUri), option);
   return {
     uri: fUri,
