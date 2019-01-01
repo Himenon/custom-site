@@ -1,14 +1,14 @@
-import { BuildOption } from "@rocu/cli";
+import { CommonOption } from "@rocu/cli";
 import { RenderedStaticPage, Source } from "@rocu/page";
 import { getData } from "./getPage";
 import { notifyLog } from "./logger";
 import { render } from "./renderer";
 
-export const generateStatic = async (source: Source, options: BuildOption): Promise<RenderedStaticPage[]> => {
+export const generateStatic = async (source: Source, options: CommonOption): Promise<RenderedStaticPage[]> => {
   return render(source, options);
 };
 
-export const generateStaticPages = async (dirname: string, options: BuildOption): Promise<RenderedStaticPage[] | undefined> => {
+export const generateStaticPages = async (dirname: string, options: CommonOption): Promise<RenderedStaticPage[] | undefined> => {
   const initialSource = await getData(dirname, options);
   try {
     const result = await generateStatic(initialSource, options);

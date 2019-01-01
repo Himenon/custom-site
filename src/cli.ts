@@ -64,14 +64,9 @@ const main = async () => {
   }
   if (buildOptions) {
     // 開発環境ではなく、サイトを生成する
-    const dest = buildOptions.destination;
-    if (!dest) {
-      console.error("Error: did not set output directory");
-      return;
-    }
     const pages = await generateStaticPages(buildOptions.source, buildOptions);
     if (pages) {
-      Promise.all([exportPages(pages, dest), copyAssetFiles(buildOptions.source, dest, buildOptions)]);
+      Promise.all([exportPages(pages, buildOptions), copyAssetFiles(buildOptions)]);
     }
   }
 };
