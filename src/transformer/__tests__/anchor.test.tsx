@@ -2,7 +2,7 @@ jest.unmock("../createBodyContent.tsx");
 import * as ReactDOM from "react-dom/server";
 import { transformRawStringToHtml } from "../createBodyContent";
 
-describe("anchore tag link", () => {
+describe("anchor tag link", () => {
   const converter = (rawString: string) =>
     ReactDOM.renderToStaticMarkup(
       transformRawStringToHtml({
@@ -13,16 +13,16 @@ describe("anchore tag link", () => {
 
   test("/", () => {
     const result = converter("[link](/)");
-    expect(result).toBe('<body><div><p><a href="/">link</a></p></div></body>');
+    expect(result).toBe('<div><p><a href="/">link</a></p></div>');
   });
 
   test("/index", () => {
     const result = converter("[link](/index)");
-    expect(result).toBe('<body><div><p><a href="/index">link</a></p></div></body>');
+    expect(result).toBe('<div><p><a href="/index">link</a></p></div>');
   });
 
   test("../index", () => {
     const result = converter("[link](../index)");
-    expect(result).toBe('<body><div><p><a href="../index">link</a></p></div></body>');
+    expect(result).toBe('<div><p><a href="../index">link</a></p></div>');
   });
 });

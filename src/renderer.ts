@@ -1,6 +1,7 @@
 import { CommonOption } from "@rocu/cli";
 import { PageElement, RenderedStaticPage, Source } from "@rocu/page";
 import * as path from "path";
+import { createTemplate } from "./createTemplate";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 
@@ -18,6 +19,7 @@ const renderPage = (option: CommonOption) => (page: PageElement): RenderedStatic
     customComponents: getCustomComponents(page, option),
     props: {},
   });
+  const template = createTemplate();
   const bodyContent = createBodyContent(page.content);
   const headContent = createHeadContent(page.metaData);
   return {
@@ -25,7 +27,7 @@ const renderPage = (option: CommonOption) => (page: PageElement): RenderedStatic
     originalName: page.name,
     html: combine({
       head: headContent,
-      body: bodyContent,
+      body: template(bodyContent),
     }),
   };
 };

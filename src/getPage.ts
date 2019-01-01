@@ -69,22 +69,6 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   };
 };
 
-const getLayout = (pages: PageElement[]) => (page: PageElement): PageElement => {
-  if (page.ext !== ".md ") {
-    return page;
-  }
-  if (!page.metaData.layout) {
-    return page;
-  }
-  const layout = pages.find((p: PageElement) => p.name === page.metaData.layout);
-  if (!layout) {
-    return page;
-  }
-  page.metaData = { ...layout.metaData, ...page.metaData };
-  page.layoutJSX = layout.content;
-  return page;
-};
-
 export const getData = async (dirname: string, options: DevelopOption): Promise<Source> => {
   const allFiles = await recursive(dirname);
   const filenames = allFiles.filter(name => !/^\./.test(name));
@@ -94,9 +78,8 @@ export const getData = async (dirname: string, options: DevelopOption): Promise<
   const contentFiles = [...jsxFilenames, ...mdFilenames];
   const promises = contentFiles.map(getPage(dirname, options));
   const pages = await Promise.all(promises);
-  const withLayouts = pages.map(getLayout(pages));
   return {
     dirname,
-    pages: withLayouts,
+    pages,
   };
 };

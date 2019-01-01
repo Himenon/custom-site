@@ -92,6 +92,13 @@ declare module "@rocu/page" {
     };
   }
 
+  export interface TemplateProps {
+    pageProps: PageProps;
+    applyLayout?: (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;
+  }
+
+  export interface PageProps {}
+
   export interface PageElement {
     uri: string;
     content: string;
@@ -100,7 +107,6 @@ declare module "@rocu/page" {
     filename: string;
     name: string;
     raw: string;
-    layoutJSX?: string;
   }
 
   export interface RenderedStaticPage {
