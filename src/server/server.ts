@@ -9,6 +9,7 @@ import * as WebSocket from "ws";
 
 import { DevelopOption } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
+import { lookup } from "mime-types";
 import { generateStatic } from "../generator";
 import { getData } from "../getPage";
 import { reloadScript } from "./reloadScript";
@@ -18,6 +19,7 @@ const OBSERVE_FILE_EXTENSION = /\.(js|css|jsx|md|mdx|json)$/;
 
 export const redirectToLocalFile = (filePath: string, res: http.ServerResponse): boolean => {
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    res.writeHead(200, { "Content-Type": lookup(filePath) || "text/plain" });
     fs.createReadStream(filePath).pipe(res);
     return true;
   }
