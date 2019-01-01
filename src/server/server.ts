@@ -7,19 +7,53 @@ import * as chokidar from "chokidar";
 import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
-import { Options } from "@rocu/cli";
+import { DevelopOption } from "@rocu/cli";
 import { RenderedStaticPage } from "@rocu/page";
+import { lookup } from "mime-types";
 import { generateStatic } from "../generator";
-import { getData } from "../repository/getPage";
+import { getData } from "../getPage";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
-const start = async (dirname: string, opts: Options) => {
-  const socketPort: number = await portfinder.getPortPromise();
+const OBSERVE_FILE_EXTENSION = /\.(js|css|jsx|md|mdx|json)$/;
 
-  const initialSource = await getData(dirname, opts);
+export const redirectToLocalFile = (filePath: string, res: http.ServerResponse): boolean => {
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    res.writeHead(200, { "Content-Type": lookup(filePath) || "text/plain" });
+    fs.createReadStream(filePath).pipe(res);
+    return true;
+  }
+  return false;
+};
+
+/**
+ * GenerateしたPageのkeyにマッチするようなパスに変換
+ */
+export const getRedirectPagePath = (pathname: string, option: DevelopOption): string => {
+  if (option.serverBasePath === "/") {
+    return pathname === "/" ? "/index" : pathname;
+  }
+  if (pathname === "/" || pathname === option.serverBasePath) {
+    return path.join(pathname, "index");
+  }
+  return pathname;
+};
+
+/**
+ * ローカルディレクトリにあるファイル名を探索できるようなパスに変換
+ */
+export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string, option: DevelopOption): string => {
+  if (pathname.startsWith(option.serverBasePath)) {
+    return path.join(dirname, pathname.slice(option.serverBasePath.length));
+  }
+  return path.join(dirname, pathname);
+};
+
+const start = async (dirname: string, option: DevelopOption) => {
+  const socketPort: number = await portfinder.getPortPromise();
+  const initialSource = await getData(dirname, option);
   let socket: WebSocket;
-  let gPages = await generateStatic(initialSource, opts);
+  let generatedPages = await generateStatic(initialSource, option);
 
   const watcher: chokidar.FSWatcher = chokidar.watch(dirname, {
     ignoreInitial: true,
@@ -33,15 +67,15 @@ const start = async (dirname: string, opts: Options) => {
     if (!socket) {
       return;
     }
-    const updatedSource = await getData(dirname, { ...opts, watcher: updateParams });
-    gPages = await generateStatic(updatedSource, opts);
+    const updatedSource = await getData(dirname, { ...option, watcher: updateParams });
+    generatedPages = await generateStatic(updatedSource, option);
     socket.send(JSON.stringify({ reload: true }));
   };
 
   watcher.on("change", async (filename: string) => {
     const base = path.basename(filename);
     const ext = path.extname(base);
-    if (!/\.(js|css|jsx|md|mdx|json)$/.test(ext)) {
+    if (!OBSERVE_FILE_EXTENSION.test(ext)) {
       return;
     }
     // todo: handle this per file
@@ -57,24 +91,28 @@ const start = async (dirname: string, opts: Options) => {
       return;
     }
     const filePath = path.join(dirname, pathname);
-    // serve local images and files
-    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-      fs.createReadStream(filePath).pipe(res);
+    // そのまま返せるファイルが有る場合は返す
+    if (redirectToLocalFile(filePath, res)) {
       return;
     }
-
-    const name = pathname === "/" ? "index" : pathname.replace(/^\//, "").replace(/\/$/, "");
+    // basepathが存在する場合
+    if (redirectToLocalFile(getRedirectLocalDirectoryPath(dirname, pathname, option), res)) {
+      return;
+    }
+    // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
+    const name = getRedirectPagePath(pathname, option);
     // tslint:disable:max-line-length
-    const renderStaticPage: RenderedStaticPage | undefined = gPages.find((targetPage: RenderedStaticPage) => targetPage.name === name);
-
-    if (!renderStaticPage) {
-      res.write("page not found: " + pathname);
+    const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
+    if (renderStaticPage) {
+      res.write(renderStaticPage.html);
+      res.write(reloadScript(socketPort));
       res.end();
       return;
     }
-    res.write(renderStaticPage.html);
-    res.write(reloadScript(socketPort));
+
+    res.write("page not found: " + name);
     res.end();
+    return;
   });
 
   try {

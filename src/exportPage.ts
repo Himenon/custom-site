@@ -8,14 +8,15 @@ const exportPages = async (pages: RenderedStaticPage[], dest: string): Promise<v
    * ファイルの出力先の確認
    */
   if (!fs.existsSync(dest)) {
-    fs.mkdirSync(dest);
+    fs.mkdirSync(dest, { recursive: true });
   }
 
   /**
    * ファイル書き込みの非同期Prmise[]を生成
    */
   const promises = pages.map(async (page: RenderedStaticPage) => {
-    const dir = page.name === "index" ? "" : page.name;
+    // TODO Redirectの手順を一つにまとめる
+    const dir = page.name.endsWith("index") ? path.dirname(page.name) : page.name;
     const filename = path.join(dest, dir, "index.html");
     if (!fs.existsSync(path.dirname(filename))) {
       fs.mkdirSync(path.dirname(filename), { recursive: true });

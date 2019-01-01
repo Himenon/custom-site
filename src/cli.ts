@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-import * as dot from "dot-prop";
 import * as http from "http";
 import * as meow from "meow";
 import opn = require("opn");
 import * as path from "path";
-import * as readPkgUp from "read-pkg-up";
+
 import { UpdateNotifier } from "update-notifier";
 import { notifyLog } from "./logger";
 
@@ -16,9 +15,9 @@ import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
 import { copyAssetFiles } from "./build/copyFiles";
-import { exportPages } from "./repository/exportPage";
+import { exportPages } from "./exportPage";
 
-import { Options } from "@rocu/cli";
+import { flags, parser } from "./parser";
 
 const cli = meow(
   `
@@ -32,70 +31,47 @@ const cli = meow(
     --open, -o      Open development server in default browser
 `,
   {
-    flags: {
-      dev: {
-        alias: "D",
-        type: "boolean",
-      },
-      open: {
-        alias: "o",
-        type: "boolean",
-      },
-      outDir: {
-        alias: "d",
-        type: "string",
-      },
-      port: {
-        alias: "p",
-        type: "string",
-      },
-    },
+    flags,
   },
 );
 
-const [localDirname = process.cwd()] = cli.input;
-const userPkg = readPkgUp.sync({ cwd: localDirname }) || {};
-const localOpts: Options = {
-  ...dot.get(userPkg, "pkg.rocu"),
-  ...cli.flags,
-  outDir: cli.flags.outDir ? path.join(process.cwd(), cli.flags.outDir) : undefined,
-};
+const { develop: developOptions, build: buildOptions } = parser(cli);
 
 notifyLog("rocu");
 
 const main = async () => {
-  if (localOpts.dev) {
+  if (developOptions) {
     notifyLog("starting dev server");
-    server(localDirname, localOpts)
-      .then((srv: http.Server) => {
-        const address = srv.address();
-        let url: string;
-        if (typeof address === "string") {
-          notifyLog(`listening on ${address}`);
-          url = address;
-        } else {
-          const { port } = address;
-          notifyLog(`listening on port: ${port}`);
-          url = `http://localhost:${port}`;
-        }
-        if (localOpts.open) {
-          opn(url);
-        }
-      })
-      .catch((err: Error) => {
-        notifyLog("error", err);
-        process.exit(1);
-      });
-  } else {
+    try {
+      const srv: http.Server = await server(developOptions.source, developOptions);
+      const address = srv.address();
+      let url: string;
+      if (typeof address === "string") {
+        notifyLog(`listening on ${address}`);
+        url = address;
+      } else {
+        const { port } = address;
+        notifyLog(`listening on port: ${port}`);
+        url = path.join(`http://localhost:${port}`, developOptions.serverBasePath);
+      }
+      if (developOptions.open) {
+        opn(url);
+      }
+    } catch (err) {
+      notifyLog("error", err);
+      process.exit(1);
+    }
+  }
+  if (buildOptions) {
     // 開発環境ではなく、サイトを生成する
-    const dest = localOpts.outDir;
+    const dest = buildOptions.destination;
     if (!dest) {
       console.error("Error: did not set output directory");
       return;
     }
-    const pages = await generateStaticPages(localDirname, localOpts);
+    const pages = await generateStaticPages(buildOptions.source, buildOptions);
     if (pages) {
-      Promise.all([exportPages(pages, dest), copyAssetFiles(localDirname, dest)]);
+      Promise.all([exportPages(pages, dest), copyAssetFiles(buildOptions.source, dest, buildOptions)]);
     }
   }
 };

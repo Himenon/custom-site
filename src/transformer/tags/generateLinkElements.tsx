@@ -1,6 +1,5 @@
 import { HtmlMetaProperties, LinkHTMLAttributes } from "@rocu/page";
 import * as React from "react";
-import { normalizerSourcePath } from "./normalizer";
 
 export interface DryCheckParameter {
   href: string;
@@ -20,7 +19,6 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
   isLocal: boolean,
 ): JSX.Element | undefined => {
   if (typeof attributes === "string") {
-    const normalizedSource1 = normalizerSourcePath(attributes, isLocal);
     if (isIncludes(dryParameter, { href: attributes, isLocal })) {
       return;
     } else {
@@ -29,21 +27,20 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
         isLocal,
       });
     }
-    return <link href={normalizedSource1} key={normalizedSource1} rel="stylesheet" />;
+    return <link href={attributes} key={attributes} rel="stylesheet" />;
   }
   if (!attributes.href) {
     return;
   }
-  const normalizedSource2 = normalizerSourcePath(attributes.href, isLocal);
-  if (isIncludes(dryParameter, { href: normalizedSource2, isLocal })) {
+  if (isIncludes(dryParameter, { href: attributes.href, isLocal })) {
     return;
   } else {
     dryParameter.push({
-      href: normalizedSource2,
+      href: attributes.href,
       isLocal,
     });
   }
-  return <link {...{ ...attributes, href: normalizedSource2 }} key={normalizedSource2} />;
+  return <link {...{ ...attributes }} key={attributes.href} />;
 };
 
 export const generateLinkElements = ({ localLinks, globalLinks }: HtmlMetaProperties): JSX.Element[] => {

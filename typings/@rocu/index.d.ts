@@ -6,11 +6,28 @@ declare module "@rocu/development" {
 
 declare module "@rocu/cli" {
   import { FileWatchFlag } from "@rocu/development";
-  export interface Options {
-    outDir?: string;
+  export interface CommonOption {
+    source: string;
+    destination?: string;
+    serverBasePath: string;
+    blacklist: {
+      extensions: string[];
+    };
+  }
+  /**
+   * optionalのみの追加を認める
+   */
+  export interface DevelopOption extends CommonOption {
     watcher?: FileWatchFlag;
-    open: boolean;
-    dev: boolean;
+    open?: boolean;
+  }
+  /**
+   * optionalのみの追加を認める
+   */
+  export interface BuildOption extends CommonOption {}
+  export interface Options {
+    develop?: DevelopOption;
+    build?: BuildOption;
   }
 }
 
@@ -72,6 +89,7 @@ declare module "@rocu/page" {
   }
 
   export interface PageElement {
+    uri: string;
     content: string;
     metaData: HtmlMetaProperties;
     ext: string;
