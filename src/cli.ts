@@ -15,7 +15,7 @@ import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
 import { copyAssetFiles } from "./build/copyFiles";
-import { exportPages } from "./repository/exportPage";
+import { exportPages } from "./exportPage";
 
 import { flags, parser } from "./parser";
 

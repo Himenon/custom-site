@@ -1,8 +1,8 @@
 import { BuildOption } from "@rocu/cli";
 import { RenderedStaticPage, Source } from "@rocu/page";
+import { getData } from "./getPage";
 import { notifyLog } from "./logger";
 import { render } from "./renderer";
-import { getData } from "./repository/getPage";
 
 export const generateStatic = async (source: Source, options: BuildOption): Promise<RenderedStaticPage[]> => {
   return render(source, options);

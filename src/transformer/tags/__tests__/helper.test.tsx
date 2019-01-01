@@ -78,4 +78,11 @@ describe("Link Element", () => {
     expect(rewriteUrl("target-file", currentUri("/test/a/b/c"), basePath("/test"))).toBe("/test/a/b/target-file");
     expect(rewriteUrl("target-file", currentUri("/test/a/b/c/"), basePath("/test"))).toBe("/test/a/b/target-file");
   });
+
+  test("index path", () => {
+    expect(rewriteUrl("index", currentUri("/"), basePath("/"))).toBe("/");
+    expect(rewriteUrl("./index", currentUri("/"), basePath("/"))).toBe("/");
+    expect(rewriteUrl("index", currentUri("/a"), basePath("/"))).toBe("/");
+    expect(rewriteUrl("./index", currentUri("/a"), basePath("/"))).toBe("/");
+  });
 });
