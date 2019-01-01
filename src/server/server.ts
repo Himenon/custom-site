@@ -30,13 +30,14 @@ export const redirectToLocalFile = (filePath: string, res: http.ServerResponse):
  * GenerateしたPageのkeyにマッチするようなパスに変換
  */
 export const getRedirectPagePath = (pathname: string, option: DevelopOption): string => {
+  const calcPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, pathname.length - 1) : pathname;
   if (option.serverBasePath === "/") {
-    return pathname === "/" ? "/index" : pathname;
+    return calcPath === "/" ? "/index" : calcPath;
   }
-  if (pathname === "/" || pathname === option.serverBasePath) {
-    return path.join(pathname, "index");
+  if (calcPath === "/" || calcPath === option.serverBasePath) {
+    return path.join(calcPath, "index");
   }
-  return pathname;
+  return calcPath;
 };
 
 /**

@@ -1,3 +1,30 @@
+#### 0.0.5 (2019-01-01)
+
+##### New Features
+
+* **build:**
+  *  fix /index ([74123238](https://github.com/Himenon/rocu/commit/7412323891f7be9846c45a1e236cc903ea131238))
+  *  export base path directory ([11405afd](https://github.com/Himenon/rocu/commit/11405afdd3979dd21cbd5ec4a8508271ee447f92))
+  *  copyするファイルのblacklist機能を追加 ([68c04405](https://github.com/Himenon/rocu/commit/68c04405050e022be5cf455a03c8483b5881adeb))
+* **assets:**  searchable local asset file ([364c63de](https://github.com/Himenon/rocu/commit/364c63ded3456c1d606455d43715cc9d15f4e39b))
+* **path:**
+  *  links depend on file structure ([0185891e](https://github.com/Himenon/rocu/commit/0185891e321f99006aa845e6a39e92f36aad9438))
+  *  calc relative path ([028cd349](https://github.com/Himenon/rocu/commit/028cd34933c56aa4d1eb2d3bd09ea3d9a992f9aa))
+  *  calc relative path ([9df959f3](https://github.com/Himenon/rocu/commit/9df959f36dee773d402385c8546cf91e5fd90d07))
+* **link:**  relative path auto generate ([0bf89a79](https://github.com/Himenon/rocu/commit/0bf89a794070bf15c4b886b6804b749ced6bfe25))
+
+##### Bug Fixes
+
+* **chore:**  remove debug log, skip suffix http or https ([f5e331f5](https://github.com/Himenon/rocu/commit/f5e331f55b74b0a00c71b81f8b6c2f8627563761))
+* **mime:**  fix mime type error ([b5fb3883](https://github.com/Himenon/rocu/commit/b5fb3883b8dde1f0795135d61cab88829562f04c))
+
+##### Refactors
+
+* **path:**  update path calculate and docs ([76ae9844](https://github.com/Himenon/rocu/commit/76ae9844efbec543ca8755451d401ba275a5b007))
+* **normalize:**  remove tags reference normalizer ([1f3c6c12](https://github.com/Himenon/rocu/commit/1f3c6c12cd2c1455c5df163761b896ee65a314a2))
+* **code:**  remove log and fix back link ([f3bb6dce](https://github.com/Himenon/rocu/commit/f3bb6dceb4a5ab8e57f984e6161dee19cdd4e1a7))
+* **cli:**  cliの引数のリファクタリング ([27c46822](https://github.com/Himenon/rocu/commit/27c468229fbc0b031de9e4bd851f40e4ff80cda4))
+
 #### 0.0.4 (2018-12-29)
 
 ##### Chores
