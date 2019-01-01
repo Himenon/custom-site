@@ -6,8 +6,10 @@ declare module "@rocu/development" {
 
 declare module "@rocu/cli" {
   import { FileWatchFlag } from "@rocu/development";
+  import { HtmlMetaProperties } from "@rocu/page";
   export interface CommonOption {
     source: string;
+    global: HtmlMetaProperties;
     destination?: string;
     serverBasePath: string;
     blacklist: {

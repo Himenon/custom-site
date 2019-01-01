@@ -3,6 +3,7 @@ import * as dot from "dot-prop";
 import * as meow from "meow";
 import * as path from "path";
 import * as readPkgUp from "read-pkg-up";
+import { getDefaultConfig } from "./helpers";
 
 export const flags: meow.Options["flags"] = {
   dev: {
@@ -55,9 +56,11 @@ export const parser = (cli: meow.Result): Options => {
    * package.jsonの"rocu"に記述されたパラメータを読み取る
    */
   const pkg = readPkgUp.sync({ cwd: source }) || {};
+  const defaultConfig = getDefaultConfig(source);
 
   const commonOption: CommonOption = {
     source,
+    global: defaultConfig.global || {},
     destination: inputFlags.outDir ? path.join(process.cwd(), inputFlags.outDir) : undefined,
     serverBasePath: getServerBasePath(inputFlags.basePath),
     blacklist: {
@@ -72,10 +75,11 @@ export const parser = (cli: meow.Result): Options => {
         ...commonOption,
         ...dot.get(pkg, "pkg.rocu"),
       },
+      ...defaultConfig.develop,
     };
   } else {
     return {
-      build: { ...commonOption, ...dot.get(pkg, "pkg.rocu") },
+      build: { ...commonOption, ...dot.get(pkg, "pkg.rocu"), ...defaultConfig.build },
     };
   }
 };

@@ -5,31 +5,7 @@ import * as path from "path";
 import { CommonOption, DevelopOption } from "@rocu/cli";
 import { HtmlMetaProperties, LinkHTMLAttributes, PageElement, ScriptHTMLAttributes, Source } from "@rocu/page";
 import * as recursive from "recursive-readdir";
-
-/**
- * TODO load parameters from local setting file.
- */
-const defaultMetaData: HtmlMetaProperties = {
-  lang: "en",
-};
-
-const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
-
-const getDefaultSetting = (dirname: string, options: DevelopOption, filename: string = "rocu.json"): HtmlMetaProperties => {
-  let globalSetting: undefined | HtmlMetaProperties;
-  const filePath = path.join(dirname, filename);
-  // clear cache
-  if (options.watcher && options.watcher.filename === filePath) {
-    globalSetting = undefined;
-  }
-  if (globalSetting) {
-    return globalSetting;
-  }
-  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-    return (globalSetting = loadJsonFile(filePath));
-  }
-  return defaultMetaData;
-};
+import { getDefaultConfig } from "./helpers";
 
 const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath: string): string | ScriptHTMLAttributes => {
   if (typeof attribute === "string") {
@@ -72,7 +48,8 @@ const formatUri = (uri: string, option: CommonOption): string => {
 };
 
 const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageElement> => {
-  const globalSetting = getDefaultSetting(dirname, option);
+  // TODO cache
+  const globalSetting = getDefaultConfig(option.source).global || {};
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
