@@ -31,32 +31,47 @@ const getDefaultSetting = (dirname: string, options: DevelopOption, filename: st
   return defaultMetaData;
 };
 
-const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, option: CommonOption): string | ScriptHTMLAttributes => {
+const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath: string): string | ScriptHTMLAttributes => {
   if (typeof attribute === "string") {
-    return path.join(option.serverBasePath, attribute);
+    return path.join(basePath, attribute);
   }
-  const src = attribute.src ? path.join(option.serverBasePath, attribute.src) : undefined;
+  const src = attribute.src ? path.join(basePath, attribute.src) : undefined;
   return { ...attribute, src };
 };
 
-const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, option: CommonOption): string | LinkHTMLAttributes => {
+const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, basePath: string): string | LinkHTMLAttributes => {
   if (typeof attribute === "string") {
-    return path.join(option.serverBasePath, attribute);
+    return path.join(basePath, attribute);
   }
-  const href = attribute.href ? path.join(option.serverBasePath, attribute.href) : undefined;
+  const href = attribute.href ? path.join(basePath, attribute.href) : undefined;
   return { ...attribute, href };
 };
 
-const rewriteMetaData = (globalSetting: HtmlMetaProperties, localSetting: HtmlMetaProperties, option: CommonOption): HtmlMetaProperties => {
+const rewriteMetaData = (
+  globalSetting: HtmlMetaProperties,
+  localSetting: HtmlMetaProperties,
+  uri: string,
+  option: CommonOption,
+): HtmlMetaProperties => {
   const globalLinks = [...(globalSetting.link ? globalSetting.link : []), ...(globalSetting.css ? globalSetting.css : [])];
   const localLinks = [...(localSetting.link ? localSetting.link : []), ...(localSetting.css ? localSetting.css : [])];
+  const rewriteLocalScripts = localSetting.js ? localSetting.js.map(src => rewriteScriptSource(src, uri)) : localSetting.js;
+  const rewriteLocalLinks = localLinks.map(attribute => rewriteLinkSource(attribute, uri));
+  console.log({
+    uri,
+    beforeLink: localLinks,
+    afterLink: rewriteLocalLinks,
+    beforeScript: localSetting.js,
+    afterScript: rewriteLocalScripts,
+  });
+  console.log("----------");
   return {
     ...globalSetting,
     ...localSetting,
-    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, option)) : globalSetting.js,
-    localScripts: localSetting.js ? localSetting.js.map(js => rewriteScriptSource(js, option)) : localSetting.js,
-    globalLinks: globalLinks.map(link => rewriteLinkSource(link, option)),
-    localLinks: localLinks.map(link => rewriteLinkSource(link, option)),
+    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, option.serverBasePath)) : globalSetting.js,
+    localScripts: rewriteLocalScripts,
+    globalLinks: globalLinks.map(attribute => rewriteLinkSource(attribute, option.serverBasePath)),
+    localLinks: rewriteLocalLinks,
   };
 };
 
@@ -69,12 +84,14 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
+  const fUri = formatUri(uri, option);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting, data, option);
+  console.log(`fUri: ${fUri}`, `dirname: ${path.dirname(fUri)}`);
+  const metaData = rewriteMetaData(globalSetting, data, path.dirname(fUri), option);
   return {
-    uri: formatUri(uri, option),
+    uri: fUri,
     content,
     metaData,
     ext,

@@ -16,7 +16,7 @@ import { makeWebSocketServer } from "./wsServer";
 
 const OBSERVE_FILE_EXTENSION = /\.(js|css|jsx|md|mdx|json)$/;
 
-export const isFileExist = (filePath: string, res: http.ServerResponse): boolean => {
+export const redirectToLocalFile = (filePath: string, res: http.ServerResponse): boolean => {
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
     fs.createReadStream(filePath).pipe(res);
     return true;
@@ -27,7 +27,7 @@ export const isFileExist = (filePath: string, res: http.ServerResponse): boolean
 /**
  * GenerateしたPageのkeyにマッチするようなパスに変換
  */
-export const redirectPagePath = (pathname: string, option: DevelopOption): string => {
+export const getRedirectPagePath = (pathname: string, option: DevelopOption): string => {
   if (option.serverBasePath === "/") {
     return pathname === "/" ? "/index" : pathname;
   }
@@ -40,7 +40,7 @@ export const redirectPagePath = (pathname: string, option: DevelopOption): strin
 /**
  * ローカルディレクトリにあるファイル名を探索できるようなパスに変換
  */
-export const redirectLocalDirectoryPath = (dirname: string, pathname: string, option: DevelopOption): string => {
+export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string, option: DevelopOption): string => {
   if (pathname.startsWith(option.serverBasePath)) {
     return path.join(dirname, pathname.slice(option.serverBasePath.length));
   }
@@ -90,15 +90,15 @@ const start = async (dirname: string, option: DevelopOption) => {
     }
     const filePath = path.join(dirname, pathname);
     // そのまま返せるファイルが有る場合は返す
-    if (isFileExist(filePath, res)) {
+    if (redirectToLocalFile(filePath, res)) {
       return;
     }
     // basepathが存在する場合
-    if (isFileExist(redirectLocalDirectoryPath(dirname, pathname, option), res)) {
+    if (redirectToLocalFile(getRedirectLocalDirectoryPath(dirname, pathname, option), res)) {
       return;
     }
     // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
-    const name = redirectPagePath(pathname, option);
+    const name = getRedirectPagePath(pathname, option);
     // tslint:disable:max-line-length
     const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
     if (renderStaticPage) {
