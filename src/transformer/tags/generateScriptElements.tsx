@@ -1,6 +1,5 @@
 import { HtmlMetaProperties, ScriptHTMLAttributes } from "@rocu/page";
 import * as React from "react";
-import { normalizerSourcePath } from "./normalizer";
 
 export interface DryCheckParameter {
   src: string;
@@ -20,7 +19,6 @@ const getMakeScriptTag = (dryParameter: DryCheckParameter[] = []) => (
   isLocal: boolean,
 ): JSX.Element | undefined => {
   if (typeof attributes === "string") {
-    const normalizedSource1 = normalizerSourcePath(attributes, isLocal);
     if (isIncludes(dryParameter, { src: attributes, isLocal })) {
       return;
     } else {
@@ -29,21 +27,20 @@ const getMakeScriptTag = (dryParameter: DryCheckParameter[] = []) => (
         isLocal,
       });
     }
-    return <script src={normalizedSource1} key={normalizedSource1} />;
+    return <script src={attributes} key={attributes} />;
   }
   if (!attributes.src) {
     return;
   }
-  const normalizedSource2 = normalizerSourcePath(attributes.src, isLocal);
-  if (isIncludes(dryParameter, { src: normalizedSource2, isLocal })) {
+  if (isIncludes(dryParameter, { src: attributes.src, isLocal })) {
     return;
   } else {
     dryParameter.push({
-      src: normalizedSource2,
+      src: attributes.src,
       isLocal,
     });
   }
-  return <script {...{ ...attributes, src: normalizedSource2 }} key={normalizedSource2} />;
+  return <script {...{ ...attributes, src: attributes.src }} key={attributes.src} />;
 };
 
 export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMetaProperties): JSX.Element[] => {

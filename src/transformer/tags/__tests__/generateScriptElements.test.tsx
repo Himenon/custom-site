@@ -1,5 +1,4 @@
 jest.unmock("../generateScriptElements");
-jest.unmock("../normalizer");
 import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";

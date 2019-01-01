@@ -1,5 +1,4 @@
 jest.unmock("../generateLinkElements.tsx");
-jest.unmock("../normalizer");
 import { HtmlMetaProperties } from "@rocu/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
@@ -29,7 +28,7 @@ describe("Link Element", () => {
     });
     // tslint:disable max-line-length
     expect(domString).toBe(
-      '<head><link href="/a.css"/><link href="./a/b/c.css" rel="stylesheet"/><link href="./a/b/d.css"/><link href="./a/b/c.css" rel="stylesheet"/></head>',
+      '<head><link href="/a.css"/><link href="a.css"/><link href="./a/b/c.css" rel="stylesheet"/><link href="./a/b/d.css"/><link href="a/b/c.css" rel="stylesheet"/></head>',
     );
   });
 
