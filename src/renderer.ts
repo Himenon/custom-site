@@ -1,7 +1,8 @@
 import { CommonOption } from "@rocu/cli";
-import { ExternalTemplate, PageElement, RenderedStaticPage, Source } from "@rocu/page";
+import { ExternalTemplate, PageElement, PageProps, RenderedStaticPage, SiteProps, Source } from "@rocu/page";
 import * as path from "path";
 import { createTemplate } from "./createTemplate";
+import { generateArticleProps, generateSiteProps } from "./generateProps";
 import { loadExternalFunction } from "./importer";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
@@ -23,15 +24,19 @@ const getExternalTemplate = (option: CommonOption): ExternalTemplate | undefined
 /**
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
-const renderPage = (option: CommonOption) => (page: PageElement): RenderedStaticPage => {
+const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
   const createBodyContent = transformRawStringToHtml({
     customComponents: getCustomComponents(page, option),
     props: {},
   });
+  const pageProps: PageProps = {
+    site: siteProps,
+    article: generateArticleProps(page),
+  };
   // TODO この位置にあるとパフォーマンスが悪い
   const externalTemplate = getExternalTemplate(option);
   const template = createTemplate({
-    pageProps: {},
+    pageProps,
     applyLayout: externalTemplate && externalTemplate.bodyTemplate,
   });
   const bodyContent = createBodyContent(page.content);
@@ -46,8 +51,9 @@ const renderPage = (option: CommonOption) => (page: PageElement): RenderedStatic
   };
 };
 
-const render = async ({ pages = [] }: Source, option: CommonOption): Promise<RenderedStaticPage[]> => {
-  return pages.map(renderPage(option));
+const render = async (source: Source, option: CommonOption): Promise<RenderedStaticPage[]> => {
+  const siteProps = generateSiteProps(option);
+  return source.pages.map(renderPage(siteProps, option));
 };
 
 export { render };

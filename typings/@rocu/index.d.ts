@@ -36,12 +36,6 @@ declare module "@rocu/cli" {
   }
 }
 
-declare module "@rocu/component" {
-  export type ElementNames = keyof JSX.IntrinsicElements;
-  export type Component = {};
-  export type Option = {};
-}
-
 declare module "@rocu/page" {
   export interface TwitterMeta {
     "twitter:card"?: "summary" | "summary_large_image";
@@ -104,7 +98,28 @@ declare module "@rocu/page" {
     applyLayout?: makeTemplateFunc;
   }
 
-  export interface PageProps {}
+  export interface SiteProps {
+    title: string;
+    description: string;
+    url: {
+      relativePath: string;
+      absolutePath: string;
+    };
+  }
+
+  export interface ArticleProps {
+    title: string;
+    description: string;
+    url: {
+      relativePath: string;
+      absolutePath: string;
+    };
+  }
+
+  export interface PageProps {
+    site: SiteProps;
+    article: ArticleProps;
+  }
 
   export interface PageElement {
     uri: string;

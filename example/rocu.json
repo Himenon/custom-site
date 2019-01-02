@@ -1,6 +1,7 @@
 {
   "global": {
     "lang": "ja",
+    "title": "example site",
     "keywords": "static site generator,NodeJS,React",
     "copyright": "@Himenon",
     "viewport": {

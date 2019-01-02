@@ -1,3 +1,15 @@
+#### 0.0.8 (2019-01-02)
+
+##### New Features
+
+* **custom-template-params:**  add page props ([6ffa18bd](https://github.com/Himenon/rocu/commit/6ffa18bd9609f3dfbf157f4afbc551620b8b1315))
+
+##### Bug Fixes
+
+* **bags:**  fix some bags ([394a412d](https://github.com/Himenon/rocu/commit/394a412dce5dd6194c8c72d369201f28054fe757))
+* **typing:**  export typing files ([971c9238](https://github.com/Himenon/rocu/commit/971c9238888c571c9b832fcd4419fb7325858745))
+* **path:**  skip add base path when path started http:// or https:// ([3dece6dc](https://github.com/Himenon/rocu/commit/3dece6dc96eef3287cb570048fe076890ff2bc48))
+
 #### 0.0.7 (2019-01-02)
 
 ##### New Features

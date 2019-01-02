@@ -9,7 +9,7 @@ import * as path from "path";
  */
 export const rewriteUrl = (uri: string, page: PageElement, option: CommonOption): string => {
   let calcUri: string = uri;
-  if (uri.match(/^https?\:\/\//)) {
+  if (uri.match(/^https?\:\/\/|^\/\//) !== null) {
     return uri;
   }
   if (uri.endsWith("index")) {
