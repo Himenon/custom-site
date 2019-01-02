@@ -1,3 +1,12 @@
+#### 0.0.7 (2019-01-02)
+
+##### New Features
+
+* **template:**
+  *  add custom template system ([2e1fcfae](https://github.com/Himenon/rocu/commit/2e1fcfaec13e6e44224c025ed342c249bdfc37d6))
+  *  add custom template system ([05fa4e50](https://github.com/Himenon/rocu/commit/05fa4e5065892f181d06e04bc8f03a2629633fbe))
+* **config:**  load config from json file ([44f5fe27](https://github.com/Himenon/rocu/commit/44f5fe27d29a27072d0e1b07be8a11986affee44))
+
 #### 0.0.6 (2019-01-01)
 
 ##### Bug Fixes
