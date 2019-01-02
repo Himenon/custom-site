@@ -15,6 +15,7 @@ declare module "@rocu/cli" {
     blacklist: {
       extensions: string[];
     };
+    layoutFile?: string;
   }
   /**
    * optionalのみの追加を認める
@@ -92,9 +93,15 @@ declare module "@rocu/page" {
     };
   }
 
+  export type makeTemplateFunc = (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;
+
+  export interface ExternalTemplate {
+    bodyTemplate: makeTemplateFunc;
+  }
+
   export interface TemplateProps {
     pageProps: PageProps;
-    applyLayout?: (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;
+    applyLayout?: makeTemplateFunc;
   }
 
   export interface PageProps {}
