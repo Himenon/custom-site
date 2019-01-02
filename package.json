@@ -1,7 +1,7 @@
 {
   "name": "rocu",
   "version": "0.0.7",
-  "description": "Frontend Performance Tool",
+  "description": "Static Site Generator",
   "keywords": [
     "template",
     "typescript"
