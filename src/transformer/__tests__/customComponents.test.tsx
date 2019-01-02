@@ -18,6 +18,6 @@ describe("Custom Component Test", () => {
 
     const component = converter("[link](/a/b/c)");
     const result = ReactDOM.renderToStaticMarkup(component);
-    expect(result).toBe('<body><div><p><a href="/basepath/a/b/c">link</a></p></div></body>');
+    expect(result).toBe('<div><p><a href="/basepath/a/b/c">link</a></p></div>');
   });
 });

@@ -1,21 +1,23 @@
 {
-  "lang": "en",
-  "keywords": "static site generator,NodeJS,React",
-  "copyright": "@Himenon",
-  "viewport": {
-    "initial-scale": 1.0,
-    "minimum-scale": 0.5,
-    "user-scalable": "no"
+  "global": {
+    "lang": "ja",
+    "keywords": "static site generator,NodeJS,React",
+    "copyright": "@Himenon",
+    "viewport": {
+      "initial-scale": 1.0,
+      "minimum-scale": 0.5,
+      "user-scalable": "no"
+    },
+    "js": [
+      "/assets/main.js"
+    ],
+    "css": [
+      "/assets/main.css"
+    ]
   },
-  "js": [
-    "/assets/main.js"
-  ],
-  "css": [
-    "/assets/main.css"
-  ],
   "build": {
     "blacklist": {
-      "extensions": [".html"]
+      "extensions": [".html", ".json"]
     }
   }
 }

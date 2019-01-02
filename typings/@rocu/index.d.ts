@@ -6,13 +6,16 @@ declare module "@rocu/development" {
 
 declare module "@rocu/cli" {
   import { FileWatchFlag } from "@rocu/development";
+  import { HtmlMetaProperties } from "@rocu/page";
   export interface CommonOption {
     source: string;
+    global: HtmlMetaProperties;
     destination?: string;
     serverBasePath: string;
     blacklist: {
       extensions: string[];
     };
+    layoutFile?: string;
   }
   /**
    * optionalのみの追加を認める
@@ -90,6 +93,19 @@ declare module "@rocu/page" {
     };
   }
 
+  export type makeTemplateFunc = (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;
+
+  export interface ExternalTemplate {
+    bodyTemplate: makeTemplateFunc;
+  }
+
+  export interface TemplateProps {
+    pageProps: PageProps;
+    applyLayout?: makeTemplateFunc;
+  }
+
+  export interface PageProps {}
+
   export interface PageElement {
     uri: string;
     content: string;
@@ -98,7 +114,6 @@ declare module "@rocu/page" {
     filename: string;
     name: string;
     raw: string;
-    layoutJSX?: string;
   }
 
   export interface RenderedStaticPage {
