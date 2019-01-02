@@ -6,5 +6,4 @@ export { server } from "./server";
  */
 export * from "@rocu/cli";
 export * from "@rocu/development";
-export * from "@rocu/component";
 export * from "@rocu/page";

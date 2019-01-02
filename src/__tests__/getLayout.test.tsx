@@ -5,6 +5,24 @@ import * as ReactDOM from "react-dom/server";
 import { createTemplate } from "../createTemplate";
 
 describe("rendering test", () => {
+  const pageProps: PageProps = {
+    site: {
+      title: "",
+      description: "",
+      url: {
+        relativePath: "",
+        absolutePath: "",
+      },
+    },
+    article: {
+      title: "",
+      description: "",
+      url: {
+        relativePath: "",
+        absolutePath: "",
+      },
+    },
+  };
   test("Component", () => {
     // tslint:disable-next-line:variable-name
     const Component = class extends React.Component<{ name: string }, {}> {
@@ -17,7 +35,7 @@ describe("rendering test", () => {
   });
 
   test("createTemplate", () => {
-    const wrapper = createTemplate();
+    const wrapper = createTemplate({ pageProps });
     const element = wrapper(<div>{"hello"}</div>);
     const result = ReactDOM.renderToStaticMarkup(element);
     expect(result).toBe("<body><div>hello</div></body>");
@@ -32,7 +50,7 @@ describe("rendering test", () => {
       );
     };
     const wrapper = createTemplate({
-      pageProps: {},
+      pageProps,
       applyLayout,
     });
     const element = wrapper(<div>{"hello"}</div>);

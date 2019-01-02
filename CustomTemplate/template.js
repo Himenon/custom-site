@@ -1,4 +1,6 @@
 "use strict";
+// tslint:disable-next-line:no-reference
+/// <reference path="../typings/@rocu/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const wrappedContent = (content) => {
@@ -6,5 +8,7 @@ const wrappedContent = (content) => {
 };
 exports.bodyTemplate = (props) => (content) => {
     const newContent = wrappedContent(content);
-    return React.createElement("body", { id: "custom-template" }, newContent);
+    return (React.createElement("body", { id: "custom-template" },
+        React.createElement("h1", null, props.site.title),
+        newContent));
 };
