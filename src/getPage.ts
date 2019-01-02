@@ -7,7 +7,7 @@ import { HtmlMetaProperties, LinkHTMLAttributes, PageElement, ScriptHTMLAttribut
 import * as recursive from "recursive-readdir";
 import { getDefaultConfig } from "./helpers";
 
-const isStartWithHttp = (url: string): boolean => !!url.match(/^https?\:\/\//);
+export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
 
 const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath: string): string | ScriptHTMLAttributes => {
   if (typeof attribute === "string") {

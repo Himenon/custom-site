@@ -18,6 +18,7 @@
   "author": "Himenon",
   "files": [
     "lib",
+    "typings",
     "package.json"
   ],
   "main": "lib/index.js",

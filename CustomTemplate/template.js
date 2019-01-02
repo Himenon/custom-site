@@ -10,5 +10,6 @@ exports.bodyTemplate = (props) => (content) => {
     const newContent = wrappedContent(content);
     return (React.createElement("body", { id: "custom-template" },
         React.createElement("h1", null, props.site.title),
+        React.createElement("pre", null, JSON.stringify(props, null, 2)),
         newContent));
 };

@@ -13,6 +13,7 @@ export const bodyTemplate = (props: PageProps) => (content?: React.ReactNode): R
   return (
     <body id="custom-template">
       <h1>{props.site.title}</h1>
+      <pre>{JSON.stringify(props, null, 2)}</pre>
       {newContent}
     </body>
   );
