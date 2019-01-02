@@ -7,19 +7,21 @@ import { HtmlMetaProperties, LinkHTMLAttributes, PageElement, ScriptHTMLAttribut
 import * as recursive from "recursive-readdir";
 import { getDefaultConfig } from "./helpers";
 
+export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
+
 const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath: string): string | ScriptHTMLAttributes => {
   if (typeof attribute === "string") {
-    return path.join(basePath, attribute);
+    return isStartWithHttp(attribute) ? attribute : path.join(basePath, attribute);
   }
-  const src = attribute.src ? path.join(basePath, attribute.src) : undefined;
+  const src = attribute.src ? (isStartWithHttp(attribute.src) ? attribute.src : path.join(basePath, attribute.src)) : undefined;
   return { ...attribute, src };
 };
 
 const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, basePath: string): string | LinkHTMLAttributes => {
   if (typeof attribute === "string") {
-    return path.join(basePath, attribute);
+    return isStartWithHttp(attribute) ? attribute : path.join(basePath, attribute);
   }
-  const href = attribute.href ? path.join(basePath, attribute.href) : undefined;
+  const href = attribute.href ? (isStartWithHttp(attribute.href) ? attribute.href : path.join(basePath, attribute.href)) : undefined;
   return { ...attribute, href };
 };
 

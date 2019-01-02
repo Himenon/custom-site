@@ -12,6 +12,7 @@ import { RenderedStaticPage } from "@rocu/page";
 import { lookup } from "mime-types";
 import { generateStatic } from "../generator";
 import { getData } from "../getPage";
+import { getDefaultConfig } from "../helpers";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -69,6 +70,11 @@ const start = async (dirname: string, option: DevelopOption) => {
   const update = async (updateParams: { filename: string }) => {
     if (!socket) {
       return;
+    }
+    // TODO Side Effectを解消する
+    if (path.join(dirname, "rocu.json") === updateParams.filename) {
+      const updateConfig = getDefaultConfig(dirname);
+      option = { ...option, ...updateConfig };
     }
     const updatedSource = await getData(dirname, { ...option, watcher: updateParams });
     generatedPages = await generateStatic(updatedSource, option);
