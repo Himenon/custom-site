@@ -116,7 +116,7 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.1.6",
+    "typescript": "^3.2.2",
     "yarn-outdated-notifier": "^1.0.0"
   }
 }

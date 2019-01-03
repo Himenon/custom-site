@@ -16,6 +16,7 @@ declare module "@rocu/cli" {
       extensions: string[];
     };
     layoutFile?: string;
+    customComponentFile?: string;
   }
   /**
    * optionalのみの追加を認める
