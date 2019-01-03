@@ -1,6 +1,6 @@
 jest.unmock("../helpers");
-import { CommonOption } from "@rocu/cli";
-import { PageElement } from "@rocu/page";
+import { CommonOption } from "@custom-site/cli";
+import { PageElement } from "@custom-site/page";
 
 import { rewriteUrl } from "../helpers";
 
@@ -16,6 +16,7 @@ describe("Link Element", () => {
   });
   const basePath = (serverBasePath: string): CommonOption => ({
     source: "",
+    global: {},
     serverBasePath,
     blacklist: {
       extensions: [],

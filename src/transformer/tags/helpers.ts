@@ -1,5 +1,5 @@
-import { CommonOption } from "@rocu/cli";
-import { PageElement } from "@rocu/page";
+import { CommonOption } from "@custom-site/cli";
+import { PageElement } from "@custom-site/page";
 import * as path from "path";
 
 /**

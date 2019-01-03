@@ -1,4 +1,4 @@
-import { CommonOption, Options } from "@rocu/cli";
+import { CommonOption, Options } from "@custom-site/cli";
 import * as dot from "dot-prop";
 import * as meow from "meow";
 import * as path from "path";
@@ -61,7 +61,7 @@ export const parser = (cli: meow.Result): Options => {
   const [source = process.cwd()] = cli.input;
   const inputFlags: InputFlags = cli.flags;
   /**
-   * package.jsonの"rocu"に記述されたパラメータを読み取る
+   * package.jsonの"custom-site"に記述されたパラメータを読み取る
    */
   const pkg = readPkgUp.sync({ cwd: source }) || {};
   const defaultConfig = getDefaultConfig(source);
@@ -83,13 +83,13 @@ export const parser = (cli: meow.Result): Options => {
       develop: {
         open: true,
         ...commonOption,
-        ...dot.get(pkg, "pkg.rocu"),
+        ...dot.get(pkg, "pkg.custom-site"),
       },
       ...defaultConfig.develop,
     };
   } else {
     return {
-      build: { ...commonOption, ...dot.get(pkg, "pkg.rocu"), ...defaultConfig.build },
+      build: { ...commonOption, ...dot.get(pkg, "pkg.custom-site"), ...defaultConfig.build },
     };
   }
 };

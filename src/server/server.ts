@@ -7,8 +7,8 @@ import * as chokidar from "chokidar";
 import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
-import { DevelopOption } from "@rocu/cli";
-import { RenderedStaticPage } from "@rocu/page";
+import { DevelopOption } from "@custom-site/cli";
+import { RenderedStaticPage } from "@custom-site/page";
 import { lookup } from "mime-types";
 import { generateStatic } from "../generator";
 import { getData } from "../getPage";
@@ -72,7 +72,7 @@ const start = async (dirname: string, option: DevelopOption) => {
       return;
     }
     // TODO Side Effectを解消する
-    if (path.join(dirname, "rocu.json") === updateParams.filename) {
+    if (path.join(dirname, "config.json") === updateParams.filename) {
       const updateConfig = getDefaultConfig(dirname);
       option = { ...option, ...updateConfig };
     }

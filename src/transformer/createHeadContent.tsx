@@ -1,4 +1,4 @@
-import { HtmlMetaProperties } from "@rocu/page";
+import { HtmlMetaProperties } from "@custom-site/page";
 import * as React from "react";
 import { generateLinkElements } from "./tags/generateLinkElements";
 import { generateScriptElements } from "./tags/generateScriptElements";
