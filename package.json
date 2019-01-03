@@ -1,18 +1,18 @@
 {
-  "name": "rocu",
-  "version": "0.0.9",
+  "name": "custom-site",
+  "version": "0.1.0",
   "description": "Static Site Generator",
   "keywords": [
     "template",
     "typescript"
   ],
-  "homepage": "https://github.com/Himenon/rocu#readme",
+  "homepage": "https://github.com/Himenon/custom-site#readme",
   "bugs": {
-    "url": "https://github.com/Himenon/rocu/issues"
+    "url": "https://github.com/Himenon/custom-site/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Himenon/rocu.git"
+    "url": "git+https://github.com/Himenon/custom-site.git"
   },
   "license": "MIT",
   "author": "Himenon",
@@ -24,7 +24,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "bin": {
-    "rocu": "./lib/cli.js"
+    "custom-site": "./lib/cli.js"
   },
   "directories": {
     "lib": "lib"

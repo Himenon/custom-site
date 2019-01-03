@@ -1,10 +1,11 @@
 jest.unmock("../server.ts");
-import { DevelopOption } from "@rocu/cli";
+import { DevelopOption } from "@custom-site/cli";
 import { getRedirectPagePath } from "../server";
 
 describe("routing test", () => {
   const option1: DevelopOption = {
     source: "",
+    global: {},
     serverBasePath: "/",
     blacklist: {
       extensions: [],
@@ -13,6 +14,7 @@ describe("routing test", () => {
 
   const option2: DevelopOption = {
     source: "",
+    global: {},
     serverBasePath: "/test",
     blacklist: {
       extensions: [],

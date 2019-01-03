@@ -1,5 +1,5 @@
-import { CommonOption } from "@rocu/cli";
-import { RenderedStaticPage, Source } from "@rocu/page";
+import { CommonOption } from "@custom-site/cli";
+import { RenderedStaticPage, Source } from "@custom-site/page";
 import { getData } from "./getPage";
 import { notifyLog } from "./logger";
 import { render } from "./renderer";

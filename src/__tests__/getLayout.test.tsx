@@ -1,5 +1,5 @@
 jest.unmock("../createTemplate");
-import { PageProps } from "@rocu/page";
+import { PageProps } from "@custom-site/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { createTemplate } from "../createTemplate";
