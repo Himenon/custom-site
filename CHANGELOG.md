@@ -1,3 +1,17 @@
+#### 0.0.9 (2019-01-03)
+
+##### Chores
+
+* **example:**  add custom component sample ([4aa720a0](https://github.com/Himenon/rocu/commit/4aa720a063695751ad06d15728849948900a4ce6))
+
+##### New Features
+
+* **custom-component:**  add custom component system ([5fbef3ae](https://github.com/Himenon/rocu/commit/5fbef3ae20f7189e1f773e0bd0f36223249da49f))
+
+##### Bug Fixes
+
+* **bags:**  change image url path to absolute path ([6aa2cb77](https://github.com/Himenon/rocu/commit/6aa2cb779afeafc9103497ecf0b1662fab12f1c2))
+
 #### 0.0.8 (2019-01-02)
 
 ##### New Features
