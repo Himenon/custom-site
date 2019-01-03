@@ -6,10 +6,12 @@ import { generateArticleProps, generateSiteProps } from "./generateProps";
 import { loadExternalFunction } from "./importer";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
+import { generateImageElement } from "./transformer/tags/generateImageElement";
 
 const getCustomComponents = (page: PageElement, option: CommonOption) => {
   return {
     a: generateAnchorElement(page, option),
+    img: generateImageElement(page, option),
   };
 };
 
