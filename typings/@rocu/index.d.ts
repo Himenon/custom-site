@@ -16,6 +16,7 @@ declare module "@rocu/cli" {
       extensions: string[];
     };
     layoutFile?: string;
+    customComponentsFile?: string;
   }
   /**
    * optionalのみの追加を認める
@@ -37,6 +38,8 @@ declare module "@rocu/cli" {
 }
 
 declare module "@rocu/page" {
+  import { CustomComponents } from "@mdx-js/tag";
+
   export interface TwitterMeta {
     "twitter:card"?: "summary" | "summary_large_image";
     "twitter:site"?: string;
@@ -91,6 +94,10 @@ declare module "@rocu/page" {
 
   export interface ExternalTemplate {
     bodyTemplate: makeTemplateFunc;
+  }
+
+  export interface ExternalCustomComponent {
+    customComponents: () => CustomComponents;
   }
 
   export interface TemplateProps {

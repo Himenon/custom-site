@@ -1,6 +1,6 @@
 {
   "name": "rocu",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Static Site Generator",
   "keywords": [
     "template",
@@ -37,14 +37,16 @@
     "cli": "node ./lib/cli.js",
     "cli:build": "node ./lib/cli.js example --out-dir out --base-path=/hoge --layout ./CustomTemplate/template.js",
     "commitmsg": "commitlint -e $GIT_PARAMS",
+    "components": "tsc ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
+    "components:watch": "tsc -w ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "cruiser:image": "depcruise  --exclude \"^node_modules\" --output-type dot src/server | dot -T png > docs/dependencygraph.png",
     "develop": "yarn run build --watch",
-    "develop:server": "chmod +x ./lib/cli.js && ./lib/cli.js example -Do --layout ./CustomTemplate/template.js --port 9000 --base-path=/hoge",
+    "develop:server": "chmod +x ./lib/cli.js && ./lib/cli.js example -Do --layout ./CustomTemplate/template.js --components ./CustomComponent/components.js --port 9000 --base-path=/hoge",
     "format": "prettier --config .prettierrc --write src/*.{ts,tsx}",
+    "layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
+    "layout:watch": "tsc -w ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "yarn run lint --fix",
-    "make:layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "make:layout:watch": "tsc -w ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "prettier": "prettier --config .prettierrc --write src/*.{ts,tsx}",
     "start": "run-p *:watch",
     "test": "yarn run test:cruiser && yarn run test:jest",
@@ -116,7 +118,7 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.1.6",
+    "typescript": "^3.2.2",
     "yarn-outdated-notifier": "^1.0.0"
   }
 }
