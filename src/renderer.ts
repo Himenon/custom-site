@@ -1,6 +1,6 @@
 import { CustomComponents } from "@mdx-js/tag";
 import { CommonOption } from "@rocu/cli";
-import { ExternalTemplate, PageElement, PageProps, RenderedStaticPage, SiteProps, Source } from "@rocu/page";
+import { ExternalCustomComponent, ExternalTemplate, PageElement, PageProps, RenderedStaticPage, SiteProps, Source } from "@rocu/page";
 import * as path from "path";
 import { createTemplate } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";
@@ -24,12 +24,12 @@ const getExternalTemplate = (option: CommonOption): ExternalTemplate | undefined
   return loadExternalFunction<ExternalTemplate>(filename);
 };
 
-const getExternalCustomComponents = (option: CommonOption): CustomComponents | undefined => {
-  const filename = option.customComponentFile;
+const getExternalCustomComponents = (option: CommonOption): ExternalCustomComponent | undefined => {
+  const filename = option.customComponentsFile;
   if (!filename) {
     return;
   }
-  return loadExternalFunction<CustomComponents>(filename);
+  return loadExternalFunction<ExternalCustomComponent>(filename);
 };
 
 /**
@@ -38,7 +38,10 @@ const getExternalCustomComponents = (option: CommonOption): CustomComponents | u
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
   const externalCustomComponents = getExternalCustomComponents(option);
   const createBodyContent = transformRawStringToHtml({
-    customComponents: { ...getCustomComponents(page, option), ...externalCustomComponents },
+    customComponents: {
+      ...getCustomComponents(page, option),
+      ...(externalCustomComponents && externalCustomComponents.customComponents()),
+    },
     props: {},
   });
   const pageProps: PageProps = {

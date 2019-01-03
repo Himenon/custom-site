@@ -57,7 +57,7 @@ const start = async (dirname: string, option: DevelopOption) => {
   let socket: WebSocket;
   let generatedPages = await generateStatic(initialSource, option);
 
-  const watchFiles: string[] = [dirname, option.layoutFile || "", option.customComponentFile || ""];
+  const watchFiles: string[] = [dirname, option.layoutFile || "", option.customComponentsFile || ""];
 
   const watcher: chokidar.FSWatcher = chokidar.watch(watchFiles, {
     ignoreInitial: true,

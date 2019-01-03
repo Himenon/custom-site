@@ -28,7 +28,7 @@ export const flags: meow.Options["flags"] = {
   layout: {
     type: "string",
   },
-  component: {
+  components: {
     type: "string",
   },
 };
@@ -40,7 +40,7 @@ export interface InputFlags {
   port?: string;
   basePath?: string;
   layout?: string;
-  component?: string;
+  components?: string;
 }
 
 export const getServerBasePath = (text: string | undefined): string => {
@@ -75,7 +75,7 @@ export const parser = (cli: meow.Result): Options => {
       extensions: [".mdx"],
     },
     layoutFile: inputFlags.layout,
-    customComponentFile: inputFlags.component,
+    customComponentsFile: inputFlags.components,
   };
 
   if (inputFlags.dev) {
