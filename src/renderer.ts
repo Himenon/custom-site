@@ -1,4 +1,3 @@
-import { CustomComponents } from "@mdx-js/tag";
 import { CommonOption } from "@custom-site/cli";
 import {
   ExternalCustomComponent,
@@ -9,6 +8,7 @@ import {
   SiteProps,
   Source,
 } from "@custom-site/page";
+import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
 import { createTemplate } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";
