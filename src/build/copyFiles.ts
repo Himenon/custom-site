@@ -1,4 +1,4 @@
-import { BuildOption } from "@rocu/cli";
+import { BuildOption } from "@custom-site/cli";
 import * as fsExtra from "fs-extra";
 import * as path from "path";
 

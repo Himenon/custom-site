@@ -1,6 +1,14 @@
+import { CommonOption } from "@custom-site/cli";
+import {
+  ExternalCustomComponent,
+  ExternalTemplate,
+  PageElement,
+  PageProps,
+  RenderedStaticPage,
+  SiteProps,
+  Source,
+} from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
-import { CommonOption } from "@rocu/cli";
-import { ExternalCustomComponent, ExternalTemplate, PageElement, PageProps, RenderedStaticPage, SiteProps, Source } from "@rocu/page";
 import * as path from "path";
 import { createTemplate } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";

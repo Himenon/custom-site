@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { BuildOption } from "@rocu/cli";
-import { RenderedStaticPage } from "@rocu/page";
+import { BuildOption } from "@custom-site/cli";
+import { RenderedStaticPage } from "@custom-site/page";
 
 const exportPages = async (pages: RenderedStaticPage[], option: BuildOption): Promise<void> => {
   const dest = option.destination;

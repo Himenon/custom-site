@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-reference
-/// <reference path="../typings/@rocu/index.d.ts"/>
+/// <reference path="../typings/@custom-site/index.d.ts"/>
 
-import { PageProps } from "@rocu/page";
+import { PageProps } from "@custom-site/page";
 import * as React from "react";
 
 const wrappedContent = (content?: React.ReactNode): React.ReactElement<any> => {

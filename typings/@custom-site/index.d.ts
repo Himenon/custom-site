@@ -1,12 +1,12 @@
-declare module "@rocu/development" {
+declare module "@custom-site/development" {
   export interface FileWatchFlag {
     filename: string;
   }
 }
 
-declare module "@rocu/cli" {
-  import { FileWatchFlag } from "@rocu/development";
-  import { HtmlMetaProperties } from "@rocu/page";
+declare module "@custom-site/cli" {
+  import { FileWatchFlag } from "@custom-site/development";
+  import { HtmlMetaProperties } from "@custom-site/page";
   export interface CommonOption {
     source: string;
     global: HtmlMetaProperties;
@@ -37,7 +37,7 @@ declare module "@rocu/cli" {
   }
 }
 
-declare module "@rocu/page" {
+declare module "@custom-site/page" {
   import { CustomComponents } from "@mdx-js/tag";
 
   export interface TwitterMeta {

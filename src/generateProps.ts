@@ -1,5 +1,5 @@
-import { CommonOption } from "@rocu/cli";
-import { ArticleProps, PageElement, SiteProps } from "@rocu/page";
+import { CommonOption } from "@custom-site/cli";
+import { ArticleProps, PageElement, SiteProps } from "@custom-site/page";
 
 export const generateSiteProps = (option: CommonOption): SiteProps => {
   return {

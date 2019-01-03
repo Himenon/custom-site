@@ -22,7 +22,7 @@ import { flags, parser } from "./parser";
 const cli = meow(
   `
   Usage:
-    $ rocu dirname
+    $ custom-site dirname
 
   Options:
     --out-dir, -d   Output directory
@@ -38,7 +38,7 @@ const cli = meow(
 
 const { develop: developOptions, build: buildOptions } = parser(cli);
 
-notifyLog("rocu");
+notifyLog("custom-site");
 
 const main = async () => {
   if (developOptions) {

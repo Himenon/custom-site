@@ -1,4 +1,4 @@
-import { HtmlMetaProperties, ScriptHTMLAttributes } from "@rocu/page";
+import { HtmlMetaProperties, ScriptHTMLAttributes } from "@custom-site/page";
 import * as React from "react";
 
 export interface DryCheckParameter {

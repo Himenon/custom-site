@@ -6,7 +6,7 @@
     "commitmsg",
     "codecov",
     "webhook",
-    "rocu",
+    "custom-site",
     "promisify",
     "portfinder",
     "prettierrc",

@@ -1,5 +1,5 @@
 jest.unmock("../generateLinkElements.tsx");
-import { HtmlMetaProperties } from "@rocu/page";
+import { HtmlMetaProperties } from "@custom-site/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { generateLinkElements } from "../generateLinkElements";
