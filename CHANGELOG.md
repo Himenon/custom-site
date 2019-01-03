@@ -1,3 +1,9 @@
+#### 0.0.10 (2019-01-03)
+
+##### New Features
+
+* **rename:**  rename package name ([8adb0bd8](https://github.com/Himenon/custom-site/commit/8adb0bd8b9fa5a8ebd9c53824a89b789b1c87feb))
+
 #### 0.0.9 (2019-01-03)
 
 ##### Chores
