@@ -1,3 +1,9 @@
+### 0.1.0 (2019-01-03)
+
+##### Bug Fixes
+
+* **lint:**  yarn run lint:fix ([28d5021b](https://github.com/Himenon/custom-site/commit/28d5021bb7a119370c70b07a9d9e6caedbce7f28))
+
 #### 0.0.10 (2019-01-03)
 
 ##### New Features
