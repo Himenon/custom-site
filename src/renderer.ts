@@ -1,15 +1,18 @@
+import { CustomComponents } from "@mdx-js/tag";
 import { CommonOption } from "@rocu/cli";
-import { ExternalTemplate, PageElement, PageProps, RenderedStaticPage, SiteProps, Source } from "@rocu/page";
+import { ExternalCustomComponent, ExternalTemplate, PageElement, PageProps, RenderedStaticPage, SiteProps, Source } from "@rocu/page";
 import * as path from "path";
 import { createTemplate } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";
 import { loadExternalFunction } from "./importer";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
+import { generateImageElement } from "./transformer/tags/generateImageElement";
 
-const getCustomComponents = (page: PageElement, option: CommonOption) => {
+const getCustomComponents = (page: PageElement, option: CommonOption): CustomComponents => {
   return {
     a: generateAnchorElement(page, option),
+    img: generateImageElement(page, option),
   };
 };
 
@@ -21,12 +24,24 @@ const getExternalTemplate = (option: CommonOption): ExternalTemplate | undefined
   return loadExternalFunction<ExternalTemplate>(filename);
 };
 
+const getExternalCustomComponents = (option: CommonOption): ExternalCustomComponent | undefined => {
+  const filename = option.customComponentsFile;
+  if (!filename) {
+    return;
+  }
+  return loadExternalFunction<ExternalCustomComponent>(filename);
+};
+
 /**
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
+  const externalCustomComponents = getExternalCustomComponents(option);
   const createBodyContent = transformRawStringToHtml({
-    customComponents: getCustomComponents(page, option),
+    customComponents: {
+      ...getCustomComponents(page, option),
+      ...(externalCustomComponents && externalCustomComponents.customComponents()),
+    },
     props: {},
   });
   const pageProps: PageProps = {
