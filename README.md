@@ -1,19 +1,19 @@
-# CustomSite
+# @custom-site/custom-site
 
 Node製の静的サイトジェネレーター(Static Site Generator)です。
 
-[![npm version](https://badgen.net/npm/v/custom-site)](https://npm.im/custom-site)
-[![Build Status](https://travis-ci.org/Himenon/custom-site.svg?branch=develop)](https://travis-ci.org/Himenon/custom-site)
-[![codecov](https://codecov.io/gh/Himenon/custom-site/branch/develop/graph/badge.svg)](https://codecov.io/gh/Himenon/custom-site)
-[![dependencies Status](https://david-dm.org/Himenon/custom-site/status.svg)](https://david-dm.org/Himenon/custom-site)
-[![devDependencies Status](https://david-dm.org/Himenon/custom-site/dev-status.svg)](https://david-dm.org/Himenon/custom-site?type=dev)
+[![npm version](https://badgen.net/npm/v/@custom-site/custom-site)](https://npm.im/@custom-site/custom-site)
+[![Build Status](https://travis-ci.com/custom-site/custom-site.svg?branch=develop)](https://travis-ci.com/custom-site/custom-site)
+[![codecov](https://codecov.io/gh/custom-site/custom-site/branch/develop/graph/badge.svg)](https://codecov.io/gh/custom-site/custom-site)
+[![dependencies Status](https://david-dm.org/custom-site/custom-site/status.svg)](https://david-dm.org/custom-site/custom-site)
+[![devDependencies Status](https://david-dm.org/custom-site/custom-site/dev-status.svg)](https://david-dm.org/custom-site/custom-site?type=dev)
 
 ## 使い方
 
 ### インストール
 
 ```sh
-npm i -g custom-site
+npm i -g @custom-site/custom-site
 ```
 
 ### すぐに使う

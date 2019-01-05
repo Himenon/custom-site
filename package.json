@@ -1,18 +1,18 @@
 {
-  "name": "custom-site",
-  "version": "0.1.1",
+  "name": "@custom-site/custom-site",
+  "version": "0.1.2",
   "description": "Static Site Generator",
   "keywords": [
     "template",
     "typescript"
   ],
-  "homepage": "https://github.com/Himenon/custom-site#readme",
+  "homepage": "https://github.com/custom-site/custom-site#readme",
   "bugs": {
-    "url": "https://github.com/Himenon/custom-site/issues"
+    "url": "https://github.com/custom-site/custom-site/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Himenon/custom-site.git"
+    "url": "git+https://github.com/custom-site/custom-site.git"
   },
   "license": "MIT",
   "author": "Himenon",
@@ -27,7 +27,8 @@
     "custom-site": "./lib/cli.js"
   },
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "example": "example"
   },
   "scripts": {
     "build": "yarn run clean && tsc -p ./tsconfig.build.json",
@@ -120,5 +121,8 @@
     "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.2.2",
     "yarn-outdated-notifier": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
