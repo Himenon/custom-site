@@ -72,6 +72,12 @@ declare module "@custom-site/page" {
     globalLinks?: Array<string | LinkHTMLAttributes>;
   }
 
+  export interface ThirdParty {
+    googleAnalytics?: {
+      ua?: string;
+    };
+  }
+
   export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
     lang?: string;
     description?: string;
@@ -88,6 +94,7 @@ declare module "@custom-site/page" {
       "user-scalable"?: "no";
       width?: number | "device-width";
     };
+    thirdParty?: ThirdParty;
   }
 
   export type makeTemplateFunc = (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;

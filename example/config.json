@@ -9,6 +9,11 @@
       "minimum-scale": 0.5,
       "user-scalable": "no"
     },
+    "thirdParty": {
+      "googleAnalytics": {
+        "ua": "test"
+      }
+    },
     "js": [
       "/assets/main.js"
     ],

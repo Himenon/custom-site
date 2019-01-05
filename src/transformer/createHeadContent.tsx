@@ -1,5 +1,6 @@
 import { HtmlMetaProperties } from "@custom-site/page";
 import * as React from "react";
+import { generateGoogleAnalyticsElement } from "./tags/generateGoogleAnalyticsElement";
 import { generateLinkElements } from "./tags/generateLinkElements";
 import { generateScriptElements } from "./tags/generateScriptElements";
 
@@ -14,6 +15,7 @@ export const generateViewportMetaElements = ({ viewport }: HtmlMetaProperties): 
 };
 
 export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.ReactElement<any> => {
+  const thirdParty = htmlMetaData.thirdParty;
   return (
     <head lang={htmlMetaData.lang || "en"}>
       <title>{htmlMetaData.title}</title>
@@ -29,6 +31,7 @@ export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.React
       {generateViewportMetaElements(htmlMetaData)}
       {generateScriptElements(htmlMetaData)}
       {generateLinkElements(htmlMetaData)}
+      {thirdParty && thirdParty.googleAnalytics && generateGoogleAnalyticsElement(thirdParty.googleAnalytics)}
     </head>
   );
 };
