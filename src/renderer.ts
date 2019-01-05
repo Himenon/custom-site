@@ -65,7 +65,7 @@ const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageEl
   const bodyContent = createBodyContent(page.content);
   const headContent = createHeadContent(page.metaData);
   return {
-    name: path.join(option.serverBasePath, page.name),
+    name: path.join(option.basePath, page.name),
     originalName: page.name,
     html: combine({
       head: headContent,

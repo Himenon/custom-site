@@ -13,7 +13,12 @@ export interface LoadConfigOption extends Options {
 export const getDefaultConfig = (dirname: string, filename: string = "config.json"): LoadConfigOption => {
   const filePath = path.join(dirname, filename);
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-    return loadJsonFile(filePath);
+    try {
+      return loadJsonFile(filePath);
+    } catch (e) {
+      console.error(`"${filePath}" include some syntax error.`);
+      process.exit(1);
+    }
   }
   return {
     global: {

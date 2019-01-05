@@ -32,10 +32,10 @@ export const redirectToLocalFile = (filePath: string, res: http.ServerResponse):
  */
 export const getRedirectPagePath = (pathname: string, option: DevelopOption): string => {
   const calcPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, pathname.length - 1) : pathname;
-  if (option.serverBasePath === "/") {
+  if (option.basePath === "/") {
     return calcPath === "/" ? "/index" : calcPath;
   }
-  if (calcPath === "/" || calcPath === option.serverBasePath) {
+  if (calcPath === "/" || calcPath === option.basePath) {
     return path.join(calcPath, "index");
   }
   return calcPath;
@@ -45,14 +45,16 @@ export const getRedirectPagePath = (pathname: string, option: DevelopOption): st
  * ローカルディレクトリにあるファイル名を探索できるようなパスに変換
  */
 export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string, option: DevelopOption): string => {
-  if (pathname.startsWith(option.serverBasePath)) {
-    return path.join(dirname, pathname.slice(option.serverBasePath.length));
+  if (pathname.startsWith(option.basePath)) {
+    return path.join(dirname, pathname.slice(option.basePath.length));
   }
   return path.join(dirname, pathname);
 };
 
 const start = async (dirname: string, option: DevelopOption) => {
-  const socketPort: number = await portfinder.getPortPromise();
+  const socketPort: number = await portfinder.getPortPromise({
+    port: option.port - 2,
+  });
   const initialSource = await getData(dirname, option);
   let socket: WebSocket;
   let generatedPages = await generateStatic(initialSource, option);

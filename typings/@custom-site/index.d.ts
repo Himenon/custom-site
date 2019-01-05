@@ -11,7 +11,8 @@ declare module "@custom-site/cli" {
     source: string;
     global: HtmlMetaProperties;
     destination?: string;
-    serverBasePath: string;
+    basePath: string;
+    port: number;
     blacklist: {
       extensions: string[];
     };

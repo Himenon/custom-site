@@ -17,7 +17,7 @@ describe("Link Element", () => {
   const basePath = (serverBasePath: string): CommonOption => ({
     source: "",
     global: {},
-    serverBasePath,
+    basePath: serverBasePath,
     blacklist: {
       extensions: [],
     },
