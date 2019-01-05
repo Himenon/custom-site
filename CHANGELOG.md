@@ -1,3 +1,22 @@
+#### 0.1.1 (2019-01-05)
+
+##### Chores
+
+* **change-log:**  updated CHANGELOG.md ([ad17ca49](https://github.com/Himenon/custom-site/commit/ad17ca49c81e667c18a458954ed1176b4e058ebe))
+
+##### Documentation Changes
+
+* **image:**  update image ([117a2515](https://github.com/Himenon/custom-site/commit/117a25151c064300123719c023548865135f9a15))
+
+##### New Features
+
+* **google-analytics:**  add google analtics option ([19566da7](https://github.com/Himenon/custom-site/commit/19566da7fa622a8aa588bf4ab65aafe4677da9a4))
+
+##### Bug Fixes
+
+* **optoin:**  dev時に設定オプションがconfigから当たらない問題の解決 ([c2076515](https://github.com/Himenon/custom-site/commit/c2076515eadedc699be4dcd0c22bf5ce486f1eb9))
+* **lint:**  yarn run lint:fix ([28d5021b](https://github.com/Himenon/custom-site/commit/28d5021bb7a119370c70b07a9d9e6caedbce7f28))
+
 ### 0.1.0 (2019-01-03)
 
 ##### Bug Fixes

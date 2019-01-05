@@ -6,7 +6,7 @@ export const generateSiteProps = (option: CommonOption): SiteProps => {
     title: option.global.title || "",
     description: option.global.description || "",
     url: {
-      relativePath: option.serverBasePath || "",
+      relativePath: option.basePath || "",
       absolutePath: "",
     },
   };

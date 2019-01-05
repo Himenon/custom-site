@@ -9,6 +9,11 @@
       "minimum-scale": 0.5,
       "user-scalable": "no"
     },
+    "thirdParty": {
+      "googleAnalytics": {
+        "ua": "test"
+      }
+    },
     "js": [
       "/assets/main.js"
     ],
@@ -17,8 +22,17 @@
     ]
   },
   "build": {
+    "basePath": "/hoge",
+    "layoutFile": "./CustomTemplate/template.js",
+    "customComponentsFile": "./CustomComponent/components.js",
     "blacklist": {
       "extensions": [".html", ".json"]
     }
+  },
+  "develop": {
+    "basePath": "/a",
+    "layoutFile": "./CustomTemplate/template.js",
+    "customComponentsFile": "./CustomComponent/components.js",
+    "port": 9000
   }
 }

@@ -65,12 +65,14 @@ export const parser = (cli: meow.Result): Options => {
    */
   const pkg = readPkgUp.sync({ cwd: source }) || {};
   const defaultConfig = getDefaultConfig(source);
+  const port = inputFlags.port !== undefined ? parseInt(inputFlags.port, 10) : 8000;
 
   const commonOption: CommonOption = {
     source,
     global: defaultConfig.global || {},
     destination: inputFlags.outDir ? path.join(process.cwd(), inputFlags.outDir) : undefined,
-    serverBasePath: getServerBasePath(inputFlags.basePath),
+    basePath: getServerBasePath(inputFlags.basePath),
+    port,
     blacklist: {
       extensions: [".mdx"],
     },
@@ -84,8 +86,8 @@ export const parser = (cli: meow.Result): Options => {
         open: true,
         ...commonOption,
         ...dot.get(pkg, "pkg.custom-site"),
+        ...defaultConfig.develop,
       },
-      ...defaultConfig.develop,
     };
   } else {
     return {
