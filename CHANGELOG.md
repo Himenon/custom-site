@@ -1,3 +1,14 @@
+#### 0.1.2 (2019-01-05)
+
+##### Chores
+
+* **npm:**  update personal to organization ([8d9e694a](https://github.com/custom-site/custom-site/commit/8d9e694acf0eab3f0ee9554020d57fd451f4c22f))
+* **transfer:**  transfer repo to orgs, and change settings ([b9e2ea03](https://github.com/custom-site/custom-site/commit/b9e2ea03f119be9b1c374b5582c3108863a0df65))
+
+##### Bug Fixes
+
+* **link:**  update readme link ([90daebeb](https://github.com/custom-site/custom-site/commit/90daebeb01c8f07e0a3639841ca2582095edfc3f))
+
 #### 0.1.1 (2019-01-05)
 
 ##### Chores
