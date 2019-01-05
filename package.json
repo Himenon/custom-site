@@ -6,13 +6,13 @@
     "template",
     "typescript"
   ],
-  "homepage": "https://github.com/Himenon/custom-site#readme",
+  "homepage": "https://github.com/custom-site/custom-site#readme",
   "bugs": {
-    "url": "https://github.com/Himenon/custom-site/issues"
+    "url": "https://github.com/custom-site/custom-site/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Himenon/custom-site.git"
+    "url": "git+https://github.com/custom-site/custom-site.git"
   },
   "license": "MIT",
   "author": "Himenon",
