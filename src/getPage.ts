@@ -38,15 +38,15 @@ const rewriteMetaData = (
   return {
     ...globalSetting,
     ...localSetting,
-    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, option.serverBasePath)) : globalSetting.js,
+    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, option.basePath)) : globalSetting.js,
     localScripts: rewriteLocalScripts,
-    globalLinks: globalLinks.map(attribute => rewriteLinkSource(attribute, option.serverBasePath)),
+    globalLinks: globalLinks.map(attribute => rewriteLinkSource(attribute, option.basePath)),
     localLinks: rewriteLocalLinks,
   };
 };
 
 const formatUri = (uri: string, option: CommonOption): string => {
-  return path.join(option.serverBasePath, uri).replace(/\/index$/, "");
+  return path.join(option.basePath, uri).replace(/\/index$/, "");
 };
 
 const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageElement> => {

@@ -53,7 +53,7 @@ const main = async () => {
       } else {
         const { port } = address;
         notifyLog(`listening on port: ${port}`);
-        url = path.join(`http://localhost:${port}`, developOptions.serverBasePath);
+        url = path.join(`http://localhost:${port}`, developOptions.basePath);
       }
       if (developOptions.open) {
         opn(url);
