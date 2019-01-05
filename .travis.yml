@@ -33,8 +33,7 @@ jobs:
     script:
     - yarn install
     - yarn build
-    - echo '//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
-    - echo '@custom-site:registry=//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
+    - echo "//registry.npmjs.org/:_authToken='${NPM_TOKEN}'" >> .npmrc
     - npm publish
     - cp .npmrc.template .npmrc
     node_js:
