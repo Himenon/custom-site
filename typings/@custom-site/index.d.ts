@@ -4,9 +4,33 @@ declare module "@custom-site/development" {
   }
 }
 
+declare module "@custom-site/plugin" {
+  import { PageElement } from "@custom-site/page";
+
+  export type RewritePage = (page: PageElement) => PageElement;
+
+  export interface ExtendableFunctions {
+    "rewrite-page"?: RewritePage;
+  }
+
+  export interface PluginFormat {
+    name: keyof ExtendableFunctions;
+    resolve: string;
+    options?: {
+      path?: string;
+    };
+  }
+
+  export interface PluginMap {
+    [key: string]: ExtendableFunctions;
+  }
+}
+
 declare module "@custom-site/cli" {
   import { FileWatchFlag } from "@custom-site/development";
   import { HtmlMetaProperties } from "@custom-site/page";
+  import { PluginFormat } from "@custom-site/plugin";
+
   export interface CommonOption {
     source: string;
     global: HtmlMetaProperties;
@@ -18,7 +42,9 @@ declare module "@custom-site/cli" {
     };
     layoutFile?: string;
     customComponentsFile?: string;
+    plugins: Array<PluginFormat>;
   }
+
   /**
    * optionalのみの追加を認める
    */

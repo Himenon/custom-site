@@ -44,17 +44,19 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
+  const plugin = option.plugins;
   const externalCustomComponents = getExternalCustomComponents(option);
+  const rewritePage = plugin.render.rewritePage ? plugin.render.rewritePage(page) : page;
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
-      ...getCustomComponents(page, option),
+      ...getCustomComponents(rewritePage, option),
       ...(externalCustomComponents && externalCustomComponents.customComponents()),
     },
     props: {},
   });
   const pageProps: PageProps = {
     site: siteProps,
-    article: generateArticleProps(page),
+    article: generateArticleProps(rewritePage),
   };
   // TODO この位置にあるとパフォーマンスが悪い
   const externalTemplate = getExternalTemplate(option);
@@ -62,11 +64,11 @@ const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageEl
     pageProps,
     applyLayout: externalTemplate && externalTemplate.bodyTemplate,
   });
-  const bodyContent = createBodyContent(page.content);
-  const headContent = createHeadContent(page.metaData);
+  const bodyContent = createBodyContent(rewritePage.content);
+  const headContent = createHeadContent(rewritePage.metaData);
   return {
-    name: path.join(option.basePath, page.name),
-    originalName: page.name,
+    name: path.join(option.basePath, rewritePage.name),
+    originalName: rewritePage.name,
     html: combine({
       head: headContent,
       body: template(bodyContent),
