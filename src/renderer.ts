@@ -13,10 +13,10 @@ import * as path from "path";
 import { createTemplate } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";
 import { loadExternalFunction } from "./importer";
+import { store as pluginStore } from "./plugin";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
-import * as plugin from "./plugin";
 
 const getCustomComponents = (page: PageElement, option: CommonOption): CustomComponents => {
   return {
@@ -46,7 +46,10 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
  */
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
   const externalCustomComponents = getExternalCustomComponents(option);
-  const rewritePage = plugin.render.rewritePage ? plugin.generatePageProps({ page }) : page;
+  // pluginに対してemit
+  pluginStore.emit("GENERATE_PAGE", { id: "hoge", page });
+  // 結果を取得
+  const rewritePage: PageElement = pluginStore.getState("hoge");
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
       ...getCustomComponents(rewritePage, option),

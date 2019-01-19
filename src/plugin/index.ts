@@ -1,3 +1,3 @@
-import { generatePageProps } from "./render";
+import { makeStore } from "./store";
 
-export { generatePageProps };
+export const store = makeStore({ GENERATE_PAGE: [] });
