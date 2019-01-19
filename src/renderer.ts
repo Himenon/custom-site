@@ -16,6 +16,7 @@ import { loadExternalFunction } from "./importer";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
+import * as plugin from "./plugin";
 
 const getCustomComponents = (page: PageElement, option: CommonOption): CustomComponents => {
   return {
@@ -44,9 +45,8 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
-  const plugin = option.plugins;
   const externalCustomComponents = getExternalCustomComponents(option);
-  const rewritePage = plugin.render.rewritePage ? plugin.render.rewritePage(page) : page;
+  const rewritePage = plugin.render.rewritePage ? plugin.generatePageProps({ page }) : page;
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
       ...getCustomComponents(rewritePage, option),
