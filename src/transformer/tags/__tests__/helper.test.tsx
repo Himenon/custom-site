@@ -18,6 +18,7 @@ describe("Link Element", () => {
     source: "",
     global: {},
     basePath: serverBasePath,
+    port: 9000,
     blacklist: {
       extensions: [],
     },

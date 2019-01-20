@@ -4,7 +4,7 @@ import * as path from "path";
 
 /**
  * @param uri aタグの`href`, imgタグの`src`
- * @param page page.uriはoption.serverBasePathをすでに加算した状態で存在する
+ * @param page `page.uri`は`option.basePath`をすでに加算した状態で存在する
  * @param option 相対パスの算出では利用しない
  */
 export const rewriteUrl = (uri: string, page: PageElement, option: CommonOption): string => {

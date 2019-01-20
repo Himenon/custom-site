@@ -13,6 +13,8 @@ import * as path from "path";
 import { createTemplate } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";
 import { loadExternalFunction } from "./importer";
+import { store as pluginStore } from "./plugin";
+import { store as internalStore } from "./store";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
@@ -45,16 +47,20 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
  */
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
   const externalCustomComponents = getExternalCustomComponents(option);
+  const id = page.uri;
+  pluginStore.emit("GENERATE_PAGE", { id, page });
+  const state = internalStore.getState({ type: "GENERATE_PAGE", id });
+  const rewritePage: PageElement = (state && state.page) || page;
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
-      ...getCustomComponents(page, option),
+      ...getCustomComponents(rewritePage, option),
       ...(externalCustomComponents && externalCustomComponents.customComponents()),
     },
     props: {},
   });
   const pageProps: PageProps = {
     site: siteProps,
-    article: generateArticleProps(page),
+    article: generateArticleProps(rewritePage),
   };
   // TODO この位置にあるとパフォーマンスが悪い
   const externalTemplate = getExternalTemplate(option);
@@ -62,11 +68,11 @@ const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageEl
     pageProps,
     applyLayout: externalTemplate && externalTemplate.bodyTemplate,
   });
-  const bodyContent = createBodyContent(page.content);
-  const headContent = createHeadContent(page.metaData);
+  const bodyContent = createBodyContent(rewritePage.content);
+  const headContent = createHeadContent(rewritePage.metaData);
   return {
-    name: path.join(option.basePath, page.name),
-    originalName: page.name,
+    name: path.join(option.basePath, rewritePage.name),
+    originalName: rewritePage.name,
     html: combine({
       head: headContent,
       body: template(bodyContent),

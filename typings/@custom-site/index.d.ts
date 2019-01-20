@@ -4,6 +4,14 @@ declare module "@custom-site/development" {
   }
 }
 
+declare module "@custom-site/internal" {
+  import { PageElement, OGP } from "@custom-site/page";
+  export interface State {
+    GENERATE_PAGE: { page: PageElement };
+    GENERATE_OGP: { ogp: OGP };
+  }
+}
+
 declare module "@custom-site/cli" {
   import { FileWatchFlag } from "@custom-site/development";
   import { HtmlMetaProperties } from "@custom-site/page";

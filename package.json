@@ -34,7 +34,7 @@
     "build": "yarn run clean && tsc -p ./tsconfig.build.json",
     "build:watch": "yarn run build --watch",
     "ci:notify:release": "ts-node ./scripts/notify.ts",
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./lib ./out",
     "cli": "node ./lib/cli.js",
     "cli:build": "node ./lib/cli.js example --out-dir out",
     "commitmsg": "commitlint -e $GIT_PARAMS",
