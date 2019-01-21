@@ -13,7 +13,7 @@ export const createTemplateComponent = (props: TemplateProps) => {
   };
 };
 
-export const createTemplate = (props: TemplateProps) => (bodyContent: React.ReactElement<any>): React.ReactElement<any> => {
+export const createTemplateHOC = (props: TemplateProps) => (bodyContent: React.ReactElement<any>): React.ReactElement<any> => {
   // tslint:disable-next-line:variable-name
   const Template = createTemplateComponent(props);
   return <Template children={bodyContent} />;

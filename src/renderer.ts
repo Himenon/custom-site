@@ -1,16 +1,8 @@
 import { CommonOption } from "@custom-site/cli";
-import {
-  ExternalCustomComponent,
-  ExternalTemplate,
-  PageElement,
-  PageProps,
-  RenderedStaticPage,
-  SiteProps,
-  Source,
-} from "@custom-site/page";
+import { ExternalCustomComponent, ExternalTemplate, PageElement, RenderedStaticPage, SiteProps, Source } from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
-import { createTemplate } from "./createTemplate";
+import { createTemplateHOC } from "./createTemplate";
 import { generateArticleProps, generateSiteProps } from "./generateProps";
 import { loadExternalFunction } from "./importer";
 import { store as pluginStore } from "./plugin";
@@ -42,45 +34,50 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
   return loadExternalFunction<ExternalCustomComponent>(filename);
 };
 
-/**
- * `option.serverBasePath`が存在する場合は、nameにつけて返す
- */
-const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
+const createTemplate = (site: SiteProps, page: PageElement, option: CommonOption) => {
+  // TODO この位置にあるとパフォーマンスが悪い
+  const externalTemplate = getExternalTemplate(option);
+  return createTemplateHOC({
+    pageProps: {
+      site,
+      article: generateArticleProps(page),
+    },
+    applyLayout: externalTemplate && externalTemplate.bodyTemplate,
+  });
+};
+
+const createHead = (page: PageElement) => {
+  const stateOfGenerateMetaDataId = `GENERATE_META_DATA/${page.uri}`;
+  const stateOfGenerateMetaData = { metaData: page.metaData, id: stateOfGenerateMetaDataId };
+  pluginStore.emit("GENERATE_META_DATA", stateOfGenerateMetaData);
+  const metaData = internalStore.getState({ type: "GENERATE_META_DATA", id: stateOfGenerateMetaDataId }, stateOfGenerateMetaData).metaData;
+  return createHeadContent(metaData);
+};
+
+const createBody = (page: PageElement, option: CommonOption) => {
   const externalCustomComponents = getExternalCustomComponents(option);
-  const id1 = `GENERATE_PAGE/${page.uri}`;
-  const stateOfGeneratePage = { id: id1, page };
-  pluginStore.emit("GENERATE_PAGE", { id: id1, page });
-  const rewritePage: PageElement = internalStore.getState({ type: "GENERATE_PAGE", id: id1 }, stateOfGeneratePage).page;
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
-      ...getCustomComponents(rewritePage, option),
+      ...getCustomComponents(page, option),
       ...(externalCustomComponents && externalCustomComponents.customComponents()),
     },
     props: {},
   });
-  const pageProps: PageProps = {
-    site: siteProps,
-    article: generateArticleProps(rewritePage),
-  };
-  // TODO この位置にあるとパフォーマンスが悪い
-  const externalTemplate = getExternalTemplate(option);
-  const template = createTemplate({
-    pageProps,
-    applyLayout: externalTemplate && externalTemplate.bodyTemplate,
-  });
+  const bodyContent = createBodyContent(page.content);
+  return bodyContent;
+};
 
-  const stateOfGenerateMetaDataId = `GENERATE_META_DATA/${page.uri}`;
-  const stateOfGenerateMetaData = { page: rewritePage, metaData: rewritePage.metaData, id: stateOfGenerateMetaDataId };
-  pluginStore.emit("GENERATE_META_DATA", stateOfGenerateMetaData);
-  const metaData = internalStore.getState({ type: "GENERATE_META_DATA", id: stateOfGenerateMetaDataId }, stateOfGenerateMetaData).metaData;
-  const bodyContent = createBodyContent(rewritePage.content);
-  const headContent = createHeadContent(metaData);
+/**
+ * `option.serverBasePath`が存在する場合は、nameにつけて返す
+ */
+const renderPage = (site: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
+  const applyTemplate = createTemplate(site, page, option);
   return {
-    name: path.join(option.basePath, rewritePage.name),
-    originalName: rewritePage.name,
+    name: path.join(option.basePath, page.name),
+    originalName: page.name,
     html: combine({
-      head: headContent,
-      body: template(bodyContent),
+      head: createHead(page),
+      body: applyTemplate(createBody(page, option)),
     }),
   };
 };

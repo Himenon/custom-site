@@ -7,8 +7,7 @@ declare module "@custom-site/development" {
 declare module "@custom-site/internal" {
   import { PageElement, OGP, HtmlMetaProperties } from "@custom-site/page";
   export interface State {
-    GENERATE_PAGE: { page: PageElement };
-    GENERATE_META_DATA: { page: PageElement; metaData: HtmlMetaProperties };
+    GENERATE_META_DATA: { metaData: HtmlMetaProperties };
   }
 }
 

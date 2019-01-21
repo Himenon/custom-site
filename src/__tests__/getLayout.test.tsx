@@ -2,7 +2,7 @@ jest.unmock("../createTemplate");
 import { PageProps } from "@custom-site/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
-import { createTemplate } from "../createTemplate";
+import { createTemplateHOC } from "../createTemplate";
 
 describe("rendering test", () => {
   const pageProps: PageProps = {
@@ -35,7 +35,7 @@ describe("rendering test", () => {
   });
 
   test("createTemplate", () => {
-    const wrapper = createTemplate({ pageProps });
+    const wrapper = createTemplateHOC({ pageProps });
     const element = wrapper(<div>{"hello"}</div>);
     const result = ReactDOM.renderToStaticMarkup(element);
     expect(result).toBe("<body><div>hello</div></body>");
@@ -49,7 +49,7 @@ describe("rendering test", () => {
         </body>
       );
     };
-    const wrapper = createTemplate({
+    const wrapper = createTemplateHOC({
       pageProps,
       applyLayout,
     });
