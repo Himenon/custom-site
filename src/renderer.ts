@@ -47,10 +47,10 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
  */
 const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
   const externalCustomComponents = getExternalCustomComponents(option);
-  const id = page.uri;
-  pluginStore.emit("GENERATE_PAGE", { id, page });
-  const state = internalStore.getState({ type: "GENERATE_PAGE", id });
-  const rewritePage: PageElement = (state && state.page) || page;
+  const id1 = `GENERATE_PAGE/${page.uri}`;
+  const stateOfGeneratePage = { id: id1, page };
+  pluginStore.emit("GENERATE_PAGE", { id: id1, page });
+  const rewritePage: PageElement = internalStore.getState({ type: "GENERATE_PAGE", id: id1 }, stateOfGeneratePage).page;
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
       ...getCustomComponents(rewritePage, option),
@@ -68,8 +68,13 @@ const renderPage = (siteProps: SiteProps, option: CommonOption) => (page: PageEl
     pageProps,
     applyLayout: externalTemplate && externalTemplate.bodyTemplate,
   });
+
+  const stateOfGenerateMetaDataId = `GENERATE_META_DATA/${page.uri}`;
+  const stateOfGenerateMetaData = { page: rewritePage, metaData: rewritePage.metaData, id: stateOfGenerateMetaDataId };
+  pluginStore.emit("GENERATE_META_DATA", stateOfGenerateMetaData);
+  const metaData = internalStore.getState({ type: "GENERATE_META_DATA", id: stateOfGenerateMetaDataId }, stateOfGenerateMetaData).metaData;
   const bodyContent = createBodyContent(rewritePage.content);
-  const headContent = createHeadContent(rewritePage.metaData);
+  const headContent = createHeadContent(metaData);
   return {
     name: path.join(option.basePath, rewritePage.name),
     originalName: rewritePage.name,

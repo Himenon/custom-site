@@ -12,7 +12,7 @@ export const createStore = (iStore: InternalStore) => {
       ((handlers[event] || (handlers[event] = [])) as Array<CreateHandler<K>>).push(handler);
     },
     emit<K extends keyof EventHandlerMap>(event: K, state: InternalState[K] & { id: string }): void {
-      let newState = iStore.getState({ type: event, id: state.id }) || state;
+      let newState: InternalState[K] = iStore.getState({ type: event, id: state.id }, state);
       ((handlers[event] || (handlers[event] = [])) as Array<CreateHandler<K>>).forEach(handler => {
         newState = handler(newState);
       });

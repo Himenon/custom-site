@@ -45,7 +45,7 @@ const rewriteMetaData = (
   };
 };
 
-const formatUri = (uri: string, option: CommonOption): string => {
+const rewriteUri = (uri: string, option: CommonOption): string => {
   return path.join(option.basePath, uri).replace(/\/index$/, "");
 };
 
@@ -55,13 +55,13 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
-  const fUri = formatUri(uri, option);
+  const rewrittenUri = rewriteUri(uri, option);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting, data, path.dirname(fUri), option);
+  const metaData = rewriteMetaData(globalSetting, data, path.dirname(rewrittenUri), option);
   return {
-    uri: fUri,
+    uri: rewrittenUri,
     content,
     metaData,
     ext,
