@@ -115,7 +115,7 @@ declare module "@custom-site/page" {
     generateCustomComponents: () => CustomComponents;
   }
 
-  export interface Template {
+  export interface TemplateProps {
     postProps: PostProps;
     createTemplateFunction?: createTemplateFunction;
   }
