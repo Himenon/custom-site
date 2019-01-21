@@ -2,7 +2,7 @@ import { Template } from "@custom-site/page";
 import * as React from "react";
 
 export const createTemplateComponent = (props: Template) => {
-  const applyTemplate = props.createTemplateFunction && props.createTemplateFunction(props.pageProps);
+  const applyTemplate = props.createTemplateFunction && props.createTemplateFunction(props.postProps);
   return class extends React.Component<{}, {}> {
     public render() {
       if (applyTemplate) {

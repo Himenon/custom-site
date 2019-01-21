@@ -5,18 +5,18 @@ declare module "@custom-site/development" {
 }
 
 declare module "@custom-site/internal" {
-  import { Page, OGP, HtmlMetaProperties } from "@custom-site/page";
+  import { PageState, OGP, HtmlMetaData } from "@custom-site/page";
   export interface State {
-    GENERATE_META_DATA: { metaData: HtmlMetaProperties };
+    GENERATE_META_DATA: { metaData: HtmlMetaData };
   }
 }
 
 declare module "@custom-site/cli" {
   import { FileWatchFlag } from "@custom-site/development";
-  import { HtmlMetaProperties } from "@custom-site/page";
+  import { HtmlMetaData } from "@custom-site/page";
   export interface CommonOption {
     source: string;
-    global: HtmlMetaProperties;
+    global: HtmlMetaData;
     destination?: string;
     basePath: string;
     port: number;
@@ -86,7 +86,7 @@ declare module "@custom-site/page" {
     };
   }
 
-  export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
+  export interface HtmlMetaData extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
     lang?: string;
     description?: string;
     keywords?: string;
@@ -105,10 +105,10 @@ declare module "@custom-site/page" {
     thirdParty?: ThirdParty;
   }
 
-  export type createTemplateFunction = (props: Post) => (content?: React.ReactNode) => React.ReactElement<any>;
+  export type createTemplateFunction = (props: PostProps) => (content?: React.ReactNode) => React.ReactElement<any>;
 
   export interface ExternalTemplate {
-    bodyTemplateFunction: createTemplateFunction;
+    createBodyTemplateFunction: createTemplateFunction;
   }
 
   export interface ExternalCustomComponent {
@@ -116,11 +116,11 @@ declare module "@custom-site/page" {
   }
 
   export interface Template {
-    pageProps: Post;
+    postProps: PostProps;
     createTemplateFunction?: createTemplateFunction;
   }
 
-  export interface Site {
+  export interface SiteState {
     title: string;
     description: string;
     url: {
@@ -129,38 +129,33 @@ declare module "@custom-site/page" {
     };
   }
 
-  export interface Article {
-    title: string;
-    description: string;
-    url: {
-      relativePath: string;
-      absolutePath: string;
-    };
+  export interface ArticleProps {
+    metaData: HtmlMetaData;
   }
 
-  export interface Post {
-    site: Site;
-    article: Article;
-  }
-
-  export interface Page {
+  export interface PageState {
     uri: string;
     content: string;
-    metaData: HtmlMetaProperties;
+    metaData: HtmlMetaData;
     ext: string;
     filename: string;
     name: string;
     raw: string;
   }
 
+  export interface PostProps {
+    site: SiteState;
+    page: PageState;
+  }
+
   export interface RenderedStaticPage {
-    name: Page["name"];
+    name: PageState["name"];
     originalName: string;
     html: string;
   }
 
   export interface Source {
     dirname: string;
-    pages: Page[];
+    pages: PageState[];
   }
 }

@@ -1,11 +1,11 @@
 jest.unmock("../generateScriptElements");
-import { HtmlMetaProperties } from "@custom-site/page";
+import { HtmlMetaData } from "@custom-site/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { generateScriptElements } from "../generateScriptElements";
 
 describe("Script Element", () => {
-  const generator = (params: HtmlMetaProperties) => ReactDOM.renderToStaticMarkup(<head>{generateScriptElements(params)}</head>);
+  const generator = (params: HtmlMetaData) => ReactDOM.renderToStaticMarkup(<head>{generateScriptElements(params)}</head>);
 
   test("generate script elements", () => {
     const domString = generator({

@@ -3,7 +3,7 @@ import * as matter from "gray-matter";
 import * as path from "path";
 
 import { CommonOption, DevelopOption } from "@custom-site/cli";
-import { HtmlMetaProperties, LinkHTMLAttributes, Page, ScriptHTMLAttributes, Source } from "@custom-site/page";
+import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes, Source } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
 import { getDefaultConfig } from "./helpers";
 
@@ -25,12 +25,7 @@ const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, basePath: str
   return { ...attribute, href };
 };
 
-const rewriteMetaData = (
-  globalSetting: HtmlMetaProperties,
-  localSetting: HtmlMetaProperties,
-  uri: string,
-  option: CommonOption,
-): HtmlMetaProperties => {
+const rewriteMetaData = (globalSetting: HtmlMetaData, localSetting: HtmlMetaData, uri: string, option: CommonOption): HtmlMetaData => {
   const globalLinks = [...(globalSetting.link ? globalSetting.link : []), ...(globalSetting.css ? globalSetting.css : [])];
   const localLinks = [...(localSetting.link ? localSetting.link : []), ...(localSetting.css ? localSetting.css : [])];
   const rewriteLocalScripts = localSetting.js ? localSetting.js.map(src => rewriteScriptSource(src, uri)) : localSetting.js;
@@ -49,7 +44,7 @@ const rewriteUri = (uri: string, option: CommonOption): string => {
   return path.join(option.basePath, uri).replace(/\/index$/, "");
 };
 
-const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<Page> => {
+const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageState> => {
   // TODO cache
   const globalSetting = getDefaultConfig(option.source).global || {};
   const ext = path.extname(filename);

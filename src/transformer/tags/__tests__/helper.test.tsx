@@ -1,11 +1,11 @@
 jest.unmock("../helpers");
 import { CommonOption } from "@custom-site/cli";
-import { Page } from "@custom-site/page";
+import { PageState } from "@custom-site/page";
 
 import { rewriteUrl } from "../helpers";
 
 describe("Link Element", () => {
-  const currentUri = (uri: string): Page => ({
+  const currentUri = (uri: string): PageState => ({
     uri,
     content: "",
     metaData: {},

@@ -4,7 +4,7 @@
 import { CustomComponents } from "@mdx-js/tag";
 import * as React from "react";
 
-export const customComponents = (): CustomComponents => {
+export const generateCustomComponents = (): CustomComponents => {
   return {
     h1: props => {
       return (
