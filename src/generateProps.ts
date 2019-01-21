@@ -1,7 +1,7 @@
 import { CommonOption } from "@custom-site/cli";
-import { ArticleProps, PageElement, SiteProps } from "@custom-site/page";
+import { Article, Page, Site } from "@custom-site/page";
 
-export const generateSiteProps = (option: CommonOption): SiteProps => {
+export const generateSiteProps = (option: CommonOption): Site => {
   return {
     title: option.global.title || "",
     description: option.global.description || "",
@@ -12,7 +12,7 @@ export const generateSiteProps = (option: CommonOption): SiteProps => {
   };
 };
 
-export const generateArticleProps = (page: PageElement): ArticleProps => {
+export const generateArticleProps = (page: Page): Article => {
   return {
     title: page.metaData.title || "",
     description: page.metaData.description || "",

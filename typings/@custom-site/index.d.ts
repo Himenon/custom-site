@@ -5,7 +5,7 @@ declare module "@custom-site/development" {
 }
 
 declare module "@custom-site/internal" {
-  import { PageElement, OGP, HtmlMetaProperties } from "@custom-site/page";
+  import { Page, OGP, HtmlMetaProperties } from "@custom-site/page";
   export interface State {
     GENERATE_META_DATA: { metaData: HtmlMetaProperties };
   }
@@ -105,22 +105,22 @@ declare module "@custom-site/page" {
     thirdParty?: ThirdParty;
   }
 
-  export type makeTemplateFunc = (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;
+  export type createTemplateFunction = (props: Post) => (content?: React.ReactNode) => React.ReactElement<any>;
 
   export interface ExternalTemplate {
-    bodyTemplate: makeTemplateFunc;
+    bodyTemplateFunction: createTemplateFunction;
   }
 
   export interface ExternalCustomComponent {
-    customComponents: () => CustomComponents;
+    generateCustomComponents: () => CustomComponents;
   }
 
-  export interface TemplateProps {
-    pageProps: PageProps;
-    applyLayout?: makeTemplateFunc;
+  export interface Template {
+    pageProps: Post;
+    createTemplateFunction?: createTemplateFunction;
   }
 
-  export interface SiteProps {
+  export interface Site {
     title: string;
     description: string;
     url: {
@@ -129,7 +129,7 @@ declare module "@custom-site/page" {
     };
   }
 
-  export interface ArticleProps {
+  export interface Article {
     title: string;
     description: string;
     url: {
@@ -138,12 +138,12 @@ declare module "@custom-site/page" {
     };
   }
 
-  export interface PageProps {
-    site: SiteProps;
-    article: ArticleProps;
+  export interface Post {
+    site: Site;
+    article: Article;
   }
 
-  export interface PageElement {
+  export interface Page {
     uri: string;
     content: string;
     metaData: HtmlMetaProperties;
@@ -154,13 +154,13 @@ declare module "@custom-site/page" {
   }
 
   export interface RenderedStaticPage {
-    name: PageElement["name"];
+    name: Page["name"];
     originalName: string;
     html: string;
   }
 
   export interface Source {
     dirname: string;
-    pages: PageElement[];
+    pages: Page[];
   }
 }

@@ -1,5 +1,5 @@
 import { CommonOption } from "@custom-site/cli";
-import { ExternalCustomComponent, ExternalTemplate, PageElement, RenderedStaticPage, SiteProps, Source } from "@custom-site/page";
+import { ExternalCustomComponent, ExternalTemplate, Page, RenderedStaticPage, Site, Source } from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
 import { createTemplateHOC } from "./createTemplate";
@@ -11,7 +11,7 @@ import { combine, createHeadContent, transformRawStringToHtml } from "./transfor
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
 
-const getCustomComponents = (page: PageElement, option: CommonOption): CustomComponents => {
+const getCustomComponents = (page: Page, option: CommonOption): CustomComponents => {
   return {
     a: generateAnchorElement(page, option),
     img: generateImageElement(page, option),
@@ -34,7 +34,7 @@ const getExternalCustomComponents = (option: CommonOption): ExternalCustomCompon
   return loadExternalFunction<ExternalCustomComponent>(filename);
 };
 
-const createTemplate = (site: SiteProps, page: PageElement, option: CommonOption) => {
+const createTemplate = (site: Site, page: Page, option: CommonOption) => {
   // TODO この位置にあるとパフォーマンスが悪い
   const externalTemplate = getExternalTemplate(option);
   return createTemplateHOC({
@@ -42,24 +42,24 @@ const createTemplate = (site: SiteProps, page: PageElement, option: CommonOption
       site,
       article: generateArticleProps(page),
     },
-    applyLayout: externalTemplate && externalTemplate.bodyTemplate,
+    createTemplateFunction: externalTemplate && externalTemplate.bodyTemplateFunction,
   });
 };
 
-const createHead = (page: PageElement) => {
-  const stateOfGenerateMetaDataId = `GENERATE_META_DATA/${page.uri}`;
-  const stateOfGenerateMetaData = { metaData: page.metaData, id: stateOfGenerateMetaDataId };
-  pluginStore.emit("GENERATE_META_DATA", stateOfGenerateMetaData);
-  const metaData = internalStore.getState({ type: "GENERATE_META_DATA", id: stateOfGenerateMetaDataId }, stateOfGenerateMetaData).metaData;
+const createHead = (page: Page) => {
+  const id = `GENERATE_META_DATA/${page.uri}`;
+  const state = { metaData: page.metaData, id };
+  pluginStore.emit("GENERATE_META_DATA", state);
+  const metaData = internalStore.getState({ type: "GENERATE_META_DATA", id }, state).metaData;
   return createHeadContent(metaData);
 };
 
-const createBody = (page: PageElement, option: CommonOption) => {
+const createBody = (page: Page, option: CommonOption) => {
   const externalCustomComponents = getExternalCustomComponents(option);
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
       ...getCustomComponents(page, option),
-      ...(externalCustomComponents && externalCustomComponents.customComponents()),
+      ...(externalCustomComponents && externalCustomComponents.generateCustomComponents()),
     },
     props: {},
   });
@@ -70,7 +70,7 @@ const createBody = (page: PageElement, option: CommonOption) => {
 /**
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
-const renderPage = (site: SiteProps, option: CommonOption) => (page: PageElement): RenderedStaticPage => {
+const renderPage = (site: Site, option: CommonOption) => (page: Page): RenderedStaticPage => {
   const applyTemplate = createTemplate(site, page, option);
   return {
     name: path.join(option.basePath, page.name),

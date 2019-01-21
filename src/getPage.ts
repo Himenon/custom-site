@@ -3,7 +3,7 @@ import * as matter from "gray-matter";
 import * as path from "path";
 
 import { CommonOption, DevelopOption } from "@custom-site/cli";
-import { HtmlMetaProperties, LinkHTMLAttributes, PageElement, ScriptHTMLAttributes, Source } from "@custom-site/page";
+import { HtmlMetaProperties, LinkHTMLAttributes, Page, ScriptHTMLAttributes, Source } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
 import { getDefaultConfig } from "./helpers";
 
@@ -49,7 +49,7 @@ const rewriteUri = (uri: string, option: CommonOption): string => {
   return path.join(option.basePath, uri).replace(/\/index$/, "");
 };
 
-const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageElement> => {
+const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<Page> => {
   // TODO cache
   const globalSetting = getDefaultConfig(option.source).global || {};
   const ext = path.extname(filename);

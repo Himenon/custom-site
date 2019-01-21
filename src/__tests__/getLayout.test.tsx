@@ -1,11 +1,11 @@
 jest.unmock("../createTemplate");
-import { PageProps } from "@custom-site/page";
+import { Post } from "@custom-site/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { createTemplateHOC } from "../createTemplate";
 
 describe("rendering test", () => {
-  const pageProps: PageProps = {
+  const pageProps: Post = {
     site: {
       title: "",
       description: "",
@@ -42,7 +42,7 @@ describe("rendering test", () => {
   });
 
   test("custom template", () => {
-    const applyLayout = (_props: PageProps) => (content?: React.ReactNode): React.ReactElement<any> => {
+    const applyLayout = (_props: Post) => (content?: React.ReactNode): React.ReactElement<any> => {
       return (
         <body id="my-template">
           <main>{content}</main>
@@ -51,7 +51,7 @@ describe("rendering test", () => {
     };
     const wrapper = createTemplateHOC({
       pageProps,
-      applyLayout,
+      createTemplateFunction: applyLayout,
     });
     const element = wrapper(<div>{"hello"}</div>);
     const result = ReactDOM.renderToStaticMarkup(element);
