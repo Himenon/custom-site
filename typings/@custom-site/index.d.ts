@@ -4,16 +4,30 @@ declare module "@custom-site/development" {
   }
 }
 
+declare module "@custom-site/plugin" {
+  export type PluginName = string;
+
+  export interface PluginDetail {
+    name: PluginName;
+    resolve?: string;
+  }
+
+  export type Plugin = PluginDetail | PluginName;
+}
+
 declare module "@custom-site/internal" {
   import { PageState, OGP, HtmlMetaData } from "@custom-site/page";
+  import { Plugin } from "@custom-site/plugin";
   export interface State {
     GENERATE_META_DATA: { metaData: HtmlMetaData };
+    PLUGINS: Plugin[];
   }
 }
 
 declare module "@custom-site/cli" {
   import { FileWatchFlag } from "@custom-site/development";
   import { HtmlMetaData } from "@custom-site/page";
+  import { Plugin } from "@custom-site/plugin";
   export interface CommonOption {
     source: string;
     global: HtmlMetaData;
@@ -25,6 +39,7 @@ declare module "@custom-site/cli" {
     };
     layoutFile?: string;
     customComponentsFile?: string;
+    plugins: Plugin[];
   }
   /**
    * optionalのみの追加を認める

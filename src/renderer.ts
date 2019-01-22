@@ -79,8 +79,8 @@ const renderPage = (site: SiteState, option: CommonOption) => (page: PageState):
 };
 
 const render = async (source: Source, option: CommonOption): Promise<RenderedStaticPage[]> => {
-  const siteProps = generateSiteState(option);
-  return source.pages.map(renderPage(siteProps, option));
+  const siteState = generateSiteState(option);
+  return source.pages.map(renderPage(siteState, option));
 };
 
 export { render };

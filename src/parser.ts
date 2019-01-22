@@ -78,6 +78,7 @@ export const parser = (cli: meow.Result): Options => {
     },
     layoutFile: inputFlags.layout,
     customComponentsFile: inputFlags.components,
+    plugins: [],
   };
 
   if (inputFlags.dev) {

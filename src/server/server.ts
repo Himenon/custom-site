@@ -13,6 +13,7 @@ import { lookup } from "mime-types";
 import { generateStatic } from "../generator";
 import { getData } from "../getPage";
 import { getDefaultConfig } from "../helpers";
+import { init } from "../lifeCycle";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -52,6 +53,7 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 };
 
 const start = async (dirname: string, option: DevelopOption) => {
+  init();
   const socketPort: number = await portfinder.getPortPromise({
     port: option.port - 2,
   });
