@@ -6,6 +6,20 @@ declare module "@custom-site/development" {
 
 declare module "@custom-site/plugin" {
   export type PluginName = string;
+  import { HtmlMetaData } from "@custom-site/page";
+
+  export interface State {
+    GENERATE_META_DATA: { metaData: HtmlMetaData };
+  }
+
+  export type CreateHandlerMap<T> = { [P in keyof T]?: Array<(payload: T[P]) => T[P]> };
+  export type CreateHandler<K extends keyof EventHandlerMap> = (payload: State[K]) => State[K];
+  export type EventHandlerMap = CreateHandlerMap<State>;
+
+  export interface PluginEventEmitter {
+    on<K extends keyof EventHandlerMap>(event: K, handler: CreateHandler<K>): void;
+    emit<K extends keyof EventHandlerMap>(event: K, state: State[K] & { id: string }): void;
+  }
 
   export interface PluginDetail {
     name: PluginName;
@@ -16,10 +30,8 @@ declare module "@custom-site/plugin" {
 }
 
 declare module "@custom-site/internal" {
-  import { PageState, OGP, HtmlMetaData } from "@custom-site/page";
   import { Plugin } from "@custom-site/plugin";
   export interface State {
-    GENERATE_META_DATA: { metaData: HtmlMetaData };
     PLUGINS: Plugin[];
   }
 }

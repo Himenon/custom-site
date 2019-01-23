@@ -5,8 +5,8 @@ import * as path from "path";
 import { createTemplateHOC } from "./createTemplate";
 import { generateSiteState } from "./generateProps";
 import { loadExternalFunction } from "./importer";
-import { store as pluginStore } from "./plugin";
-import { store as internalStore } from "./store";
+import { pluginEventEmitter } from "./plugin";
+import { pluginStore } from "./store";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
@@ -46,8 +46,8 @@ const createTemplate = (site: SiteState, page: PageState, option: CommonOption) 
 const createHead = (page: PageState) => {
   const id = `GENERATE_META_DATA/${page.uri}`;
   const state = { metaData: page.metaData, id };
-  pluginStore.emit("GENERATE_META_DATA", state);
-  const metaData = internalStore.getState({ type: "GENERATE_META_DATA", id }, state).metaData;
+  pluginEventEmitter.emit("GENERATE_META_DATA", state);
+  const metaData = pluginStore.getState({ type: "GENERATE_META_DATA", id }, state).metaData;
   return createHeadContent(metaData);
 };
 

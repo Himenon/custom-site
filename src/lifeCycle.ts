@@ -1,6 +1,6 @@
-import { store as pluginStore } from "./plugin";
+import { pluginEventEmitter } from "./plugin";
 import { resolvePlugin } from "./resolver";
-import { store as internalStore } from "./store";
+import { appStore } from "./store";
 
 /**
  * 各種Storeの初期化
@@ -11,9 +11,10 @@ export const init = () => {
 };
 
 export const initPlugins = () => {
-  const plugins = internalStore.getState({ type: "PLUGINS", id: "" });
+  const plugins = appStore.getState({ type: "PLUGINS", id: "" });
   plugins.forEach(plugin => {
     const externalPlugin = resolvePlugin(plugin);
-    pluginStore.on("GENERATE_META_DATA", externalPlugin);
+    // TOOD 取得したプラグインの型のValidationをつくる
+    pluginEventEmitter.on("GENERATE_META_DATA", externalPlugin);
   });
 };
