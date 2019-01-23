@@ -1,3 +1,4 @@
+import { PluginFunctionMap } from "@custom-site/plugin";
 import { pluginEventEmitter } from "./plugin";
 import { resolvePlugin } from "./resolver";
 import { appStore } from "./store";
@@ -13,8 +14,10 @@ export const init = () => {
 export const initPlugins = () => {
   const plugins = appStore.getState({ type: "PLUGINS", id: "" });
   plugins.forEach(plugin => {
-    const externalPlugin = resolvePlugin(plugin);
-    // TOOD 取得したプラグインの型のValidationをつくる
-    pluginEventEmitter.on("GENERATE_META_DATA", externalPlugin);
+    const externalPlugin = resolvePlugin<PluginFunctionMap>(plugin);
+    if (!externalPlugin) {
+      return;
+    }
+    pluginEventEmitter.on("GENERATE_META_DATA", externalPlugin.onGenerateMetaData);
   });
 };

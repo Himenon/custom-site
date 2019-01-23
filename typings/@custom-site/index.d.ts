@@ -16,9 +16,8 @@ declare module "@custom-site/plugin" {
   export type CreateHandler<K extends keyof EventHandlerMap> = (payload: State[K]) => State[K];
   export type EventHandlerMap = CreateHandlerMap<State>;
 
-  export interface PluginEventEmitter {
-    on<K extends keyof EventHandlerMap>(event: K, handler: CreateHandler<K>): void;
-    emit<K extends keyof EventHandlerMap>(event: K, state: State[K] & { id: string }): void;
+  export interface PluginFunctionMap {
+    onGenerateMetaData?: CreateHandler<"GENERATE_META_DATA">;
   }
 
   export interface PluginDetail {

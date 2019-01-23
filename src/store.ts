@@ -1,4 +1,4 @@
-import { State as InternalState } from "@custom-site/internal";
+import { State as AppState } from "@custom-site/internal";
 import { State as PluginState } from "@custom-site/plugin";
 
 interface State {
@@ -18,7 +18,7 @@ export class Store<U extends {}> {
   }
 }
 
-export type AppStore = Store<InternalState>;
+export type AppStore = Store<AppState>;
 export type PluginStore = Store<PluginState>;
-export const appStore = new Store<InternalState>();
+export const appStore = new Store<AppState>();
 export const pluginStore = new Store<PluginState>();
