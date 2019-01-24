@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "run-p *:watch",
-    "develop": "custom-site ./src -Do",
+    "develop": "chmod +x ../lib/cli.js && node ../lib/cli.js . -Do",
     "components": "tsc ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "components:watch": "tsc -w ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",

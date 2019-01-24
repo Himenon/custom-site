@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as matter from "gray-matter";
 import * as path from "path";
 
-import { CommonOption, DevelopOption } from "@custom-site/cli";
+import { CommonOption, DevelopOption } from "@custom-site/config";
 import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes, Source } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
 import { getDefaultConfig } from "./helpers";

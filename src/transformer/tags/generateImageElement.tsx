@@ -1,4 +1,4 @@
-import { CommonOption } from "@custom-site/cli";
+import { CommonOption } from "@custom-site/config";
 import { PageState } from "@custom-site/page";
 import * as React from "react";
 import { rewriteUrl } from "./helpers";

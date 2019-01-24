@@ -1,5 +1,5 @@
 jest.unmock("../helpers");
-import { CommonOption } from "@custom-site/cli";
+import { CommonOption } from "@custom-site/config";
 import { PageState } from "@custom-site/page";
 
 import { rewriteUrl } from "../helpers";
@@ -15,6 +15,7 @@ describe("Link Element", () => {
     ext: "",
   });
   const basePath = (serverBasePath: string): CommonOption => ({
+    baseDir: "",
     source: "",
     global: {},
     basePath: serverBasePath,
@@ -22,6 +23,7 @@ describe("Link Element", () => {
     blacklist: {
       extensions: [],
     },
+    plugins: [],
   });
 
   test("http,https", () => {

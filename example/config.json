@@ -22,6 +22,7 @@
     ]
   },
   "build": {
+    "source": "./src",
     "basePath": "/hoge",
     "layoutFile": "./CustomTemplate/template.js",
     "customComponentsFile": "./CustomComponent/components.js",
@@ -30,6 +31,7 @@
     }
   },
   "develop": {
+    "source": "./src",
     "basePath": "/a",
     "layoutFile": "./CustomTemplate/template.js",
     "customComponentsFile": "./CustomComponent/components.js",

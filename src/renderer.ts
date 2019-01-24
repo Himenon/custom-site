@@ -1,4 +1,4 @@
-import { CommonOption } from "@custom-site/cli";
+import { CommonOption } from "@custom-site/config";
 import { ExternalCustomComponent, ExternalTemplate, PageState, RenderedStaticPage, SiteState, Source } from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
@@ -6,7 +6,7 @@ import { createTemplateHOC } from "./createTemplate";
 import { generateSiteState } from "./generateProps";
 import { loadExternalFunction } from "./importer";
 import { pluginEventEmitter } from "./plugin";
-import { pluginStore } from "./store";
+import { appStore, pluginStore } from "./store";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
@@ -18,25 +18,25 @@ const getCustomComponents = (page: PageState, option: CommonOption): CustomCompo
   };
 };
 
-const getExternalTemplate = (option: CommonOption): ExternalTemplate | undefined => {
-  const filename = option.layoutFile;
-  if (!filename) {
+const getExternalTemplate = (): ExternalTemplate | undefined => {
+  const config = appStore.getState({ type: "config", id: "" });
+  if (!config || !config.layoutFile) {
     return;
   }
-  return loadExternalFunction<ExternalTemplate>(filename);
+  return loadExternalFunction<ExternalTemplate>(config.layoutFile);
 };
 
-const getExternalCustomComponents = (option: CommonOption): ExternalCustomComponent | undefined => {
-  const filename = option.customComponentsFile;
-  if (!filename) {
+const getExternalCustomComponents = (): ExternalCustomComponent | undefined => {
+  const config = appStore.getState({ type: "config", id: "" });
+  if (!config || !config.customComponentsFile) {
     return;
   }
-  return loadExternalFunction<ExternalCustomComponent>(filename);
+  return loadExternalFunction<ExternalCustomComponent>(config.customComponentsFile);
 };
 
-const createTemplate = (site: SiteState, page: PageState, option: CommonOption) => {
+const createTemplate = (site: SiteState, page: PageState) => {
   // TODO この位置にあるとパフォーマンスが悪い
-  const externalTemplate = getExternalTemplate(option);
+  const externalTemplate = getExternalTemplate();
   return createTemplateHOC({
     postProps: { site, page },
     createTemplateFunction: externalTemplate && externalTemplate.createBodyTemplateFunction,
@@ -52,7 +52,7 @@ const createHead = (page: PageState) => {
 };
 
 const createBody = (page: PageState, option: CommonOption) => {
-  const externalCustomComponents = getExternalCustomComponents(option);
+  const externalCustomComponents = getExternalCustomComponents();
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
       ...getCustomComponents(page, option),
@@ -67,7 +67,7 @@ const createBody = (page: PageState, option: CommonOption) => {
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
 const renderPage = (site: SiteState, option: CommonOption) => (page: PageState): RenderedStaticPage => {
-  const applyTemplate = createTemplate(site, page, option);
+  const applyTemplate = createTemplate(site, page);
   return {
     name: path.join(option.basePath, page.name),
     originalName: page.name,

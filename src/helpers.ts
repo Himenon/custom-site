@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { Options } from "@custom-site/cli";
+import { Options } from "@custom-site/config";
 import { HtmlMetaData } from "@custom-site/page";
 import * as path from "path";
 

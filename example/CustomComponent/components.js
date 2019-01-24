@@ -7,7 +7,8 @@ exports.generateCustomComponents = () => {
     return {
         h1: props => {
             return (React.createElement("div", { className: "custom-component-title" },
-                React.createElement("h2", Object.assign({}, props))));
+                React.createElement("h2", Object.assign({}, props)),
+                React.createElement("div", null, "This text display with Custom Component")));
         },
     };
 };

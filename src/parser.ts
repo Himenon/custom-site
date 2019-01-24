@@ -1,4 +1,4 @@
-import { CommonOption, Options } from "@custom-site/cli";
+import { CommonOption, Options } from "@custom-site/config";
 import * as dot from "dot-prop";
 import * as meow from "meow";
 import * as path from "path";
@@ -31,6 +31,10 @@ export const flags: meow.Options["flags"] = {
   components: {
     type: "string",
   },
+  config: {
+    alias: "c",
+    type: "string",
+  },
 };
 
 export interface InputFlags {
@@ -40,6 +44,7 @@ export interface InputFlags {
   port?: string;
   basePath?: string;
   layout?: string;
+  config?: string;
   components?: string;
 }
 
@@ -58,17 +63,20 @@ export const getServerBasePath = (text: string | undefined): string => {
  * cli arguments < package.json < config file
  */
 export const parser = (cli: meow.Result): Options => {
-  const [source = process.cwd()] = cli.input;
   const inputFlags: InputFlags = cli.flags;
+  const cwd = process.cwd();
+  const configDirectory = path.resolve(cwd, path.dirname(inputFlags.config || ""));
+  const defaultConfig = getDefaultConfig(configDirectory, inputFlags.config || "config.json");
+  const config = inputFlags.dev ? defaultConfig.develop : defaultConfig.build;
+  const sourceDirectory: string = (config && config.source) || cwd;
   /**
    * package.jsonの"custom-site"に記述されたパラメータを読み取る
    */
-  const pkg = readPkgUp.sync({ cwd: source }) || {};
-  const defaultConfig = getDefaultConfig(source);
+  const pkg = readPkgUp.sync({ cwd: sourceDirectory }) || {};
   const port = inputFlags.port !== undefined ? parseInt(inputFlags.port, 10) : 8000;
-
   const commonOption: CommonOption = {
-    source,
+    baseDir: configDirectory,
+    source: sourceDirectory,
     global: defaultConfig.global || {},
     destination: inputFlags.outDir ? path.join(process.cwd(), inputFlags.outDir) : undefined,
     basePath: getServerBasePath(inputFlags.basePath),

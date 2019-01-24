@@ -1,4 +1,4 @@
-import { CommonOption } from "@custom-site/cli";
+import { CommonOption } from "@custom-site/config";
 import { SiteState } from "@custom-site/page";
 
 export const generateSiteState = (option: CommonOption): SiteState => {

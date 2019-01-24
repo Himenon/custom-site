@@ -30,6 +30,7 @@ const cli = meow(
     --port, -p      Set port for development server
     --open, -o      Open development server in default browser
     --layout        Layout File Path
+    --config, -c    Config File Path
 `,
   {
     flags,

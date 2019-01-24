@@ -10,6 +10,7 @@ export const generateCustomComponents = (): CustomComponents => {
       return (
         <div className="custom-component-title">
           <h2 {...props} />
+          <div>This text display with Custom Component</div>
         </div>
       );
     },

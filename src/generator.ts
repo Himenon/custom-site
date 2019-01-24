@@ -1,4 +1,4 @@
-import { CommonOption } from "@custom-site/cli";
+import { CommonOption } from "@custom-site/config";
 import { RenderedStaticPage, Source } from "@custom-site/page";
 import { getData } from "./getPage";
 import { init } from "./lifeCycle";
@@ -10,7 +10,7 @@ export const generateStatic = async (source: Source, options: CommonOption): Pro
 };
 
 export const generateStaticPages = async (dirname: string, options: CommonOption): Promise<RenderedStaticPage[] | undefined> => {
-  init();
+  init(options);
   const initialSource = await getData(dirname, options);
   try {
     const result = await generateStatic(initialSource, options);

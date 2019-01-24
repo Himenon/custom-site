@@ -30,16 +30,19 @@ declare module "@custom-site/plugin" {
 
 declare module "@custom-site/internal" {
   import { Plugin } from "@custom-site/plugin";
+  import { CommonOption } from "@custom-site/config";
   export interface State {
     PLUGINS: Plugin[];
+    config: CommonOption;
   }
 }
 
-declare module "@custom-site/cli" {
+declare module "@custom-site/config" {
   import { FileWatchFlag } from "@custom-site/development";
   import { HtmlMetaData } from "@custom-site/page";
   import { Plugin } from "@custom-site/plugin";
   export interface CommonOption {
+    baseDir: string;
     source: string;
     global: HtmlMetaData;
     destination?: string;

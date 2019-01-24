@@ -7,7 +7,7 @@ import * as chokidar from "chokidar";
 import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
-import { DevelopOption } from "@custom-site/cli";
+import { DevelopOption } from "@custom-site/config";
 import { RenderedStaticPage } from "@custom-site/page";
 import { lookup } from "mime-types";
 import { generateStatic } from "../generator";
@@ -53,7 +53,7 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 };
 
 const start = async (dirname: string, option: DevelopOption) => {
-  init();
+  init(option);
   const socketPort: number = await portfinder.getPortPromise({
     port: option.port - 2,
   });
