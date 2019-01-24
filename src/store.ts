@@ -10,10 +10,7 @@ export class Store<U extends {}> {
   public saveState<T extends keyof U>(params: { type: T; id: string; state: U[T] }): void {
     this.state[`${params.type}/${params.id}`] = params.state;
   }
-  public getState<T extends keyof U, S extends U[T]>(
-    params: { type: T; id: string },
-    defaultState?: S,
-  ): S extends U[T] ? U[T] : (U[T] | undefined) {
+  public getState<T extends keyof U, S>(params: { type: T; id: string }, defaultState?: S): S extends U[T] ? U[T] : (U[T] | undefined) {
     return this.state[`${params.type}/${params.id}`] || defaultState;
   }
 }

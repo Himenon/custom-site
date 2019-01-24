@@ -12,7 +12,7 @@ export const init = () => {
 };
 
 export const initPlugins = () => {
-  const plugins = appStore.getState({ type: "PLUGINS", id: "" });
+  const plugins = appStore.getState({ type: "PLUGINS", id: "" }, []);
   plugins.forEach(plugin => {
     const externalPlugin = resolvePlugin<PluginFunctionMap>(plugin);
     if (!externalPlugin) {

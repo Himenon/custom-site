@@ -1,6 +1,6 @@
 "use strict";
 // tslint:disable-next-line:no-reference
-/// <reference path="../typings/@mdx-js/index.d.ts"/>
+/// <reference path="../../typings/@mdx-js/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 exports.generateCustomComponents = () => {

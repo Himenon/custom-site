@@ -1,5 +1,5 @@
 // tslint:disable-next-line:no-reference
-/// <reference path="../typings/@mdx-js/index.d.ts"/>
+/// <reference path="../../typings/@mdx-js/index.d.ts"/>
 
 import { CustomComponents } from "@mdx-js/tag";
 import * as React from "react";

@@ -1,6 +1,6 @@
 "use strict";
 // tslint:disable-next-line:no-reference
-/// <reference path="../typings/@custom-site/index.d.ts"/>
+/// <reference path="../../typings/@custom-site/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const wrappedContent = (content) => {
