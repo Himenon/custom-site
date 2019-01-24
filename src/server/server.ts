@@ -14,6 +14,7 @@ import { generateStatic } from "../generator";
 import { getData } from "../getPage";
 import { getDefaultConfig } from "../helpers";
 import { init } from "../lifeCycle";
+import { appStore } from "../store";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -54,10 +55,11 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 
 const start = async (dirname: string, option: DevelopOption) => {
   init(option);
+  const config = appStore.getState({ type: "config", id: "" }, option);
   const socketPort: number = await portfinder.getPortPromise({
     port: option.port - 2,
   });
-  const initialSource = await getData(dirname, option);
+  const initialSource = await getData(config);
   let socket: WebSocket;
   let generatedPages = await generateStatic(initialSource, option);
 
@@ -76,11 +78,13 @@ const start = async (dirname: string, option: DevelopOption) => {
       return;
     }
     // TODO Side Effectを解消する
-    if (path.join(dirname, "config.json") === updateParams.filename) {
+    if (option.configFile === updateParams.filename) {
       const updateConfig = getDefaultConfig(dirname);
-      option = { ...option, ...updateConfig };
+      const state = { ...option, ...updateConfig };
+      appStore.saveState({ type: "config", id: "", state });
+      option = state;
     }
-    const updatedSource = await getData(dirname, { ...option, watcher: updateParams });
+    const updatedSource = await getData({ ...option, watcher: updateParams });
     generatedPages = await generateStatic(updatedSource, option);
     socket.send(JSON.stringify({ reload: true }));
   };

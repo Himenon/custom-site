@@ -15,7 +15,6 @@ describe("Link Element", () => {
     ext: "",
   });
   const basePath = (serverBasePath: string): CommonOption => ({
-    baseDir: "",
     source: "",
     global: {},
     basePath: serverBasePath,

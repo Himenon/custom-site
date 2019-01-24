@@ -4,7 +4,6 @@ import { getRedirectPagePath } from "../server";
 
 describe("routing test", () => {
   const option1: DevelopOption = {
-    baseDir: "",
     source: "",
     global: {},
     basePath: "/",
@@ -16,7 +15,6 @@ describe("routing test", () => {
   };
 
   const option2: DevelopOption = {
-    baseDir: "",
     source: "",
     global: {},
     basePath: "/test",

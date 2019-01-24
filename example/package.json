@@ -6,6 +6,7 @@
   "scripts": {
     "start": "run-p *:watch",
     "develop": "chmod +x ../lib/cli.js && node ../lib/cli.js . -Do",
+    "develop2": "chmod +x ../lib/cli.js && node ../lib/cli.js --config ./src/config.json -Do",
     "components": "tsc ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "components:watch": "tsc -w ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",

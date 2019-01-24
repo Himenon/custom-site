@@ -6,6 +6,7 @@ import { CommonOption, DevelopOption } from "@custom-site/config";
 import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes, Source } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
 import { getDefaultConfig } from "./helpers";
+import { appStore } from "./store";
 
 export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
 
@@ -45,8 +46,9 @@ const rewriteUri = (uri: string, option: CommonOption): string => {
 };
 
 const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageState> => {
+  const config = appStore.getState({ type: "config", id: "" }, {});
   // TODO cache
-  const globalSetting = getDefaultConfig(option.source).global || {};
+  const globalSetting = config && config.configFile && getDefaultConfig(config.configFile);
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
@@ -54,7 +56,7 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting, data, path.dirname(rewrittenUri), option);
+  const metaData = rewriteMetaData(globalSetting ? globalSetting.global || {} : {}, data, path.dirname(rewrittenUri), option);
   return {
     uri: rewrittenUri,
     content,
@@ -66,7 +68,8 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   };
 };
 
-export const getData = async (dirname: string, options: DevelopOption): Promise<Source> => {
+export const getData = async (options: DevelopOption): Promise<Source> => {
+  const dirname = options.source;
   const allFiles = await recursive(dirname);
   const filenames = allFiles.filter(name => !/^\./.test(name));
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name));

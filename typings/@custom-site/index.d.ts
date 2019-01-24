@@ -42,7 +42,7 @@ declare module "@custom-site/config" {
   import { HtmlMetaData } from "@custom-site/page";
   import { Plugin } from "@custom-site/plugin";
   export interface CommonOption {
-    baseDir: string;
+    configFile?: string;
     source: string;
     global: HtmlMetaData;
     destination?: string;

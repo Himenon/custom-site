@@ -4,6 +4,7 @@ import { getData } from "./getPage";
 import { init } from "./lifeCycle";
 import { notifyLog } from "./logger";
 import { render } from "./renderer";
+import { appStore } from "./store";
 
 export const generateStatic = async (source: Source, options: CommonOption): Promise<RenderedStaticPage[]> => {
   return render(source, options);
@@ -11,7 +12,8 @@ export const generateStatic = async (source: Source, options: CommonOption): Pro
 
 export const generateStaticPages = async (dirname: string, options: CommonOption): Promise<RenderedStaticPage[] | undefined> => {
   init(options);
-  const initialSource = await getData(dirname, options);
+  const config = appStore.getState({ type: "config", id: "" }, options);
+  const initialSource = await getData(config);
   try {
     const result = await generateStatic(initialSource, options);
     notifyLog("files saved to", dirname);

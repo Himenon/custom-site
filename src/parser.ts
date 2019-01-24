@@ -65,19 +65,19 @@ export const getServerBasePath = (text: string | undefined): string => {
 export const parser = (cli: meow.Result): Options => {
   const inputFlags: InputFlags = cli.flags;
   const cwd = process.cwd();
-  const configDirectory = path.resolve(cwd, path.dirname(inputFlags.config || ""));
-  const defaultConfig = getDefaultConfig(configDirectory, inputFlags.config || "config.json");
-  const config = inputFlags.dev ? defaultConfig.develop : defaultConfig.build;
-  const sourceDirectory: string = (config && config.source) || cwd;
+  const configFile = inputFlags.config || "config.json";
+  const defaultConfig = getDefaultConfig(configFile);
+  const config = defaultConfig && (inputFlags.dev ? defaultConfig.develop : defaultConfig.build);
+  const source: string = (config && config.source) || cwd;
   /**
    * package.jsonの"custom-site"に記述されたパラメータを読み取る
    */
-  const pkg = readPkgUp.sync({ cwd: sourceDirectory }) || {};
+  const pkg = readPkgUp.sync({ cwd }) || {};
   const port = inputFlags.port !== undefined ? parseInt(inputFlags.port, 10) : 8000;
   const commonOption: CommonOption = {
-    baseDir: configDirectory,
-    source: sourceDirectory,
-    global: defaultConfig.global || {},
+    configFile: config && configFile,
+    source,
+    global: (config && config.global) || {},
     destination: inputFlags.outDir ? path.join(process.cwd(), inputFlags.outDir) : undefined,
     basePath: getServerBasePath(inputFlags.basePath),
     port,
@@ -95,12 +95,12 @@ export const parser = (cli: meow.Result): Options => {
         open: true,
         ...commonOption,
         ...dot.get(pkg, "pkg.custom-site"),
-        ...defaultConfig.develop,
+        ...config,
       },
     };
   } else {
     return {
-      build: { ...commonOption, ...dot.get(pkg, "pkg.custom-site"), ...defaultConfig.build },
+      build: { ...commonOption, ...dot.get(pkg, "pkg.custom-site"), ...config },
     };
   }
 };
