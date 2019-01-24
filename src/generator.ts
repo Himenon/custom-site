@@ -10,13 +10,13 @@ export const generateStatic = async (source: Source, options: CommonOption): Pro
   return render(source, options);
 };
 
-export const generateStaticPages = async (dirname: string, options: CommonOption): Promise<RenderedStaticPage[] | undefined> => {
+export const generateStaticPages = async (options: CommonOption): Promise<RenderedStaticPage[] | undefined> => {
   init(options);
   const config = appStore.getState({ type: "config", id: "" }, options);
   const initialSource = await getData(config);
   try {
     const result = await generateStatic(initialSource, config);
-    notifyLog("files saved to", dirname);
+    notifyLog("files saved to", config.source);
     return result;
   } catch (err) {
     notifyLog("error", err);

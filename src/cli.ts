@@ -66,9 +66,9 @@ const main = async () => {
   }
   if (buildOptions) {
     // 開発環境ではなく、サイトを生成する
-    const pages = await generateStaticPages(buildOptions.source, buildOptions);
+    const pages = await generateStaticPages(buildOptions);
     if (pages) {
-      Promise.all([exportPages(pages, buildOptions), copyAssetFiles(buildOptions)]);
+      Promise.all([exportPages(pages, buildOptions), copyAssetFiles()]);
     }
   }
 };
