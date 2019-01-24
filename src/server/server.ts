@@ -53,17 +53,17 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
   return path.join(dirname, pathname);
 };
 
-const start = async (dirname: string, option: DevelopOption) => {
+const start = async (option: DevelopOption) => {
   init(option);
-  const config = appStore.getState({ type: "config", id: "" }, option);
+  let config = appStore.getState({ type: "config", id: "" }, option);
   const socketPort: number = await portfinder.getPortPromise({
-    port: option.port - 2,
+    port: config.port - 2,
   });
   const initialSource = await getData(config);
   let socket: WebSocket;
-  let generatedPages = await generateStatic(initialSource, option);
+  let generatedPages = await generateStatic(initialSource, config);
 
-  const watchFiles: string[] = [dirname, option.layoutFile || "", option.customComponentsFile || ""];
+  const watchFiles: string[] = [config.source, config.layoutFile || "", config.customComponentsFile || ""];
 
   const watcher: chokidar.FSWatcher = chokidar.watch(watchFiles, {
     ignoreInitial: true,
@@ -78,14 +78,15 @@ const start = async (dirname: string, option: DevelopOption) => {
       return;
     }
     // TODO Side Effectを解消する
-    if (option.configFile === updateParams.filename) {
-      const updateConfig = getDefaultConfig(dirname);
-      const state = { ...option, ...updateConfig };
+    if (config.configFile === updateParams.filename) {
+      const updateConfig = getDefaultConfig(config.configFile);
+      const state = { ...config, ...updateConfig };
       appStore.saveState({ type: "config", id: "", state });
-      option = state;
+      init(state);
     }
-    const updatedSource = await getData({ ...option, watcher: updateParams });
-    generatedPages = await generateStatic(updatedSource, option);
+    config = appStore.getState({ type: "config", id: "" }, config);
+    const updatedSource = await getData({ ...config, watcher: updateParams });
+    generatedPages = await generateStatic(updatedSource, config);
     socket.send(JSON.stringify({ reload: true }));
   };
 
@@ -107,17 +108,17 @@ const start = async (dirname: string, option: DevelopOption) => {
     if (!pathname) {
       return;
     }
-    const filePath = path.join(dirname, pathname);
+    const filePath = path.join(config.source, pathname);
     // そのまま返せるファイルが有る場合は返す
     if (redirectToLocalFile(filePath, res)) {
       return;
     }
     // basepathが存在する場合
-    if (redirectToLocalFile(getRedirectLocalDirectoryPath(dirname, pathname, option), res)) {
+    if (redirectToLocalFile(getRedirectLocalDirectoryPath(config.source, pathname, config), res)) {
       return;
     }
     // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
-    const name = getRedirectPagePath(pathname, option);
+    const name = getRedirectPagePath(pathname, config);
     // tslint:disable:max-line-length
     const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
     if (renderStaticPage) {

@@ -45,7 +45,7 @@ const main = async () => {
   if (developOptions) {
     notifyLog("starting dev server");
     try {
-      const srv: http.Server = await server(developOptions.source, developOptions);
+      const srv: http.Server = await server(developOptions);
       const address = srv.address();
       let url: string;
       if (typeof address === "string") {

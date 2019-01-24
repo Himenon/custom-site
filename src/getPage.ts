@@ -46,17 +46,17 @@ const rewriteUri = (uri: string, option: CommonOption): string => {
 };
 
 const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageState> => {
-  const config = appStore.getState({ type: "config", id: "" }, {});
+  const config = appStore.getState({ type: "config", id: "" }, option);
   // TODO cache
   const globalSetting = config && config.configFile && getDefaultConfig(config.configFile);
   const ext = path.extname(filename);
   const relativePath = path.relative(dirname, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
-  const rewrittenUri = rewriteUri(uri, option);
+  const rewrittenUri = rewriteUri(uri, config);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting ? globalSetting.global || {} : {}, data, path.dirname(rewrittenUri), option);
+  const metaData = rewriteMetaData(globalSetting ? globalSetting.global || {} : {}, data, path.dirname(rewrittenUri), config);
   return {
     uri: rewrittenUri,
     content,

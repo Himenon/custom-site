@@ -26,16 +26,13 @@ export const initPlugins = () => {
 };
 
 export const initOptions = (options: CommonOption) => {
-  console.log("---- init option ----");
   const reCalculatePath = (oldPath?: string) => (oldPath ? path.join(path.dirname(options.configFile || ""), oldPath) : undefined);
-  // configファイルから見た基準 --> cwd絡みた基準に揃える
   const state: CommonOption = {
     ...options,
     source: reCalculatePath(options.source) || options.source,
     customComponentsFile: reCalculatePath(options.customComponentsFile),
     layoutFile: reCalculatePath(options.layoutFile),
   };
-  console.log(state);
   appStore.saveState({
     type: "config",
     id: "",

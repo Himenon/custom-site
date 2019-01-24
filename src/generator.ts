@@ -15,7 +15,7 @@ export const generateStaticPages = async (dirname: string, options: CommonOption
   const config = appStore.getState({ type: "config", id: "" }, options);
   const initialSource = await getData(config);
   try {
-    const result = await generateStatic(initialSource, options);
+    const result = await generateStatic(initialSource, config);
     notifyLog("files saved to", dirname);
     return result;
   } catch (err) {
