@@ -3,7 +3,7 @@
 /// <reference path="../typings/@mdx-js/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
-exports.customComponents = () => {
+exports.generateCustomComponents = () => {
     return {
         h1: props => {
             return (React.createElement("div", { className: "custom-component-title" },

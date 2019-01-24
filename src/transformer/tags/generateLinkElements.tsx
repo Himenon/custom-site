@@ -1,4 +1,4 @@
-import { HtmlMetaProperties, LinkHTMLAttributes } from "@custom-site/page";
+import { HtmlMetaData, LinkHTMLAttributes } from "@custom-site/page";
 import * as React from "react";
 
 export interface DryCheckParameter {
@@ -43,7 +43,7 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
   return <link {...{ ...attributes }} key={attributes.href} />;
 };
 
-export const generateLinkElements = ({ localLinks, globalLinks }: HtmlMetaProperties): JSX.Element[] => {
+export const generateLinkElements = ({ localLinks, globalLinks }: HtmlMetaData): JSX.Element[] => {
   const elements: JSX.Element[] = [];
   const makeTag = getMakeTag();
   if (globalLinks) {

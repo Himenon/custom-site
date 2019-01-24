@@ -1,4 +1,4 @@
-import { HtmlMetaProperties, ScriptHTMLAttributes } from "@custom-site/page";
+import { HtmlMetaData, ScriptHTMLAttributes } from "@custom-site/page";
 import * as React from "react";
 
 export interface DryCheckParameter {
@@ -43,7 +43,7 @@ const getMakeScriptTag = (dryParameter: DryCheckParameter[] = []) => (
   return <script {...{ ...attributes, src: attributes.src }} key={attributes.src} />;
 };
 
-export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMetaProperties): JSX.Element[] => {
+export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMetaData): JSX.Element[] => {
   const elements: JSX.Element[] = [];
   const makeScriptTag = getMakeScriptTag();
   if (globalScripts) {

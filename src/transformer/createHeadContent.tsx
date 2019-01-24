@@ -1,10 +1,10 @@
-import { HtmlMetaProperties } from "@custom-site/page";
+import { HtmlMetaData } from "@custom-site/page";
 import * as React from "react";
 import { generateGoogleAnalyticsElement } from "./tags/generateGoogleAnalyticsElement";
 import { generateLinkElements } from "./tags/generateLinkElements";
 import { generateScriptElements } from "./tags/generateScriptElements";
 
-export const generateViewportMetaElements = ({ viewport }: HtmlMetaProperties): JSX.Element | undefined => {
+export const generateViewportMetaElements = ({ viewport }: HtmlMetaData): JSX.Element | undefined => {
   if (!viewport) {
     return;
   }
@@ -14,7 +14,7 @@ export const generateViewportMetaElements = ({ viewport }: HtmlMetaProperties): 
   return <meta name="viewport" content={content} />;
 };
 
-export const createHeadContent = (htmlMetaData: HtmlMetaProperties): React.ReactElement<any> => {
+export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElement<any> => {
   const thirdParty = htmlMetaData.thirdParty;
   return (
     <head lang={htmlMetaData.lang || "en"}>

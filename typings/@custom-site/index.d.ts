@@ -4,12 +4,44 @@ declare module "@custom-site/development" {
   }
 }
 
+declare module "@custom-site/plugin" {
+  export type PluginName = string;
+  import { HtmlMetaData } from "@custom-site/page";
+
+  export interface State {
+    GENERATE_META_DATA: { metaData: HtmlMetaData };
+  }
+
+  export type CreateHandlerMap<T> = { [P in keyof T]?: Array<(payload: T[P]) => T[P]> };
+  export type CreateHandler<K extends keyof EventHandlerMap> = (payload: State[K]) => State[K];
+  export type EventHandlerMap = CreateHandlerMap<State>;
+
+  export interface PluginFunctionMap {
+    onGenerateMetaData?: CreateHandler<"GENERATE_META_DATA">;
+  }
+
+  export interface PluginDetail {
+    name: PluginName;
+    resolve?: string;
+  }
+
+  export type Plugin = PluginDetail | PluginName;
+}
+
+declare module "@custom-site/internal" {
+  import { Plugin } from "@custom-site/plugin";
+  export interface State {
+    PLUGINS: Plugin[];
+  }
+}
+
 declare module "@custom-site/cli" {
   import { FileWatchFlag } from "@custom-site/development";
-  import { HtmlMetaProperties } from "@custom-site/page";
+  import { HtmlMetaData } from "@custom-site/page";
+  import { Plugin } from "@custom-site/plugin";
   export interface CommonOption {
     source: string;
-    global: HtmlMetaProperties;
+    global: HtmlMetaData;
     destination?: string;
     basePath: string;
     port: number;
@@ -18,6 +50,7 @@ declare module "@custom-site/cli" {
     };
     layoutFile?: string;
     customComponentsFile?: string;
+    plugins: Plugin[];
   }
   /**
    * optionalのみの追加を認める
@@ -79,7 +112,7 @@ declare module "@custom-site/page" {
     };
   }
 
-  export interface HtmlMetaProperties extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
+  export interface HtmlMetaData extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
     lang?: string;
     description?: string;
     keywords?: string;
@@ -98,22 +131,22 @@ declare module "@custom-site/page" {
     thirdParty?: ThirdParty;
   }
 
-  export type makeTemplateFunc = (props: PageProps) => (content?: React.ReactNode) => React.ReactElement<any>;
+  export type createTemplateFunction = (props: PostProps) => (content?: React.ReactNode) => React.ReactElement<any>;
 
   export interface ExternalTemplate {
-    bodyTemplate: makeTemplateFunc;
+    createBodyTemplateFunction: createTemplateFunction;
   }
 
   export interface ExternalCustomComponent {
-    customComponents: () => CustomComponents;
+    generateCustomComponents: () => CustomComponents;
   }
 
   export interface TemplateProps {
-    pageProps: PageProps;
-    applyLayout?: makeTemplateFunc;
+    postProps: PostProps;
+    createTemplateFunction?: createTemplateFunction;
   }
 
-  export interface SiteProps {
+  export interface SiteState {
     title: string;
     description: string;
     url: {
@@ -123,37 +156,32 @@ declare module "@custom-site/page" {
   }
 
   export interface ArticleProps {
-    title: string;
-    description: string;
-    url: {
-      relativePath: string;
-      absolutePath: string;
-    };
+    metaData: HtmlMetaData;
   }
 
-  export interface PageProps {
-    site: SiteProps;
-    article: ArticleProps;
-  }
-
-  export interface PageElement {
+  export interface PageState {
     uri: string;
     content: string;
-    metaData: HtmlMetaProperties;
+    metaData: HtmlMetaData;
     ext: string;
     filename: string;
     name: string;
     raw: string;
   }
 
+  export interface PostProps {
+    site: SiteState;
+    page: PageState;
+  }
+
   export interface RenderedStaticPage {
-    name: PageElement["name"];
+    name: PageState["name"];
     originalName: string;
     html: string;
   }
 
   export interface Source {
     dirname: string;
-    pages: PageElement[];
+    pages: PageState[];
   }
 }
