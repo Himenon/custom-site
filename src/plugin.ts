@@ -1,5 +1,5 @@
 import { CreateHandler, EventHandlerMap, State } from "@custom-site/plugin";
-import { pluginStore, PluginStore } from "./store";
+import { plugin, PluginStore } from "./store";
 
 const createPluginEventEmitter = (store: PluginStore) => {
   const handlers: EventHandlerMap = {};
@@ -10,13 +10,13 @@ const createPluginEventEmitter = (store: PluginStore) => {
       }
     },
     emit<K extends keyof EventHandlerMap>(event: K, state: State[K] & { id: string }): void {
-      let newState: State[K] = store.getState({ type: event, id: state.id }, state);
+      let newState: State[K] = store.get({ type: event, id: state.id }, state);
       ((handlers[event] || (handlers[event] = [])) as Array<CreateHandler<K>>).forEach(handler => {
         newState = handler(newState);
       });
-      store.saveState({ type: event, id: state.id, state: newState });
+      store.set({ type: event, id: state.id, state: newState });
     },
   };
 };
 
-export const pluginEventEmitter = createPluginEventEmitter(pluginStore);
+export const pluginEventEmitter = createPluginEventEmitter(plugin);

@@ -10,11 +10,12 @@ import * as WebSocket from "ws";
 import { DevelopOption } from "@custom-site/config";
 import { RenderedStaticPage } from "@custom-site/page";
 import { lookup } from "mime-types";
+import { generateSiteState } from "../generateProps";
 import { generateStatic } from "../generator";
-import { getData } from "../getPage";
+import { getPages } from "../getPage";
 import { getDefaultConfig } from "../helpers";
 import { init } from "../lifeCycle";
-import { appStore } from "../store";
+import { app } from "../store";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -55,13 +56,13 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 
 const start = async (option: DevelopOption) => {
   init(option);
-  let config = appStore.getState({ type: "config", id: "" }, option);
+  let config = app.get({ type: "config", id: "" }, option);
   const socketPort: number = await portfinder.getPortPromise({
     port: config.port - 2,
   });
-  const initialSource = await getData(config);
+  const initPages = await getPages(config);
   let socket: WebSocket;
-  let generatedPages = await generateStatic(initialSource, config);
+  let renderedPages = await generateStatic(generateSiteState(config), initPages);
 
   const watchFiles: string[] = [config.source, config.layoutFile || "", config.customComponentsFile || ""];
 
@@ -81,12 +82,13 @@ const start = async (option: DevelopOption) => {
     if (config.configFile === updateParams.filename) {
       const updateConfig = getDefaultConfig(config.configFile);
       const state = { ...config, ...updateConfig };
-      appStore.saveState({ type: "config", id: "", state });
+      app.set({ type: "config", id: "", state });
       init(state);
     }
-    config = appStore.getState({ type: "config", id: "" }, config);
-    const updatedSource = await getData({ ...config, watcher: updateParams });
-    generatedPages = await generateStatic(updatedSource, config);
+    config = app.get({ type: "config", id: "" }, config);
+    const newConfig = { ...config, watcher: updateParams };
+    const newPages = await getPages(newConfig);
+    renderedPages = await generateStatic(generateSiteState(config), newPages);
     socket.send(JSON.stringify({ reload: true }));
   };
 
@@ -100,7 +102,7 @@ const start = async (option: DevelopOption) => {
     await update({ filename });
   });
 
-  const app = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
+  const server = http.createServer((req: http.IncomingMessage, res: http.ServerResponse) => {
     if (!req.url) {
       return;
     }
@@ -120,7 +122,7 @@ const start = async (option: DevelopOption) => {
     // 返せない場合はGeneratorから生成されたキャッシュを読みに行く
     const name = getRedirectPagePath(pathname, config);
     // tslint:disable:max-line-length
-    const renderStaticPage: RenderedStaticPage | undefined = generatedPages.find((page: RenderedStaticPage) => page.name === name);
+    const renderStaticPage: RenderedStaticPage | undefined = renderedPages.find((page: RenderedStaticPage) => page.name === name);
     if (renderStaticPage) {
       res.write(renderStaticPage.html);
       res.write(reloadScript(socketPort));
@@ -134,8 +136,7 @@ const start = async (option: DevelopOption) => {
   });
 
   try {
-    const server = await app.listen(socketPort + 2);
-    return server;
+    return await server.listen(socketPort + 2);
   } catch (err) {
     console.error(err);
     throw err;

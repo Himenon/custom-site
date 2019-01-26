@@ -3,7 +3,7 @@ import { PluginFunctionMap } from "@custom-site/plugin";
 import * as path from "path";
 import { pluginEventEmitter } from "./plugin";
 import { resolvePlugin } from "./resolver";
-import { appStore } from "./store";
+import { app } from "./store";
 
 /**
  * 各種Storeの初期化
@@ -15,7 +15,7 @@ export const init = (options: CommonOption) => {
 };
 
 export const initPlugins = () => {
-  const plugins = appStore.getState({ type: "PLUGINS", id: "" }, []);
+  const plugins = app.get({ type: "plugins", id: "" }, []);
   plugins.forEach(plugin => {
     const externalPlugin = resolvePlugin<PluginFunctionMap>(plugin);
     if (!externalPlugin) {
@@ -33,7 +33,7 @@ export const initOptions = (options: CommonOption) => {
     customComponentsFile: reCalculatePath(options.customComponentsFile),
     layoutFile: reCalculatePath(options.layoutFile),
   };
-  appStore.saveState({
+  app.set({
     type: "config",
     id: "",
     state,

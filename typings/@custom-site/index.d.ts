@@ -32,7 +32,7 @@ declare module "@custom-site/internal" {
   import { Plugin } from "@custom-site/plugin";
   import { CommonOption } from "@custom-site/config";
   export interface State {
-    PLUGINS: Plugin[];
+    plugins: Plugin[];
     config: CommonOption;
   }
 }
@@ -156,6 +156,7 @@ declare module "@custom-site/page" {
       relativePath: string;
       absolutePath: string;
     };
+    basePath: string;
   }
 
   export interface ArticleProps {
@@ -181,10 +182,5 @@ declare module "@custom-site/page" {
     name: PageState["name"];
     originalName: string;
     html: string;
-  }
-
-  export interface Source {
-    dirname: string;
-    pages: PageState[];
   }
 }

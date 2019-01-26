@@ -9,5 +9,6 @@ export const generateSiteState = (option: CommonOption): SiteState => {
       relativePath: option.basePath || "",
       absolutePath: "",
     },
+    basePath: option.basePath,
   };
 };

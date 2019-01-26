@@ -1,21 +1,30 @@
 import { CommonOption } from "@custom-site/config";
-import { RenderedStaticPage, Source } from "@custom-site/page";
-import { getData } from "./getPage";
+import { PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
+import { generateSiteState } from "./generateProps";
+import { getPages } from "./getPage";
 import { init } from "./lifeCycle";
 import { notifyLog } from "./logger";
 import { render } from "./renderer";
-import { appStore } from "./store";
+import { app } from "./store";
 
-export const generateStatic = async (source: Source, options: CommonOption): Promise<RenderedStaticPage[]> => {
-  return render(source, options);
+/**
+ * Site Generate API
+ */
+export const generateStatic = async (site: SiteState, pages: PageState[]): Promise<RenderedStaticPage[]> => {
+  return render(site, pages);
 };
 
+/**
+ * Native APi
+ * @param options
+ */
 export const generateStaticPages = async (options: CommonOption): Promise<RenderedStaticPage[] | undefined> => {
   init(options);
-  const config = appStore.getState({ type: "config", id: "" }, options);
-  const initialSource = await getData(config);
+  const config = app.get({ type: "config", id: "" }, options);
+  const pages = await getPages(config);
+  const site = generateSiteState(options);
   try {
-    const result = await generateStatic(initialSource, config);
+    const result = await generateStatic(site, pages);
     notifyLog("files saved to", config.source);
     return result;
   } catch (err) {
