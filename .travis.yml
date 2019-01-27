@@ -27,7 +27,6 @@ jobs:
   - stage: test
     script: yarn test:ci
     node_js:
-    - '10'
     - '11'
   - stage: deploy
     script:
