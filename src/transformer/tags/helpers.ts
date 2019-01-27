@@ -1,4 +1,3 @@
-import { CommonOption } from "@custom-site/cli";
 import { PageState } from "@custom-site/page";
 import * as path from "path";
 
@@ -7,7 +6,7 @@ import * as path from "path";
  * @param page `page.uri`は`option.basePath`をすでに加算した状態で存在する
  * @param option 相対パスの算出では利用しない
  */
-export const rewriteUrl = (uri: string, page: PageState, option: CommonOption): string => {
+export const rewriteUrl = (uri: string, page: PageState, basePath: string): string => {
   let calcUri: string = uri;
   if (uri.match(/^https?\:\/\/|^\/\//) !== null) {
     return uri;
@@ -16,7 +15,7 @@ export const rewriteUrl = (uri: string, page: PageState, option: CommonOption): 
     calcUri = calcUri.slice(0, uri.length - "index".length);
   }
   if (uri.startsWith("/")) {
-    return path.join(option.basePath, calcUri);
+    return path.join(basePath, calcUri);
   }
   if (uri.startsWith("../")) {
     const s = path.join(path.dirname(page.uri), calcUri);
@@ -24,8 +23,8 @@ export const rewriteUrl = (uri: string, page: PageState, option: CommonOption): 
   }
   // start current directory
   const newUri = path.join("/", path.dirname(page.uri), calcUri).replace(/\/$/, "");
-  if (option.basePath !== "" && !newUri.startsWith(option.basePath)) {
-    return path.join(option.basePath, newUri);
+  if (basePath !== "" && !newUri.startsWith(basePath)) {
+    return path.join(basePath, newUri);
   }
   return newUri;
 };

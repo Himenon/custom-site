@@ -1,4 +1,4 @@
-import { CommonOption } from "@custom-site/cli";
+import { CommonOption } from "@custom-site/config";
 import { SiteState } from "@custom-site/page";
 
 export const generateSiteState = (option: CommonOption): SiteState => {
@@ -9,5 +9,6 @@ export const generateSiteState = (option: CommonOption): SiteState => {
       relativePath: option.basePath || "",
       absolutePath: "",
     },
+    basePath: option.basePath,
   };
 };

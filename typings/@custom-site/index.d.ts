@@ -30,16 +30,39 @@ declare module "@custom-site/plugin" {
 
 declare module "@custom-site/internal" {
   import { Plugin } from "@custom-site/plugin";
+  import { CommonOption } from "@custom-site/config";
   export interface State {
-    PLUGINS: Plugin[];
+    plugins: Plugin[];
+    config: CommonOption;
   }
 }
 
 declare module "@custom-site/cli" {
+  export interface Option {
+    outDir?: string;
+    dev?: boolean;
+    open?: boolean;
+    port?: string;
+    basePath?: string;
+    layout?: string;
+    config?: string;
+    components?: string;
+  }
+}
+
+declare module "@custom-site/config" {
   import { FileWatchFlag } from "@custom-site/development";
   import { HtmlMetaData } from "@custom-site/page";
   import { Plugin } from "@custom-site/plugin";
   export interface CommonOption {
+    /**
+     * `config.json`のパス
+     */
+    configFile?: string;
+    /**
+     * 記事のソースファイルがあるディレクトリ
+     * configFileからの相対パス
+     */
     source: string;
     global: HtmlMetaData;
     destination?: string;
@@ -51,11 +74,13 @@ declare module "@custom-site/cli" {
     layoutFile?: string;
     customComponentsFile?: string;
     plugins: Plugin[];
+    __type?: "PRODUCTION" | "DEVELOPMENT";
   }
   /**
    * optionalのみの追加を認める
    */
   export interface DevelopOption extends CommonOption {
+    __type: "DEVELOPMENT";
     watcher?: FileWatchFlag;
     open?: boolean;
   }
@@ -63,6 +88,7 @@ declare module "@custom-site/cli" {
    * optionalのみの追加を認める
    */
   export interface BuildOption extends CommonOption {
+    __type: "PRODUCTION";
     destination: string;
   }
   export interface Options {
@@ -153,6 +179,7 @@ declare module "@custom-site/page" {
       relativePath: string;
       absolutePath: string;
     };
+    basePath: string;
   }
 
   export interface ArticleProps {
@@ -178,10 +205,5 @@ declare module "@custom-site/page" {
     name: PageState["name"];
     originalName: string;
     html: string;
-  }
-
-  export interface Source {
-    dirname: string;
-    pages: PageState[];
   }
 }

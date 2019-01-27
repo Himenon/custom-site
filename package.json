@@ -36,16 +36,10 @@
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib ./out",
     "cli": "node ./lib/cli.js",
-    "cli:build": "node ./lib/cli.js example --out-dir out",
     "commitmsg": "commitlint -e $GIT_PARAMS",
-    "components": "tsc ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "components:watch": "tsc -w ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "cruiser:image": "depcruise  --exclude \"^node_modules\" --output-type dot src/server | dot -T png > docs/dependencygraph.png",
     "develop": "yarn run build --watch",
-    "develop:server": "chmod +x ./lib/cli.js && ./lib/cli.js example -Do",
     "format": "prettier --config .prettierrc --write src/*.{ts,tsx}",
-    "layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "layout:watch": "tsc -w ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "lint:fix": "yarn run lint --fix",
     "prettier": "prettier --config .prettierrc --write src/*.{ts,tsx}",
@@ -64,8 +58,8 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-react-jsx": "^7.1.6",
     "@babel/standalone": "^7.1.0",
-    "@mdx-js/mdx": "^0.16.0",
-    "@mdx-js/tag": "^0.16.0",
+    "@mdx-js/mdx": "^0.16.8",
+    "@mdx-js/tag": "^0.16.8",
     "@types/resolve-pkg": "^1.0.1",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
@@ -123,8 +117,7 @@
     "tslint-config-prettier": "^1.15.0",
     "tslint-config-standard": "^8.0.1",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.2.2",
-    "yarn-outdated-notifier": "^1.0.0"
+    "typescript": "^3.2.4"
   },
   "publishConfig": {
     "access": "public"

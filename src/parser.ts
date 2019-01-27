@@ -1,47 +1,6 @@
-import { CommonOption, Options } from "@custom-site/cli";
-import * as dot from "dot-prop";
-import * as meow from "meow";
+import { Option as CLIOption } from "@custom-site/cli";
+import { BuildOption, CommonOption, DevelopOption } from "@custom-site/config";
 import * as path from "path";
-import * as readPkgUp from "read-pkg-up";
-import { getDefaultConfig } from "./helpers";
-
-export const flags: meow.Options["flags"] = {
-  dev: {
-    alias: "D",
-    type: "boolean",
-  },
-  open: {
-    alias: "o",
-    type: "boolean",
-  },
-  outDir: {
-    alias: "d",
-    type: "string",
-  },
-  port: {
-    alias: "p",
-    type: "string",
-  },
-  basePath: {
-    type: "string",
-  },
-  layout: {
-    type: "string",
-  },
-  components: {
-    type: "string",
-  },
-};
-
-export interface InputFlags {
-  outDir?: string;
-  dev?: boolean;
-  open?: boolean;
-  port?: string;
-  basePath?: string;
-  layout?: string;
-  components?: string;
-}
 
 export const getServerBasePath = (text: string | undefined): string => {
   if (!text) {
@@ -53,46 +12,56 @@ export const getServerBasePath = (text: string | undefined): string => {
   return path.join("/", text).trim();
 };
 
+export const getDestination = (cwd: string, config?: CommonOption, option?: CLIOption): string => {
+  if (config && config.destination) {
+    return config.destination;
+  }
+  if (option && option.outDir) {
+    return path.join(cwd, option.outDir);
+  }
+  throw Error(`Please set output directory destination.`);
+};
+
 /**
  * Overwrite Priority
  * cli arguments < package.json < config file
  */
-export const parser = (cli: meow.Result): Options => {
-  const [source = process.cwd()] = cli.input;
-  const inputFlags: InputFlags = cli.flags;
-  /**
-   * package.jsonの"custom-site"に記述されたパラメータを読み取る
-   */
-  const pkg = readPkgUp.sync({ cwd: source }) || {};
-  const defaultConfig = getDefaultConfig(source);
-  const port = inputFlags.port !== undefined ? parseInt(inputFlags.port, 10) : 8000;
-
+export const parser = (config: CommonOption | undefined, isProduction: boolean, option: CLIOption = {}): BuildOption | DevelopOption => {
+  const cwd = process.cwd();
+  const configFile = option.config || "config.json";
+  const source: string = (config && config.source) || cwd;
+  const port = option.port !== undefined ? parseInt(option.port, 10) : (config && config.port) || 8000;
   const commonOption: CommonOption = {
     source,
-    global: defaultConfig.global || {},
-    destination: inputFlags.outDir ? path.join(process.cwd(), inputFlags.outDir) : undefined,
-    basePath: getServerBasePath(inputFlags.basePath),
+    global: (config && config.global) || {},
+    basePath: getServerBasePath(option.basePath),
     port,
     blacklist: {
       extensions: [".mdx"],
     },
-    layoutFile: inputFlags.layout,
-    customComponentsFile: inputFlags.components,
+    layoutFile: option.layout,
+    customComponentsFile: option.components,
     plugins: [],
   };
 
-  if (inputFlags.dev) {
-    return {
-      develop: {
-        open: true,
-        ...commonOption,
-        ...dot.get(pkg, "pkg.custom-site"),
-        ...defaultConfig.develop,
-      },
+  if (isProduction) {
+    const destination = getDestination(cwd, config, option);
+    const result: BuildOption = {
+      ...commonOption,
+      ...config,
+      destination,
+      configFile,
+      __type: "PRODUCTION",
     };
+    return result;
   } else {
     return {
-      build: { ...commonOption, ...dot.get(pkg, "pkg.custom-site"), ...defaultConfig.build },
+      open: true,
+      ...commonOption,
+      ...config,
+      configFile,
+      port,
+      __type: "DEVELOPMENT",
     };
   }
 };

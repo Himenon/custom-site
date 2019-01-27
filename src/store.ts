@@ -7,18 +7,15 @@ interface State {
 
 export class Store<U extends {}> {
   private state: State = {};
-  public saveState<T extends keyof U>(params: { type: T; id: string; state: U[T] }): void {
+  public set<T extends keyof U>(params: { type: T; id: string; state: U[T] }): void {
     this.state[`${params.type}/${params.id}`] = params.state;
   }
-  public getState<T extends keyof U, S extends U[T]>(
-    params: { type: T; id: string },
-    defaultState?: S,
-  ): S extends U[T] ? U[T] : (U[T] | undefined) {
+  public get<T extends keyof U, S>(params: { type: T; id: string }, defaultState?: S): S extends U[T] ? U[T] : (U[T] | undefined) {
     return this.state[`${params.type}/${params.id}`] || defaultState;
   }
 }
 
 export type AppStore = Store<AppState>;
 export type PluginStore = Store<PluginState>;
-export const appStore = new Store<AppState>();
-export const pluginStore = new Store<PluginState>();
+export const app = new Store<AppState>();
+export const plugin = new Store<PluginState>();
