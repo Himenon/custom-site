@@ -1,8 +1,6 @@
 import { Option as CLIOption } from "@custom-site/cli";
 import { BuildOption, CommonOption, DevelopOption } from "@custom-site/config";
-import * as dot from "dot-prop";
 import * as path from "path";
-import * as readPkgUp from "read-pkg-up";
 
 export const getServerBasePath = (text: string | undefined): string => {
   if (!text) {
@@ -14,29 +12,28 @@ export const getServerBasePath = (text: string | undefined): string => {
   return path.join("/", text).trim();
 };
 
+export const getDestination = (cwd: string, config?: CommonOption, option?: CLIOption): string => {
+  if (config && config.destination) {
+    return config.destination;
+  }
+  if (option && option.outDir) {
+    return path.join(cwd, option.outDir);
+  }
+  throw Error(`Please set output directory destination.`);
+};
+
 /**
  * Overwrite Priority
  * cli arguments < package.json < config file
  */
-export const parser = (
-  defaultConfig: DevelopOption | BuildOption | undefined,
-  isProduction: boolean,
-  option: CLIOption = {},
-): BuildOption | DevelopOption => {
+export const parser = (config: CommonOption | undefined, isProduction: boolean, option: CLIOption = {}): BuildOption | DevelopOption => {
   const cwd = process.cwd();
-  const config = defaultConfig;
   const configFile = option.config || "config.json";
   const source: string = (config && config.source) || cwd;
-  /**
-   * package.jsonの"custom-site"に記述されたパラメータを読み取る
-   */
-  const pkg = readPkgUp.sync({ cwd }) || {};
-  const port = option.port !== undefined ? parseInt(option.port, 10) : 8000;
+  const port = option.port !== undefined ? parseInt(option.port, 10) : (config && config.port) || 8000;
   const commonOption: CommonOption = {
-    configFile: config && configFile,
     source,
     global: (config && config.global) || {},
-    destination: option.outDir ? path.join(process.cwd(), option.outDir) : undefined,
     basePath: getServerBasePath(option.basePath),
     port,
     blacklist: {
@@ -48,18 +45,22 @@ export const parser = (
   };
 
   if (isProduction) {
-    return {
+    const destination = getDestination(cwd, config, option);
+    const result: BuildOption = {
       ...commonOption,
-      ...dot.get(pkg, "pkg.custom-site"),
       ...config,
+      destination,
+      configFile,
       __type: "PRODUCTION",
     };
+    return result;
   } else {
     return {
       open: true,
       ...commonOption,
-      ...dot.get(pkg, "pkg.custom-site"),
       ...config,
+      configFile,
+      port,
       __type: "DEVELOPMENT",
     };
   }

@@ -13,6 +13,7 @@ describe("rendering test", () => {
         relativePath: "",
         absolutePath: "",
       },
+      basePath: "",
     },
     page: {
       uri: "",

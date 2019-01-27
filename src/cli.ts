@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
+import * as dot from "dot-prop";
 import * as http from "http";
 import * as meow from "meow";
 import opn = require("opn");
 import * as path from "path";
+import * as readPkgUp from "read-pkg-up";
 
 import { UpdateNotifier } from "update-notifier";
 import { notifyLog } from "./logger";
-
-const pkg = require("../package.json");
-new UpdateNotifier({ pkg }).notify();
 
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
@@ -72,9 +71,12 @@ const cli = meow(
 );
 
 const main = async () => {
+  const pkg = readPkgUp.sync().pkg;
+  new UpdateNotifier({ pkg }).notify();
   const inputFlags: Option = cli.flags;
   const isProduction: boolean = !inputFlags.dev;
-  const defaultConfig = getDefaultConfig(inputFlags.config || "config.json");
+  const packageConfig = dot.get(pkg, "pkg.custom-site");
+  const defaultConfig = { ...getDefaultConfig(inputFlags.config || "config.json"), ...packageConfig };
   const options = parser(defaultConfig, isProduction, inputFlags);
   notifyLog("custom-site");
   if (options.__type === "DEVELOPMENT") {

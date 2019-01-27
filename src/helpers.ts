@@ -1,10 +1,10 @@
 import * as fs from "fs";
 
-import { BuildOption, DevelopOption } from "@custom-site/config";
+import { CommonOption } from "@custom-site/config";
 
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 
-export const getDefaultConfig = (filename: string): DevelopOption | BuildOption | undefined => {
+export const getDefaultConfig = (filename: string): CommonOption | undefined => {
   if (fs.existsSync(filename) && fs.statSync(filename).isFile()) {
     try {
       return loadJsonFile(filename);
