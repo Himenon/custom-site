@@ -14,7 +14,8 @@
     "components": "tsc ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "components:watch": "tsc -w ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
     "layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "layout:watch": "tsc -w ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs"
+    "layout:watch": "tsc -w ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
+    "plugin:watch": "tsc -w ./plugins/*.ts --jsx react --lib esnext --target esnext --module commonjs"
   },
   "dependencies": {
     "@custom-site/custom-site": "file:../"

@@ -38,4 +38,9 @@ export const initOptions = (options: CommonOption) => {
     id: "",
     state,
   });
+  app.set({
+    type: "plugins",
+    id: "",
+    state: options.plugins,
+  });
 };
