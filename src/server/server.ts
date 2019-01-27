@@ -56,7 +56,7 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 
 const start = async (option: DevelopOption) => {
   init(option);
-  let config = app.get({ type: "config", id: "" }, option);
+  let config: DevelopOption = { ...app.get({ type: "config", id: "" }, option), __type: "DEVELOPMENT" };
   const socketPort: number = await portfinder.getPortPromise({
     port: config.port - 2,
   });
@@ -85,7 +85,7 @@ const start = async (option: DevelopOption) => {
       app.set({ type: "config", id: "", state });
       init(state);
     }
-    config = app.get({ type: "config", id: "" }, config);
+    config = { ...app.get({ type: "config", id: "" }, config), __type: "DEVELOPMENT" };
     const newConfig = { ...config, watcher: updateParams };
     const newPages = await getPages(newConfig);
     renderedPages = await generateStatic(generateSiteState(config), newPages);

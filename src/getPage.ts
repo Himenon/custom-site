@@ -5,7 +5,6 @@ import * as path from "path";
 import { CommonOption } from "@custom-site/config";
 import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
-import { getDefaultConfig } from "./helpers";
 
 export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
 
@@ -44,9 +43,7 @@ const rewriteUri = (uri: string, basePath: string): string => {
   return path.join(basePath, uri).replace(/\/index$/, "");
 };
 
-const getPage = (config: { configFile?: string; source: string; basePath: string }) => async (filename: string): Promise<PageState> => {
-  // TODO cache
-  const globalSetting = config && config.configFile && getDefaultConfig(config.configFile);
+const getPage = (config: { global: HtmlMetaData; source: string; basePath: string }) => async (filename: string): Promise<PageState> => {
   const ext = path.extname(filename);
   const relativePath = path.relative(config.source, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
@@ -54,7 +51,7 @@ const getPage = (config: { configFile?: string; source: string; basePath: string
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting ? globalSetting.global || {} : {}, data, path.dirname(rewrittenUri), config.basePath);
+  const metaData = rewriteMetaData(config.global, data, path.dirname(rewrittenUri), config.basePath);
   return {
     uri: rewrittenUri,
     content,
@@ -72,9 +69,8 @@ export const getPages = async (config: CommonOption): Promise<PageState[]> => {
   const filenames = allFiles.filter(name => !/^\./.test(name));
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name));
   const mdFilenames = filenames.filter(name => /\.mdx?/.test(name));
-
   const contentFiles = [...jsxFilenames, ...mdFilenames];
-  const promises = contentFiles.map(getPage(config));
+  const promises = contentFiles.map(getPage({ ...config }));
   const pages = await Promise.all(promises);
   return pages;
 };

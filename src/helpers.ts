@@ -1,15 +1,10 @@
 import * as fs from "fs";
 
-import { Options } from "@custom-site/config";
-import { HtmlMetaData } from "@custom-site/page";
+import { BuildOption, DevelopOption } from "@custom-site/config";
 
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 
-export interface LoadConfigOption extends Options {
-  global?: HtmlMetaData;
-}
-
-export const getDefaultConfig = (filename: string): LoadConfigOption | undefined => {
+export const getDefaultConfig = (filename: string): DevelopOption | BuildOption | undefined => {
   if (fs.existsSync(filename) && fs.statSync(filename).isFile()) {
     try {
       return loadJsonFile(filename);
@@ -17,6 +12,8 @@ export const getDefaultConfig = (filename: string): LoadConfigOption | undefined
       console.error(`"${filename}" include some syntax error.`);
       process.exit(1);
     }
+  } else {
+    console.error(`'${filename}' is not exists.`);
   }
   return;
 };

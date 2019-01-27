@@ -17,7 +17,41 @@ import { server } from "./server";
 import { copyAssetFiles } from "./build/copyFiles";
 import { exportPages } from "./exportPage";
 
-import { flags, parser } from "./parser";
+import { Option } from "@custom-site/cli";
+import { getDefaultConfig } from "./helpers";
+import { parser } from "./parser";
+
+const flags: meow.Options["flags"] = {
+  dev: {
+    alias: "D",
+    type: "boolean",
+  },
+  open: {
+    alias: "o",
+    type: "boolean",
+  },
+  outDir: {
+    alias: "d",
+    type: "string",
+  },
+  port: {
+    alias: "p",
+    type: "string",
+  },
+  basePath: {
+    type: "string",
+  },
+  layout: {
+    type: "string",
+  },
+  components: {
+    type: "string",
+  },
+  config: {
+    alias: "c",
+    type: "string",
+  },
+};
 
 const cli = meow(
   `
@@ -37,15 +71,16 @@ const cli = meow(
   },
 );
 
-const { develop: developOptions, build: buildOptions } = parser(cli);
-
-notifyLog("custom-site");
-
 const main = async () => {
-  if (developOptions) {
+  const inputFlags: Option = cli.flags;
+  const isProduction: boolean = !inputFlags.dev;
+  const defaultConfig = getDefaultConfig(inputFlags.config || "config.json");
+  const options = parser(defaultConfig, isProduction, inputFlags);
+  notifyLog("custom-site");
+  if (options.__type === "DEVELOPMENT") {
     notifyLog("starting dev server");
     try {
-      const srv: http.Server = await server(developOptions);
+      const srv: http.Server = await server(options);
       const address = srv.address();
       let url: string;
       if (typeof address === "string") {
@@ -54,9 +89,9 @@ const main = async () => {
       } else {
         const { port } = address;
         notifyLog(`listening on port: ${port}`);
-        url = path.join(`http://localhost:${port}`, developOptions.basePath);
+        url = path.join(`http://localhost:${port}`, options.basePath);
       }
-      if (developOptions.open) {
+      if (options.open) {
         opn(url);
       }
     } catch (err) {
@@ -64,11 +99,11 @@ const main = async () => {
       process.exit(1);
     }
   }
-  if (buildOptions) {
+  if (options.__type === "PRODUCTION") {
     // 開発環境ではなく、サイトを生成する
-    const pages = await generateStaticPages(buildOptions);
+    const pages = await generateStaticPages(options);
     if (pages) {
-      Promise.all([exportPages(pages, buildOptions), copyAssetFiles()]);
+      Promise.all([exportPages(pages, options), copyAssetFiles()]);
     }
   }
 };

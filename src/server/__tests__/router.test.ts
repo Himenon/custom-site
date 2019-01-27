@@ -12,6 +12,7 @@ describe("routing test", () => {
       extensions: [],
     },
     plugins: [],
+    __type: "DEVELOPMENT",
   };
 
   const option2: DevelopOption = {
@@ -23,6 +24,7 @@ describe("routing test", () => {
       extensions: [],
     },
     plugins: [],
+    __type: "DEVELOPMENT",
   };
 
   test("default redirect path", () => {

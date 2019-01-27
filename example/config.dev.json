@@ -1,7 +1,7 @@
 {
   "global": {
     "lang": "ja",
-    "title": "Inner Source",
+    "title": "example site",
     "keywords": "static site generator,NodeJS,React",
     "copyright": "@Himenon",
     "viewport": {
@@ -21,13 +21,9 @@
       "/assets/main.css"
     ]
   },
-  "source": ".",
-  "destination": "./hoge",
-  "basePath": "/hoge",
-  "layoutFile": "../CustomTemplate/template.js",
-  "customComponentsFile": "../CustomComponent/components.js",
-  "port": 9000,
-  "blacklist": {
-    "extensions": [".html", ".json", ".mdx", ".ts", ".tsx"]
-  }
+  "source": "./src",
+  "basePath": "/a",
+  "layoutFile": "./CustomTemplate/template.js",
+  "customComponentsFile": "./CustomComponent/components.js",
+  "port": 9000
 }
