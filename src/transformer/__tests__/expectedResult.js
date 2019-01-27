@@ -1,3 +1,5 @@
+const layoutProps = {};
+
 class MDXContent extends React.Component {
   constructor(props) {
     super(props)

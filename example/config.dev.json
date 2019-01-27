@@ -1,0 +1,35 @@
+{
+  "global": {
+    "lang": "ja",
+    "title": "example site",
+    "keywords": "static site generator,NodeJS,React",
+    "copyright": "@Himenon",
+    "viewport": {
+      "initial-scale": 1.0,
+      "minimum-scale": 0.5,
+      "user-scalable": "no"
+    },
+    "thirdParty": {
+      "googleAnalytics": {
+        "ua": "test"
+      }
+    },
+    "js": [
+      "/assets/main.js"
+    ],
+    "css": [
+      "/assets/main.css"
+    ]
+  },
+  "source": "./src",
+  "basePath": "/a",
+  "layoutFile": "./CustomTemplate/template.js",
+  "customComponentsFile": "./CustomComponent/components.js",
+  "port": 9000,
+  "plugins": [
+    {
+      "name": "MetaPlugin",
+      "resolve": "./plugins"
+    }
+  ]
+}

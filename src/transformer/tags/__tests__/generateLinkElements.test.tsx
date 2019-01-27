@@ -1,11 +1,11 @@
 jest.unmock("../generateLinkElements.tsx");
-import { HtmlMetaProperties } from "@custom-site/page";
+import { HtmlMetaData } from "@custom-site/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { generateLinkElements } from "../generateLinkElements";
 
 describe("Link Element", () => {
-  const generator = (params: HtmlMetaProperties) => ReactDOM.renderToStaticMarkup(<head>{generateLinkElements(params)}</head>);
+  const generator = (params: HtmlMetaData) => ReactDOM.renderToStaticMarkup(<head>{generateLinkElements(params)}</head>);
 
   test("generate link elements", () => {
     const domString = generator({

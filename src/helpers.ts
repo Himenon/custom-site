@@ -1,28 +1,19 @@
 import * as fs from "fs";
 
-import { Options } from "@custom-site/cli";
-import { HtmlMetaProperties } from "@custom-site/page";
-import * as path from "path";
+import { CommonOption } from "@custom-site/config";
 
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 
-export interface LoadConfigOption extends Options {
-  global?: HtmlMetaProperties;
-}
-
-export const getDefaultConfig = (dirname: string, filename: string = "config.json"): LoadConfigOption => {
-  const filePath = path.join(dirname, filename);
-  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+export const getDefaultConfig = (filename: string): CommonOption | undefined => {
+  if (fs.existsSync(filename) && fs.statSync(filename).isFile()) {
     try {
-      return loadJsonFile(filePath);
+      return loadJsonFile(filename);
     } catch (e) {
-      console.error(`"${filePath}" include some syntax error.`);
+      console.error(`"${filename}" include some syntax error.`);
       process.exit(1);
     }
+  } else {
+    console.error(`'${filename}' is not exists.`);
   }
-  return {
-    global: {
-      lang: "en",
-    },
-  };
+  return;
 };

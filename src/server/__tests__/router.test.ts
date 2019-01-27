@@ -1,5 +1,5 @@
 jest.unmock("../server.ts");
-import { DevelopOption } from "@custom-site/cli";
+import { DevelopOption } from "@custom-site/config";
 import { getRedirectPagePath } from "../server";
 
 describe("routing test", () => {
@@ -7,18 +7,24 @@ describe("routing test", () => {
     source: "",
     global: {},
     basePath: "/",
+    port: 9000,
     blacklist: {
       extensions: [],
     },
+    plugins: [],
+    __type: "DEVELOPMENT",
   };
 
   const option2: DevelopOption = {
     source: "",
     global: {},
     basePath: "/test",
+    port: 9000,
     blacklist: {
       extensions: [],
     },
+    plugins: [],
+    __type: "DEVELOPMENT",
   };
 
   test("default redirect path", () => {

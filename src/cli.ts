@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
+import * as dot from "dot-prop";
 import * as http from "http";
 import * as meow from "meow";
 import opn = require("opn");
 import * as path from "path";
+import * as readPkgUp from "read-pkg-up";
 
 import { UpdateNotifier } from "update-notifier";
 import { notifyLog } from "./logger";
-
-const pkg = require("../package.json");
-new UpdateNotifier({ pkg }).notify();
 
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
@@ -17,7 +16,41 @@ import { server } from "./server";
 import { copyAssetFiles } from "./build/copyFiles";
 import { exportPages } from "./exportPage";
 
-import { flags, parser } from "./parser";
+import { Option } from "@custom-site/cli";
+import { getDefaultConfig } from "./helpers";
+import { parser } from "./parser";
+
+const flags: meow.Options["flags"] = {
+  dev: {
+    alias: "D",
+    type: "boolean",
+  },
+  open: {
+    alias: "o",
+    type: "boolean",
+  },
+  outDir: {
+    alias: "d",
+    type: "string",
+  },
+  port: {
+    alias: "p",
+    type: "string",
+  },
+  basePath: {
+    type: "string",
+  },
+  layout: {
+    type: "string",
+  },
+  components: {
+    type: "string",
+  },
+  config: {
+    alias: "c",
+    type: "string",
+  },
+};
 
 const cli = meow(
   `
@@ -30,21 +63,26 @@ const cli = meow(
     --port, -p      Set port for development server
     --open, -o      Open development server in default browser
     --layout        Layout File Path
+    --config, -c    Config File Path
 `,
   {
     flags,
   },
 );
 
-const { develop: developOptions, build: buildOptions } = parser(cli);
-
-notifyLog("custom-site");
-
 const main = async () => {
-  if (developOptions) {
+  const pkg = readPkgUp.sync().pkg;
+  new UpdateNotifier({ pkg }).notify();
+  const inputFlags: Option = cli.flags;
+  const isProduction: boolean = !inputFlags.dev;
+  const packageConfig = dot.get(pkg, "pkg.custom-site");
+  const defaultConfig = { ...getDefaultConfig(inputFlags.config || "config.json"), ...packageConfig };
+  const options = parser(defaultConfig, isProduction, inputFlags);
+  notifyLog("custom-site");
+  if (options.__type === "DEVELOPMENT") {
     notifyLog("starting dev server");
     try {
-      const srv: http.Server = await server(developOptions.source, developOptions);
+      const srv: http.Server = await server(options);
       const address = srv.address();
       let url: string;
       if (typeof address === "string") {
@@ -53,9 +91,9 @@ const main = async () => {
       } else {
         const { port } = address;
         notifyLog(`listening on port: ${port}`);
-        url = path.join(`http://localhost:${port}`, developOptions.basePath);
+        url = path.join(`http://localhost:${port}`, options.basePath);
       }
-      if (developOptions.open) {
+      if (options.open) {
         opn(url);
       }
     } catch (err) {
@@ -63,11 +101,11 @@ const main = async () => {
       process.exit(1);
     }
   }
-  if (buildOptions) {
+  if (options.__type === "PRODUCTION") {
     // 開発環境ではなく、サイトを生成する
-    const pages = await generateStaticPages(buildOptions.source, buildOptions);
+    const pages = await generateStaticPages(options);
     if (pages) {
-      Promise.all([exportPages(pages, buildOptions), copyAssetFiles(buildOptions)]);
+      Promise.all([exportPages(pages, options), copyAssetFiles()]);
     }
   }
 };

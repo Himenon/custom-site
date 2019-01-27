@@ -36,6 +36,7 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
   const keys = Object.keys(fullScope);
   const values = keys.map(key => fullScope[key]);
   const mainLogic = `${code} return React.createElement(MDXContent, { components, ...props });`;
+  // tslint:disable-next-line:function-constructor
   const fn = new Function("React", ...keys, mainLogic);
   const resultComponent = fn(React, ...values);
   return resultComponent;

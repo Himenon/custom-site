@@ -2,10 +2,9 @@ import * as fs from "fs";
 import * as matter from "gray-matter";
 import * as path from "path";
 
-import { CommonOption, DevelopOption } from "@custom-site/cli";
-import { HtmlMetaProperties, LinkHTMLAttributes, PageElement, ScriptHTMLAttributes, Source } from "@custom-site/page";
+import { CommonOption } from "@custom-site/config";
+import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
-import { getDefaultConfig } from "./helpers";
 
 export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
 
@@ -25,12 +24,7 @@ const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, basePath: str
   return { ...attribute, href };
 };
 
-const rewriteMetaData = (
-  globalSetting: HtmlMetaProperties,
-  localSetting: HtmlMetaProperties,
-  uri: string,
-  option: CommonOption,
-): HtmlMetaProperties => {
+const rewriteMetaData = (globalSetting: HtmlMetaData, localSetting: HtmlMetaData, uri: string, basePath: string): HtmlMetaData => {
   const globalLinks = [...(globalSetting.link ? globalSetting.link : []), ...(globalSetting.css ? globalSetting.css : [])];
   const localLinks = [...(localSetting.link ? localSetting.link : []), ...(localSetting.css ? localSetting.css : [])];
   const rewriteLocalScripts = localSetting.js ? localSetting.js.map(src => rewriteScriptSource(src, uri)) : localSetting.js;
@@ -38,30 +32,28 @@ const rewriteMetaData = (
   return {
     ...globalSetting,
     ...localSetting,
-    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, option.basePath)) : globalSetting.js,
+    globalScripts: globalSetting.js ? globalSetting.js.map(js => rewriteScriptSource(js, basePath)) : globalSetting.js,
     localScripts: rewriteLocalScripts,
-    globalLinks: globalLinks.map(attribute => rewriteLinkSource(attribute, option.basePath)),
+    globalLinks: globalLinks.map(attribute => rewriteLinkSource(attribute, basePath)),
     localLinks: rewriteLocalLinks,
   };
 };
 
-const formatUri = (uri: string, option: CommonOption): string => {
-  return path.join(option.basePath, uri).replace(/\/index$/, "");
+const rewriteUri = (uri: string, basePath: string): string => {
+  return path.join(basePath, uri).replace(/\/index$/, "");
 };
 
-const getPage = (dirname: string, option: CommonOption) => async (filename: string): Promise<PageElement> => {
-  // TODO cache
-  const globalSetting = getDefaultConfig(option.source).global || {};
+const getPage = (config: { global: HtmlMetaData; source: string; basePath: string }) => async (filename: string): Promise<PageState> => {
   const ext = path.extname(filename);
-  const relativePath = path.relative(dirname, filename);
+  const relativePath = path.relative(config.source, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
-  const fUri = formatUri(uri, option);
+  const rewrittenUri = rewriteUri(uri, config.basePath);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(globalSetting, data, path.dirname(fUri), option);
+  const metaData = rewriteMetaData(config.global, data, path.dirname(rewrittenUri), config.basePath);
   return {
-    uri: fUri,
+    uri: rewrittenUri,
     content,
     metaData,
     ext,
@@ -71,17 +63,14 @@ const getPage = (dirname: string, option: CommonOption) => async (filename: stri
   };
 };
 
-export const getData = async (dirname: string, options: DevelopOption): Promise<Source> => {
+export const getPages = async (config: CommonOption): Promise<PageState[]> => {
+  const dirname = config.source;
   const allFiles = await recursive(dirname);
   const filenames = allFiles.filter(name => !/^\./.test(name));
   const jsxFilenames = filenames.filter(name => /\.jsx$/.test(name));
   const mdFilenames = filenames.filter(name => /\.mdx?/.test(name));
-
   const contentFiles = [...jsxFilenames, ...mdFilenames];
-  const promises = contentFiles.map(getPage(dirname, options));
+  const promises = contentFiles.map(getPage({ ...config }));
   const pages = await Promise.all(promises);
-  return {
-    dirname,
-    pages,
-  };
+  return pages;
 };
