@@ -25,5 +25,11 @@
   "basePath": "/a",
   "layoutFile": "./CustomTemplate/template.js",
   "customComponentsFile": "./CustomComponent/components.js",
-  "port": 9000
+  "port": 9000,
+  "plugins": [
+    {
+      "name": "MetaPlugin",
+      "resolve": "./plugins"
+    }
+  ]
 }
