@@ -6,10 +6,11 @@ declare module "@custom-site/development" {
 
 declare module "@custom-site/plugin" {
   export type PluginName = string;
-  import { HtmlMetaData } from "@custom-site/page";
+  import { PageState, SiteState } from "@custom-site/page";
 
   export interface State {
-    GENERATE_META_DATA: { metaData: HtmlMetaData };
+    /** Return Value only Use page.metaData */
+    GENERATE_META_DATA: { site: SiteState; page: PageState };
   }
 
   export type CreateHandlerMap<T> = { [P in keyof T]?: Array<(payload: T[P]) => T[P]> };
