@@ -1,3 +1,50 @@
+#### 0.2.1 (2019-01-28)
+
+##### Chores
+
+* **change-log:**  updated CHANGELOG.md ([724b3f4b](https://github.com/custom-site/custom-site/commit/724b3f4bccf136465adb32ec955d36d0664170a5))
+* **ci:**
+  *  update setting ([a662d196](https://github.com/custom-site/custom-site/commit/a662d196c6e1480df6863bcdafa26ff70c34d789))
+  *  publish setting ([f3339900](https://github.com/custom-site/custom-site/commit/f3339900382c1bcb3c08edf26507a6f978dedd4b))
+
+##### New Features
+
+* **plugin:**
+  *  add plugin argument parameter ([05a24e54](https://github.com/custom-site/custom-site/commit/05a24e54dbb7581148dcf61a22747506284bd610))
+  *  add plugin example and fix resolve path ([2c646aab](https://github.com/custom-site/custom-site/commit/2c646aab54c1a3488317f9a071ab8559495feece))
+  *  plugin listen ([f92d82f5](https://github.com/custom-site/custom-site/commit/f92d82f52473ff11b9c4bc2ef21b108d3ce1253c))
+  *  add meta hook ([9f8b6f0f](https://github.com/custom-site/custom-site/commit/9f8b6f0f0f0d56291db7395d7aa323a4f454a53c))
+* **exploler-plugin:**  plugin searcher ([510003db](https://github.com/custom-site/custom-site/commit/510003db9f59c374978c08aa8f1fe60fee750b87))
+* **plugin-system:**
+  *  update typings ([f43c7c96](https://github.com/custom-site/custom-site/commit/f43c7c967728df410e6d07723dacf9c0627d7bf7))
+  *  make plugin system ([a5bab1c1](https://github.com/custom-site/custom-site/commit/a5bab1c11eaf9dc4b83ba2bbbc59e8acf29aaf30))
+
+##### Bug Fixes
+
+* **test:**  update package.json and test ([8894eb06](https://github.com/custom-site/custom-site/commit/8894eb06bcace15b7a4090eacc036fe240786059))
+
+##### Refactors
+
+* **config:**
+  *  refactor config paramsters ([2fe85de4](https://github.com/custom-site/custom-site/commit/2fe85de40e202691eb51174838cb3ecce5da9bc9))
+  *  remove dirname ([3c949349](https://github.com/custom-site/custom-site/commit/3c949349fbc474571abf0861c48e8fbbe22c5563))
+  *  remove dirname ([89de654a](https://github.com/custom-site/custom-site/commit/89de654a2922121675c8449146aff74d4382f4e2))
+  *  overwrite config setting ([470bf0e2](https://github.com/custom-site/custom-site/commit/470bf0e2079a29dcf55e3613071b0c4e61fb1d67))
+* **option:**  option to site state ([1b5ccfcd](https://github.com/custom-site/custom-site/commit/1b5ccfcdcd3d18b8adbc9f850db8cc0de86d7f8d))
+* **store:**
+  *  use app store ([40a0d09f](https://github.com/custom-site/custom-site/commit/40a0d09f685b009c4d14fd653532014f7995fbf3))
+  *  separate plugin and app store ([0e087983](https://github.com/custom-site/custom-site/commit/0e0879839df3c5b21c3f18406cf5f83c8c46d90f))
+* **path:**  change external file import path settings ([b9dc4bb4](https://github.com/custom-site/custom-site/commit/b9dc4bb4110712c8d8f642931ef23f2be267db54))
+* **rename:**
+  *  rename I/F ([5de22883](https://github.com/custom-site/custom-site/commit/5de22883afb81eadc769efaaaddddcfee1733077))
+  *  rename I/F ([250cbd71](https://github.com/custom-site/custom-site/commit/250cbd719c316eacea42973a578e1fbd380c005b))
+  *  rename I/F ([ec49c070](https://github.com/custom-site/custom-site/commit/ec49c070f96d6c0741d2de4747267df50e543bea))
+* **render-page:**  refactoring render pipeline ([6cc998b1](https://github.com/custom-site/custom-site/commit/6cc998b19090431c131fb2f377308a3409c196b6))
+
+##### Tests
+
+* **parser:**  add cli parser test ([3339e690](https://github.com/custom-site/custom-site/commit/3339e6906d78a8bbcd5423b55ea16cc03b632e5a))
+
 ### 0.2.0 (2019-01-27)
 
 ##### Chores
