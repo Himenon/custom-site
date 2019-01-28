@@ -28,6 +28,8 @@ export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElemen
       {htmlMetaData["og:description"] && <meta property="og:description" content={htmlMetaData["og:description"]} />}
       {htmlMetaData["og:image"] && <meta property="og:image" content={htmlMetaData["og:image"]} />}
       {htmlMetaData["og:url"] && <meta property="og:url" content={htmlMetaData["og:url"]} />}
+      {htmlMetaData["twitter:site"] && <meta property="twitter:site" content={htmlMetaData["twitter:site"]} />}
+      {htmlMetaData["twitter:card"] && <meta property="twitter:card" content={htmlMetaData["twitter:card"]} />}
       {generateViewportMetaElements(htmlMetaData)}
       {generateScriptElements(htmlMetaData)}
       {generateLinkElements(htmlMetaData)}
