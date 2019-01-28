@@ -3,12 +3,11 @@
 /// <reference path="../../typings/@custom-site/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.onGenerateMetaData = payload => {
-    const oldMetaData = payload.metaData;
+    const page = payload.page;
     const newMetaData = {
-        ...oldMetaData,
-        "og:title": oldMetaData.title,
+        "og:title": page.metaData.title,
+        "og:url": page.uri,
     };
-    return {
-        metaData: newMetaData,
-    };
+    payload.page.metaData = { ...payload.page.metaData, ...newMetaData };
+    return payload;
 };

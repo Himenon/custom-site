@@ -41,11 +41,11 @@ const createTemplate = (site: SiteState, page: PageState) => {
   });
 };
 
-const createHead = (page: PageState) => {
+const createHead = (site: SiteState, page: PageState) => {
   const id = `GENERATE_META_DATA/${page.uri}`;
-  const state = { metaData: page.metaData, id };
+  const state = { site, page, id };
   pluginEventEmitter.emit("GENERATE_META_DATA", state);
-  const metaData = plugin.get({ type: "GENERATE_META_DATA", id }, state).metaData;
+  const metaData = plugin.get({ type: "GENERATE_META_DATA", id }, state).page.metaData;
   return createHeadContent(metaData);
 };
 
@@ -70,7 +70,7 @@ const createRenderPage = (site: SiteState) => (page: PageState): RenderedStaticP
     name: path.join(site.basePath, page.name),
     originalName: page.name,
     html: combine({
-      head: createHead(page),
+      head: createHead(site, page),
       body: applyTemplate(createBody(page, site)),
     }),
   };

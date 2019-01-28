@@ -29,5 +29,11 @@
   "port": 9000,
   "blacklist": {
     "extensions": [".html", ".json", ".mdx", ".ts", ".tsx"]
-  }
+  },
+  "plugins": [
+    {
+      "name": "MetaPlugin",
+      "resolve": "../plugins"
+    }
+  ]
 }
