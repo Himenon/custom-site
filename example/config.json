@@ -25,6 +25,13 @@
   "basePath": "/hoge",
   "layoutFile": "./CustomTemplate/template.js",
   "customComponentsFile": "./CustomComponent/components.js",
+  "port": 9000,
+  "plugins": [
+    {
+      "name": "MetaPlugin",
+      "resolve": "./plugins"
+    }
+  ],
   "blacklist": {
     "extensions": [".html", ".json", ".mdx", ".ts", ".tsx"]
   }

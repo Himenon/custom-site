@@ -14,7 +14,8 @@ import { generateSiteState } from "../generateProps";
 import { generateStatic } from "../generator";
 import { getPages } from "../getPage";
 import { getDefaultConfig } from "../helpers";
-import { init } from "../lifeCycle";
+import { init, initPlugins } from "../lifeCycle";
+import { pluginEventEmitter } from "../plugin";
 import { app } from "../store";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
@@ -64,7 +65,8 @@ const start = async (option: DevelopOption) => {
   let socket: WebSocket;
   let renderedPages = await generateStatic(generateSiteState(config), initPages);
 
-  const watchFiles: string[] = [config.source, config.layoutFile || "", config.customComponentsFile || ""];
+  const loadedPluginPaths = app.get({ type: "pluginPaths", id: "" }, []);
+  const watchFiles: string[] = [config.source, config.layoutFile || "", config.customComponentsFile || "", ...loadedPluginPaths];
 
   const watcher: chokidar.FSWatcher = chokidar.watch(watchFiles, {
     ignoreInitial: true,
@@ -78,12 +80,19 @@ const start = async (option: DevelopOption) => {
     if (!socket) {
       return;
     }
+    console.log(`Update: ${updateParams.filename}`);
     // TODO Side Effectを解消する
     if (config.configFile === updateParams.filename) {
       const updateConfig = getDefaultConfig(config.configFile);
       const state = { ...config, ...updateConfig };
       app.set({ type: "config", id: "", state });
       init(state);
+    }
+    if (loadedPluginPaths.includes(updateParams.filename)) {
+      console.log("reload plugins");
+      loadedPluginPaths.forEach(pluginPath => delete require.cache[pluginPath]);
+      pluginEventEmitter.clearAll();
+      initPlugins();
     }
     config = { ...app.get({ type: "config", id: "" }, config), __type: "DEVELOPMENT" };
     const newConfig = { ...config, watcher: updateParams };

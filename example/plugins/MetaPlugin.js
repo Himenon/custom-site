@@ -5,8 +5,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.onGenerateMetaData = payload => {
     const page = payload.page;
     const newMetaData = {
-        "og:title": page.metaData.title,
-        "og:url": page.uri,
+        extend: {
+            meta: [
+                {
+                    property: "og:title",
+                    content: page.metaData.title,
+                },
+                {
+                    property: "og:url",
+                    content: page.uri,
+                },
+            ],
+        },
     };
     payload.page.metaData = { ...payload.page.metaData, ...newMetaData };
     return payload;

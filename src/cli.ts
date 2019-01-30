@@ -97,7 +97,8 @@ const main = async () => {
         opn(url);
       }
     } catch (err) {
-      notifyLog("error", err);
+      notifyLog("error");
+      console.error(err);
       process.exit(1);
     }
   }

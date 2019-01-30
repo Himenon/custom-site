@@ -37,6 +37,7 @@ declare module "@custom-site/internal" {
   import { CommonOption } from "@custom-site/config";
   export interface State {
     plugins: Plugin[];
+    pluginPaths: string[];
     config: CommonOption;
   }
 }

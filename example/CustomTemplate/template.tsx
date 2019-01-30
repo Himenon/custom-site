@@ -12,9 +12,9 @@ export const createBodyTemplateFunction = (props: PostProps) => (content?: React
   const newContent = wrappedContent(content);
   return (
     <body id="custom-template">
+      {newContent}
       <h1>CustomTemplate: {props.site.title}</h1>
       <pre>{JSON.stringify(props, null, 2)}</pre>
-      {newContent}
     </body>
   );
 };
