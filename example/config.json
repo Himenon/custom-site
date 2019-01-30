@@ -22,7 +22,8 @@
     ]
   },
   "source": "./src",
-  "basePath": "/hoge",
+  "baseUrl": "http://localhost:9001",
+  "baseUri": "/hoge",
   "layoutFile": "./CustomTemplate/template.js",
   "customComponentsFile": "./CustomComponent/components.js",
   "port": 9000,

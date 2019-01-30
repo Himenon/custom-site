@@ -71,7 +71,8 @@ declare module "@custom-site/config" {
     source: string;
     global: HtmlMetaData;
     destination?: string;
-    basePath: string;
+    baseUri: string;
+    baseUrl: string;
     port: number;
     blacklist: {
       extensions: string[];
@@ -195,11 +196,8 @@ declare module "@custom-site/page" {
   export interface SiteState {
     title: string;
     description: string;
-    url: {
-      relativePath: string;
-      absolutePath: string;
-    };
-    basePath: string;
+    baseUri: string;
+    baseUrl: string;
   }
 
   export interface ArticleProps {

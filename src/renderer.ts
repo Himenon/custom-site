@@ -54,7 +54,7 @@ const createBody = (page: PageState, site: SiteState) => {
   const externalCustomComponents = getExternalCustomComponents();
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
-      ...getCustomComponents(page, site.basePath),
+      ...getCustomComponents(page, site.baseUri),
       ...(externalCustomComponents && externalCustomComponents.generateCustomComponents()),
     },
     props: {},
@@ -78,7 +78,7 @@ const createRenderPage = (site: SiteState) => (page: PageState): RenderedStaticP
   pluginEventEmitter.emit("AFTER_RENDER_PAGE", state);
   const result = plugin.get({ type: "AFTER_RENDER_PAGE", id }, state).html;
   return {
-    name: path.join(site.basePath, page.name),
+    name: path.join(site.baseUri, page.name),
     originalName: page.name,
     html: result,
   };

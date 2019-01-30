@@ -36,10 +36,10 @@ export const redirectToLocalFile = (filePath: string, res: http.ServerResponse):
  */
 export const getRedirectPagePath = (pathname: string, option: DevelopOption): string => {
   const calcPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, pathname.length - 1) : pathname;
-  if (option.basePath === "/") {
+  if (option.baseUri === "/") {
     return calcPath === "/" ? "/index" : calcPath;
   }
-  if (calcPath === "/" || calcPath === option.basePath) {
+  if (calcPath === "/" || calcPath === option.baseUri) {
     return path.join(calcPath, "index");
   }
   return calcPath;
@@ -49,8 +49,8 @@ export const getRedirectPagePath = (pathname: string, option: DevelopOption): st
  * ローカルディレクトリにあるファイル名を探索できるようなパスに変換
  */
 export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string, option: DevelopOption): string => {
-  if (pathname.startsWith(option.basePath)) {
-    return path.join(dirname, pathname.slice(option.basePath.length));
+  if (pathname.startsWith(option.baseUri)) {
+    return path.join(dirname, pathname.slice(option.baseUri.length));
   }
   return path.join(dirname, pathname);
 };

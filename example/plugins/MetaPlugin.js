@@ -2,6 +2,7 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="../../typings/@custom-site/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
+const path = require("path");
 exports.onGenerateMetaData = payload => {
     const page = payload.page;
     const newMetaData = {
@@ -13,7 +14,7 @@ exports.onGenerateMetaData = payload => {
                 },
                 {
                     property: "og:url",
-                    content: page.uri,
+                    content: path.join(payload.site.baseUrl, page.uri),
                 },
             ],
         },

@@ -9,11 +9,8 @@ describe("rendering test", () => {
     site: {
       title: "",
       description: "",
-      url: {
-        relativePath: "",
-        absolutePath: "",
-      },
-      basePath: "",
+      baseUri: "",
+      baseUrl: "",
     },
     page: {
       uri: "",

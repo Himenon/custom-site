@@ -23,7 +23,7 @@
   },
   "source": ".",
   "destination": "./hoge",
-  "basePath": "/hoge",
+  "baseUri": "/hoge",
   "layoutFile": "../CustomTemplate/template.js",
   "customComponentsFile": "../CustomComponent/components.js",
   "port": 9000,

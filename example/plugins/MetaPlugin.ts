@@ -3,6 +3,7 @@
 
 import { HtmlMetaData } from "@custom-site/page";
 import { PluginFunctionMap } from "@custom-site/plugin";
+import * as path from "path";
 
 export const onGenerateMetaData: PluginFunctionMap["onGenerateMetaData"] = payload => {
   const page = payload.page;
@@ -15,7 +16,7 @@ export const onGenerateMetaData: PluginFunctionMap["onGenerateMetaData"] = paylo
         },
         {
           property: "og:url",
-          content: page.uri,
+          content: path.join(payload.site.baseUrl, page.uri),
         },
       ],
     },

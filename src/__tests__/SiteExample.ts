@@ -3,11 +3,8 @@ import { PageState, SiteState } from "@custom-site/page";
 export const siteStateExample: SiteState = {
   title: "test site",
   description: "test description",
-  url: {
-    relativePath: "/test",
-    absolutePath: "http://example.com",
-  },
-  basePath: "/test",
+  baseUri: "/test",
+  baseUrl: "",
 };
 
 export const pageStateExamples: PageState[] = [

@@ -91,7 +91,7 @@ const main = async () => {
       } else {
         const { port } = address;
         notifyLog(`listening on port: ${port}`);
-        url = path.join(`http://localhost:${port}`, options.basePath);
+        url = path.join(`http://localhost:${port}`, options.baseUri);
       }
       if (options.open) {
         opn(url);
