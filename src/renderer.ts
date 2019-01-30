@@ -1,6 +1,7 @@
 import { ExternalCustomComponent, ExternalTemplate, PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
+import { renderToStaticMarkup } from "react-dom/server";
 import { createTemplateHOC } from "./createTemplate";
 import { loadExternalFunction } from "./importer";
 import { pluginEventEmitter } from "./plugin";
@@ -53,7 +54,7 @@ const createBody = (page: PageState, site: SiteState) => {
   const externalCustomComponents = getExternalCustomComponents();
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
-      ...getCustomComponents(page, site.basePath),
+      ...getCustomComponents(page, site.baseUri),
       ...(externalCustomComponents && externalCustomComponents.generateCustomComponents()),
     },
     props: {},
@@ -66,13 +67,20 @@ const createBody = (page: PageState, site: SiteState) => {
  */
 const createRenderPage = (site: SiteState) => (page: PageState): RenderedStaticPage => {
   const applyTemplate = createTemplate(site, page);
-  return {
-    name: path.join(site.basePath, page.name),
-    originalName: page.name,
-    html: combine({
+  const id = `AFTER_RENDER_PAGE/${page.uri}`;
+  const html = renderToStaticMarkup(
+    combine({
       head: createHead(site, page),
       body: applyTemplate(createBody(page, site)),
     }),
+  );
+  const state = { id, html };
+  pluginEventEmitter.emit("AFTER_RENDER_PAGE", state);
+  const result = plugin.get({ type: "AFTER_RENDER_PAGE", id }, state).html;
+  return {
+    name: path.join(site.baseUri, page.name),
+    originalName: page.name,
+    html: result,
   };
 };
 

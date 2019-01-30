@@ -11,6 +11,8 @@ declare module "@custom-site/plugin" {
   export interface State {
     /** Return Value only Use page.metaData */
     GENERATE_META_DATA: { site: SiteState; page: PageState };
+    /** Render Page converter */
+    AFTER_RENDER_PAGE: { html: string };
   }
 
   export type CreateHandlerMap<T> = { [P in keyof T]?: Array<(payload: T[P]) => T[P]> };
@@ -19,6 +21,7 @@ declare module "@custom-site/plugin" {
 
   export interface PluginFunctionMap {
     onGenerateMetaData?: CreateHandler<"GENERATE_META_DATA">;
+    onAfterRenderPage?: CreateHandler<"AFTER_RENDER_PAGE">;
   }
 
   export interface PluginDetail {
@@ -34,6 +37,7 @@ declare module "@custom-site/internal" {
   import { CommonOption } from "@custom-site/config";
   export interface State {
     plugins: Plugin[];
+    pluginPaths: string[];
     config: CommonOption;
   }
 }
@@ -67,7 +71,8 @@ declare module "@custom-site/config" {
     source: string;
     global: HtmlMetaData;
     destination?: string;
-    basePath: string;
+    baseUri: string;
+    baseUrl: string;
     port: number;
     blacklist: {
       extensions: string[];
@@ -101,11 +106,13 @@ declare module "@custom-site/config" {
 declare module "@custom-site/page" {
   import { CustomComponents } from "@mdx-js/tag";
 
+  // TODO Plugin
   export interface TwitterMeta {
     "twitter:card"?: "summary" | "summary_large_image";
     "twitter:site"?: string;
   }
 
+  // TODO Plugin
   export interface OGP {
     "og:title"?: string;
     "og:description"?: string;
@@ -113,9 +120,11 @@ declare module "@custom-site/page" {
     "og:image"?: string;
   }
 
-  export type ScriptHTMLAttributes = React.ScriptHTMLAttributes<HTMLScriptElement>;
+  export type ScriptHTMLAttributes = JSX.IntrinsicElements["script"];
 
-  export type LinkHTMLAttributes = React.LinkHTMLAttributes<HTMLLinkElement>;
+  export type LinkHTMLAttributes = JSX.IntrinsicElements["link"];
+
+  export type MetaHTMLAttributes = JSX.IntrinsicElements["meta"];
 
   export interface ExternalJavaScript {
     js?: Array<string | ScriptHTMLAttributes>;
@@ -139,7 +148,10 @@ declare module "@custom-site/page" {
     };
   }
 
-  export interface HtmlMetaData extends OGP, TwitterMeta, ExternalJavaScript, ExternalCSS, ExternalLink {
+  export interface HtmlMetaData extends ExternalJavaScript, ExternalCSS, ExternalLink {
+    /**
+     * Default Support Meta Property Set
+     */
     lang?: string;
     description?: string;
     keywords?: string;
@@ -154,6 +166,14 @@ declare module "@custom-site/page" {
       "minimum-scale"?: number | string;
       "user-scalable"?: "no";
       width?: number | "device-width";
+    };
+    /**
+     * Extendable Meta Property Parameters
+     */
+    extend?: {
+      meta?: MetaHTMLAttributes[];
+      script?: ScriptHTMLAttributes[];
+      link?: LinkHTMLAttributes[];
     };
     thirdParty?: ThirdParty;
   }
@@ -176,11 +196,8 @@ declare module "@custom-site/page" {
   export interface SiteState {
     title: string;
     description: string;
-    url: {
-      relativePath: string;
-      absolutePath: string;
-    };
-    basePath: string;
+    baseUri: string;
+    baseUrl: string;
   }
 
   export interface ArticleProps {

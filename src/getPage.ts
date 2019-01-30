@@ -43,15 +43,15 @@ const rewriteUri = (uri: string, basePath: string): string => {
   return path.join(basePath, uri).replace(/\/index$/, "");
 };
 
-const getPage = (config: { global: HtmlMetaData; source: string; basePath: string }) => async (filename: string): Promise<PageState> => {
+const getPage = (config: { global: HtmlMetaData; source: string; baseUri: string }) => async (filename: string): Promise<PageState> => {
   const ext = path.extname(filename);
   const relativePath = path.relative(config.source, filename);
   const uri = relativePath.slice(0, relativePath.length - ext.length);
-  const rewrittenUri = rewriteUri(uri, config.basePath);
+  const rewrittenUri = rewriteUri(uri, config.baseUri);
   const raw = fs.readFileSync(filename, "utf8");
   const { data, content } = matter(raw);
 
-  const metaData = rewriteMetaData(config.global, data, path.dirname(rewrittenUri), config.basePath);
+  const metaData = rewriteMetaData(config.global, data, path.dirname(rewrittenUri), config.baseUri);
   return {
     uri: rewrittenUri,
     content,

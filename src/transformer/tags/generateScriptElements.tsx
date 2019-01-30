@@ -40,10 +40,10 @@ const getMakeScriptTag = (dryParameter: DryCheckParameter[] = []) => (
       isLocal,
     });
   }
-  return <script {...{ ...attributes, src: attributes.src }} key={attributes.src} />;
+  return <script {...{ ...attributes }} key={attributes.src} />;
 };
 
-export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMetaData): JSX.Element[] => {
+export const generateScriptElements = ({ localScripts, globalScripts, extend }: HtmlMetaData): JSX.Element[] => {
   const elements: JSX.Element[] = [];
   const makeScriptTag = getMakeScriptTag();
   if (globalScripts) {
@@ -57,6 +57,14 @@ export const generateScriptElements = ({ localScripts, globalScripts }: HtmlMeta
   if (localScripts) {
     localScripts.forEach(attribute => {
       const tagElement = makeScriptTag(attribute, true);
+      if (tagElement) {
+        elements.push(tagElement);
+      }
+    });
+  }
+  if (extend && extend.script) {
+    extend.script.forEach(attribute => {
+      const tagElement = makeScriptTag(attribute, false);
       if (tagElement) {
         elements.push(tagElement);
       }
