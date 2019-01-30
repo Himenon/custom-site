@@ -2,7 +2,7 @@ import { Option as CLIOption } from "@custom-site/cli";
 import { BuildOption, CommonOption, DevelopOption } from "@custom-site/config";
 import * as path from "path";
 
-export const getServerBasePath = (text: string | undefined): string => {
+export const getBaseUriPath = (text: string | undefined): string => {
   if (!text) {
     return "/";
   }
@@ -34,7 +34,8 @@ export const parser = (config: CommonOption | undefined, isProduction: boolean, 
   const commonOption: CommonOption = {
     source,
     global: (config && config.global) || {},
-    basePath: getServerBasePath(option.basePath),
+    baseUri: getBaseUriPath(option.basePath),
+    baseUrl: (config && config.baseUrl) || "",
     port,
     blacklist: {
       extensions: [".mdx"],

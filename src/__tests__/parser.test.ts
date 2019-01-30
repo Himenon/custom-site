@@ -5,7 +5,8 @@ import { parser } from "../parser";
 
 describe("configのparserテスト", () => {
   const defaultCommonOption: CommonOption = {
-    basePath: "/",
+    baseUri: "/",
+    baseUrl: "",
     blacklist: { extensions: [".mdx"] },
     configFile: "config.json",
     customComponentsFile: undefined,
@@ -58,14 +59,14 @@ describe("configのparserテスト", () => {
   });
 
   test("basePath", () => {
-    const result0 = parser({ ...defaultCommonOption, basePath: "/a/" }, false, {});
-    expect(result0.basePath).toBe("/a/");
+    const result0 = parser({ ...defaultCommonOption, baseUri: "/a/" }, false, {});
+    expect(result0.baseUri).toBe("/a/");
     const result1 = parser(undefined, false, { basePath: "/b/" });
-    expect(result1.basePath).toBe("/b/");
+    expect(result1.baseUri).toBe("/b/");
     const result2 = parser(undefined, false, { basePath: "b/" });
-    expect(result2.basePath).toBe("/b/");
-    const result3 = parser({ ...defaultCommonOption, basePath: "/a/" }, false, { basePath: "/b/" });
-    expect(result3.basePath).toBe("/a/");
+    expect(result2.baseUri).toBe("/b/");
+    const result3 = parser({ ...defaultCommonOption, baseUri: "/a/" }, false, { basePath: "/b/" });
+    expect(result3.baseUri).toBe("/a/");
   });
 
   test("port number", () => {

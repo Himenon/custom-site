@@ -3,12 +3,23 @@
 
 import { HtmlMetaData } from "@custom-site/page";
 import { PluginFunctionMap } from "@custom-site/plugin";
+import * as path from "path";
 
 export const onGenerateMetaData: PluginFunctionMap["onGenerateMetaData"] = payload => {
   const page = payload.page;
   const newMetaData: HtmlMetaData = {
-    "og:title": page.metaData.title,
-    "og:url": page.uri,
+    extend: {
+      meta: [
+        {
+          property: "og:title",
+          content: page.metaData.title,
+        },
+        {
+          property: "og:url",
+          content: path.join(payload.site.baseUrl, page.uri),
+        },
+      ],
+    },
   };
   payload.page.metaData = { ...payload.page.metaData, ...newMetaData };
   return payload;

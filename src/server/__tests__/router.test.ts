@@ -6,7 +6,8 @@ describe("routing test", () => {
   const option1: DevelopOption = {
     source: "",
     global: {},
-    basePath: "/",
+    baseUri: "/",
+    baseUrl: "",
     port: 9000,
     blacklist: {
       extensions: [],
@@ -18,7 +19,8 @@ describe("routing test", () => {
   const option2: DevelopOption = {
     source: "",
     global: {},
-    basePath: "/test",
+    baseUri: "/test",
+    baseUrl: "",
     port: 9000,
     blacklist: {
       extensions: [],

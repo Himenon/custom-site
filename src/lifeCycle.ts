@@ -16,14 +16,18 @@ export const init = (options: CommonOption) => {
 
 export const initPlugins = () => {
   const plugins = app.get({ type: "plugins", id: "" }, []);
+  const pluginPaths: string[] = [];
   plugins.forEach(plugin => {
     const externalPlugin = resolvePlugin<PluginFunctionMap>(plugin);
     if (!externalPlugin) {
       return;
     }
-    pluginEventEmitter.on("GENERATE_META_DATA", externalPlugin.onGenerateMetaData);
-    pluginEventEmitter.on("AFTER_RENDER_PAGE", externalPlugin.onAfterRenderPage);
+    const funcMap = externalPlugin.funcMap;
+    pluginPaths.push(externalPlugin.path);
+    pluginEventEmitter.on("GENERATE_META_DATA", funcMap.onGenerateMetaData);
+    pluginEventEmitter.on("AFTER_RENDER_PAGE", funcMap.onAfterRenderPage);
   });
+  app.set({ type: "pluginPaths", id: "", state: pluginPaths });
 };
 
 export const initOptions = (options: CommonOption) => {

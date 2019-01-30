@@ -75,7 +75,6 @@ export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElemen
     <head lang={htmlMetaData.lang || "en"}>
       <title>{htmlMetaData.title}</title>
       {generateMetaElements(metaAttributes)}
-      {generateViewportMetaAttributes(htmlMetaData)}
       {generateScriptElements(htmlMetaData)}
       {generateLinkElements(htmlMetaData)}
       {thirdParty && thirdParty.googleAnalytics && generateGoogleAnalyticsElement(thirdParty.googleAnalytics)}

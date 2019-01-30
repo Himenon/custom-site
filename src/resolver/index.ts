@@ -20,10 +20,17 @@ export const getPluginPath = (pluginName: string, fromDir?: string, searchNodeMo
   }
 };
 
-export const resolvePluginByName = <T>(pluginName: string, fromDir?: string, searchNodeModules: boolean = true): T | undefined => {
+export const resolvePluginByName = <T>(
+  pluginName: string,
+  fromDir?: string,
+  searchNodeModules: boolean = true,
+): { path: string; funcMap: T } | undefined => {
   const pluginPath = getPluginPath(pluginName, fromDir || process.cwd(), searchNodeModules);
   if (pluginPath) {
-    return require(pluginPath);
+    return {
+      path: pluginPath,
+      funcMap: require(pluginPath),
+    };
   }
   return undefined;
 };
@@ -31,7 +38,7 @@ export const resolvePluginByName = <T>(pluginName: string, fromDir?: string, sea
 /**
  * プラグインを探索する
  */
-export const resolvePlugin = <T>(plugin: Plugin): T | undefined => {
+export const resolvePlugin = <T>(plugin: Plugin): { path: string; funcMap: T } | undefined => {
   if (typeof plugin === "string") {
     return resolvePluginByName(normalize(plugin));
   }
