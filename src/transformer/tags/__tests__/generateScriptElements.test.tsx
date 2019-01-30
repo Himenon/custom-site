@@ -27,9 +27,17 @@ describe("Script Element", () => {
         },
         {},
       ],
+      extend: {
+        script: [
+          {
+            src: "/extends/a.js",
+          },
+        ],
+      },
     });
     expect(domString).toBe(
-      '<head><script src="/a.js"></script><script src="./a/b/c.js"></script><script async="" src="./a/b/d.js"></script></head>',
+      // tslint:disable-next-line:max-line-length
+      '<head><script src="/a.js"></script><script src="./a/b/c.js"></script><script async="" src="./a/b/d.js"></script><script src="/extends/a.js"></script></head>',
     );
   });
 

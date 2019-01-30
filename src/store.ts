@@ -5,6 +5,9 @@ interface State {
   [id: string]: any;
 }
 
+/**
+ * TODO clear
+ */
 export class Store<U extends {}> {
   private state: State = {};
   public set<T extends keyof U>(params: { type: T; id: string; state: U[T] }): void {

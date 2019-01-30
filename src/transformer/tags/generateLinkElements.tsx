@@ -43,7 +43,7 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
   return <link {...{ ...attributes }} key={attributes.href} />;
 };
 
-export const generateLinkElements = ({ localLinks, globalLinks }: HtmlMetaData): JSX.Element[] => {
+export const generateLinkElements = ({ localLinks, globalLinks, extend }: HtmlMetaData): JSX.Element[] => {
   const elements: JSX.Element[] = [];
   const makeTag = getMakeTag();
   if (globalLinks) {
@@ -57,6 +57,14 @@ export const generateLinkElements = ({ localLinks, globalLinks }: HtmlMetaData):
   if (localLinks) {
     localLinks.forEach(attribute => {
       const tagElement = makeTag(attribute, true);
+      if (tagElement) {
+        elements.push(tagElement);
+      }
+    });
+  }
+  if (extend && extend.link) {
+    extend.link.forEach(attribute => {
+      const tagElement = makeTag(attribute, false);
       if (tagElement) {
         elements.push(tagElement);
       }

@@ -22,6 +22,7 @@ export const initPlugins = () => {
       return;
     }
     pluginEventEmitter.on("GENERATE_META_DATA", externalPlugin.onGenerateMetaData);
+    pluginEventEmitter.on("AFTER_RENDER_PAGE", externalPlugin.onAfterRenderPage);
   });
 };
 
