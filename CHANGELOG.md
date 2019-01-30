@@ -1,3 +1,18 @@
+### 0.3.0 (2019-01-30)
+
+##### New Features
+
+* **head:**  add twitter card tag ([dfd6d3ab](https://github.com/custom-site/custom-site/commit/dfd6d3ab65a1c46a6fe486fb8f4f10e3f3f80c5c))
+
+##### Bug Fixes
+
+* **basepath:**  update base url, base uri ([dee2e094](https://github.com/custom-site/custom-site/commit/dee2e0948e3fe9513d14df3498c43d2baeba8fec))
+* **cache:**  update reload cache system ([343602c7](https://github.com/custom-site/custom-site/commit/343602c7c9879deecaaff7dce16174a0f4ef4289))
+
+##### Refactors
+
+* **extend:**  extend head tag, and add plugin ([7a52b4b2](https://github.com/custom-site/custom-site/commit/7a52b4b24cef1ffb5f4f1f94a4282394f5577465))
+
 #### 0.2.1 (2019-01-28)
 
 ##### Chores
