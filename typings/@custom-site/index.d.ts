@@ -156,6 +156,7 @@ declare module "@custom-site/page" {
     description?: string;
     keywords?: string;
     title?: string;
+    tags?: string;
     stylesheets?: string[];
     layout?: string;
     copyright?: string;
@@ -214,9 +215,16 @@ declare module "@custom-site/page" {
     raw: string;
   }
 
+  export interface Index {
+    uri: string;
+    title: string;
+    tags: string[];
+  }
+
   export interface PostProps {
     site: SiteState;
     page: PageState;
+    indexes: Index[];
   }
 
   export interface RenderedStaticPage {

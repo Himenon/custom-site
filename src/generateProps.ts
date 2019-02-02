@@ -1,5 +1,5 @@
 import { CommonOption } from "@custom-site/config";
-import { SiteState } from "@custom-site/page";
+import { Index, PageState, SiteState } from "@custom-site/page";
 
 export const generateSiteState = (option: CommonOption): SiteState => {
   return {
@@ -8,4 +8,12 @@ export const generateSiteState = (option: CommonOption): SiteState => {
     baseUri: option.baseUri,
     baseUrl: option.baseUrl,
   };
+};
+
+export const generateIndexes = (pages: PageState[]): Index[] => {
+  return pages.map(page => ({
+    title: page.metaData.title || "",
+    uri: page.uri,
+    tags: page.metaData.tags ? page.metaData.tags.split(",") : [],
+  }));
 };

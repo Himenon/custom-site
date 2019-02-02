@@ -1,8 +1,9 @@
-import { ExternalCustomComponent, ExternalTemplate, PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
+import { ExternalCustomComponent, ExternalTemplate, Index, PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createTemplateHOC } from "./createTemplate";
+import { generateIndexes } from "./generateProps";
 import { pluginEventEmitter } from "./plugin";
 import { loadExternalFunction } from "./resolver/importer";
 import { app, plugin } from "./store";
@@ -33,11 +34,11 @@ const getExternalCustomComponents = (): ExternalCustomComponent | undefined => {
   return loadExternalFunction<ExternalCustomComponent>(config.customComponentsFile);
 };
 
-const createTemplate = (site: SiteState, page: PageState) => {
+const createTemplate = (site: SiteState, page: PageState, indexes: Index[]) => {
   // TODO この位置にあるとパフォーマンスが悪い
   const externalTemplate = getExternalTemplate();
   return createTemplateHOC({
-    postProps: { site, page },
+    postProps: { site, page, indexes },
     createTemplateFunction: externalTemplate && externalTemplate.createBodyTemplateFunction,
   });
 };
@@ -65,8 +66,8 @@ const createBody = (page: PageState, site: SiteState) => {
 /**
  * `option.serverBasePath`が存在する場合は、nameにつけて返す
  */
-const createRenderPage = (site: SiteState) => (page: PageState): RenderedStaticPage => {
-  const applyTemplate = createTemplate(site, page);
+const createRenderPage = (site: SiteState, indexes: Index[]) => (page: PageState): RenderedStaticPage => {
+  const applyTemplate = createTemplate(site, page, indexes);
   const id = `AFTER_RENDER_PAGE/${page.uri}`;
   const html = renderToStaticMarkup(
     combine({
@@ -85,7 +86,8 @@ const createRenderPage = (site: SiteState) => (page: PageState): RenderedStaticP
 };
 
 const render = async (site: SiteState, pages: PageState[]): Promise<RenderedStaticPage[]> => {
-  const renderPage = createRenderPage(site);
+  const indexes = generateIndexes(pages);
+  const renderPage = createRenderPage(site, indexes);
   return pages.map(renderPage);
 };
 

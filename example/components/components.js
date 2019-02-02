@@ -7,6 +7,7 @@ require("prismjs/components/prism-jsx.min.js");
 require("prismjs/components/prism-tsx.min.js");
 require("prismjs/components/prism-json.min.js");
 require("prismjs/components/prism-yaml.min.js");
+require("prismjs/components/prism-bash.js");
 const SUPPORT_LANGUAGES = Object.keys(Prism.languages);
 const getLanguageDefinition = (lang) => {
     if (SUPPORT_LANGUAGES.includes(lang)) {
