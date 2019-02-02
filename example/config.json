@@ -19,7 +19,8 @@
     ],
     "css": [
       "/assets/main.css",
-      "https://fonts.googleapis.com/css?family=Open+Sans:600,800"
+      "https://fonts.googleapis.com/css?family=Open+Sans:600,800",
+      "./node_modules/prismjs/themes/prism-okaidia.css"
     ]
   },
   "source": "./src",

@@ -1,4 +1,5 @@
 import { PageState } from "@custom-site/page";
+import * as crypto from "crypto";
 import * as path from "path";
 
 /**
@@ -27,4 +28,12 @@ export const rewriteUrl = (uri: string, page: PageState, basePath: string): stri
     return path.join(basePath, newUri);
   }
   return newUri;
+};
+
+export const appendHash = (filename: string): string => {
+  const hash = crypto
+    .createHash("md5")
+    .update(filename + new Date())
+    .digest("hex");
+  return filename + "?" + hash.substring(0, 5);
 };

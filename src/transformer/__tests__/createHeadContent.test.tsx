@@ -93,8 +93,7 @@ describe("Create Head Content Test", () => {
         ],
       },
     });
-    expect(ReactDOM.renderToStaticMarkup(element)).toBe(
-      '<head lang="en"><title></title><meta charSet="utf-8"/><link rel="stylesheet" href="/extends/c.css"/></head>',
-    );
+    const result = ReactDOM.renderToStaticMarkup(element);
+    expect(result).toMatch(/<link rel="stylesheet" href="\/extends\/c.css\?/);
   });
 });

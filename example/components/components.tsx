@@ -15,7 +15,7 @@ require("prismjs/components/prism-typescript.min.js");
 require("prismjs/components/prism-jsx.min.js");
 require("prismjs/components/prism-tsx.min.js"); // jsxの後ろに定義する
 require("prismjs/components/prism-json.min.js");
-require("prismjs/themes/prism-dark.css");
+require("prismjs/components/prism-yaml.min.js");
 
 const SUPPORT_LANGUAGES = Object.keys(Prism.languages);
 

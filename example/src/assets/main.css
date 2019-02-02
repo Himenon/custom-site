@@ -38,7 +38,16 @@ body {
   font-weight: 800;
   font-size: 56px;
   margin-bottom: 0;
+  text-align: center;
+}
+
+.site-title-text {
   color: #FFF;
+  text-decoration: none;
+}
+
+.site-title-text:hover {
+  color: #EEE;
 }
 
 .page-content {

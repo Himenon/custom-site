@@ -14,11 +14,14 @@ const mainContent = (_props: PostProps, content?: React.ReactNode): React.ReactE
 };
 
 const wrappedContent = (props: PostProps, content?: React.ReactNode): React.ReactElement<any> => {
-  console.log(props);
   return (
     <body>
       <header className="site-header">
-        <h1 className="site-title">{props.site.title}</h1>
+        <h1 className="site-title">
+          <a className="site-title-text" href={props.site.baseUrl}>
+            {props.site.title}
+          </a>
+        </h1>
       </header>
       {mainContent(props, content)}
     </body>

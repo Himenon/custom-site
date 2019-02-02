@@ -1,5 +1,6 @@
 import { HtmlMetaData, LinkHTMLAttributes } from "@custom-site/page";
 import * as React from "react";
+import { appendHash } from "./helpers";
 
 export interface DryCheckParameter {
   href: string;
@@ -27,7 +28,7 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
         isLocal,
       });
     }
-    return <link href={attributes} key={attributes} rel="stylesheet" />;
+    return <link href={appendHash(attributes)} key={attributes} rel="stylesheet" />;
   }
   if (!attributes.href) {
     return;
@@ -40,7 +41,7 @@ const getMakeTag = (dryParameter: DryCheckParameter[] = []) => (
       isLocal,
     });
   }
-  return <link {...{ ...attributes }} key={attributes.href} />;
+  return <link {...{ ...attributes, href: appendHash(attributes.href) }} key={attributes.href} />;
 };
 
 export const generateLinkElements = ({ localLinks, globalLinks, extend }: HtmlMetaData): JSX.Element[] => {
