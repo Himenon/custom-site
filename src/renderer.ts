@@ -56,7 +56,7 @@ const createBody = (page: PageState, site: SiteState) => {
   const createBodyContent = transformRawStringToHtml({
     customComponents: {
       ...getCustomComponents(page, site.baseUri),
-      ...(externalCustomComponents && externalCustomComponents.generateCustomComponents()),
+      ...(externalCustomComponents ? externalCustomComponents.generateCustomComponents() : {}),
     },
     props: {},
   });

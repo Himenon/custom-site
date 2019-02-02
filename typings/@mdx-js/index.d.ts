@@ -23,14 +23,16 @@ declare module "@mdx-js/tag" {
     id: string;
   }
 
-  export type CustomComponents = { [P in keyof JSX.IntrinsicElements]?: (props: JSX.IntrinsicElements[P]) => React.ReactNode };
+  export type CustomComponents = { [P in keyof JSX.IntrinsicElements]?: (props: JSX.IntrinsicElements[P]) => React.ReactNode } & {
+    [key: string]: (props: any) => React.ReactNode;
+  }; // 独自拡張用
 
   // TODO どうやって決めたか思い出す
-  export interface MDXTagProps<T extends keyof JSX.IntrinsicElements> {
+  export interface MDXTagProps<T extends keyof CustomComponents> {
     name: T;
     parentName?: keyof JSX.IntrinsicElements;
-    props?: JSX.IntrinsicElements[T];
-    children?: React.ReactNode[] | string;
+    props?: T extends keyof JSX.IntrinsicElements ? JSX.IntrinsicElements[T] : any;
+    children?: React.ReactNode | React.ReactNode[] | string;
     components?: CustomComponents;
     Layout?: ({ children, id }: LayoutProps) => React.ReactNode[];
     layoutProps?: LayoutProps;

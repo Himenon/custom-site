@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = require("react");
 const urljoin = require("url-join");
 const createIndexes = (props) => {
-    const elements = props.indexes.map(index => {
-        return (React.createElement("li", null,
-            React.createElement("a", { href: index.uri }, index.title)));
+    const elements = props.indexes.map((meta, idx) => {
+        return (React.createElement("li", { key: idx },
+            React.createElement("a", { href: meta.uri }, meta.title)));
     });
     return (React.createElement("div", { className: "site-indexes" },
         React.createElement("header", { className: "site-index-header" }),
         React.createElement("ul", null, elements)));
 };
 const createTagElement = (tags) => {
-    const items = tags.map(tag => React.createElement("li", { className: "tag-item" }, tag));
+    const items = tags.map((tag, idx) => (React.createElement("li", { className: "tag-item", key: tag + idx }, tag)));
     return React.createElement("ul", { className: "tag-list" }, items);
 };
 const mainContent = (props, content) => {

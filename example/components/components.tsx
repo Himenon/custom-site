@@ -7,6 +7,7 @@ import { ExternalCustomComponent } from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as Prism from "prismjs";
 import * as React from "react";
+import { ExampleComponent, ExampleComponentProps } from "./example";
 
 /**
  * ハイライトしたい言語のjsファイルを読み込んでおく
@@ -17,6 +18,7 @@ require("prismjs/components/prism-tsx.min.js"); // jsxの後ろに定義する
 require("prismjs/components/prism-json.min.js");
 require("prismjs/components/prism-yaml.min.js");
 require("prismjs/components/prism-bash.js");
+require("prismjs/components/prism-markdown.min.js");
 
 const SUPPORT_LANGUAGES = Object.keys(Prism.languages);
 
@@ -58,5 +60,6 @@ export const generateCustomComponents: ExternalCustomComponent["generateCustomCo
         </pre>
       );
     },
+    ExampleComponent: (props: ExampleComponentProps) => <ExampleComponent {...props} />,
   };
 };

@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Prism = require("prismjs");
 const React = require("react");
+const example_1 = require("./example");
 require("prismjs/components/prism-typescript.min.js");
 require("prismjs/components/prism-jsx.min.js");
 require("prismjs/components/prism-tsx.min.js");
 require("prismjs/components/prism-json.min.js");
 require("prismjs/components/prism-yaml.min.js");
 require("prismjs/components/prism-bash.js");
+require("prismjs/components/prism-markdown.min.js");
 const SUPPORT_LANGUAGES = Object.keys(Prism.languages);
 const getLanguageDefinition = (lang) => {
     if (SUPPORT_LANGUAGES.includes(lang)) {
@@ -40,5 +42,6 @@ exports.generateCustomComponents = () => {
             return (React.createElement("pre", { className: props.className },
                 React.createElement("code", Object.assign({}, newProps))));
         },
+        ExampleComponent: (props) => React.createElement(example_1.ExampleComponent, Object.assign({}, props)),
     };
 };

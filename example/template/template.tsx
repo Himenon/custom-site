@@ -5,10 +5,10 @@ import * as React from "react";
 import urljoin = require("url-join");
 
 const createIndexes = (props: PostProps): React.ReactElement<any> => {
-  const elements = props.indexes.map(index => {
+  const elements = props.indexes.map((meta, idx) => {
     return (
-      <li>
-        <a href={index.uri}>{index.title}</a>
+      <li key={idx}>
+        <a href={meta.uri}>{meta.title}</a>
       </li>
     );
   });
@@ -21,7 +21,11 @@ const createIndexes = (props: PostProps): React.ReactElement<any> => {
 };
 
 const createTagElement = (tags: string[]): React.ReactElement<any> => {
-  const items = tags.map(tag => <li className="tag-item">{tag}</li>);
+  const items = tags.map((tag, idx) => (
+    <li className="tag-item" key={tag + idx}>
+      {tag}
+    </li>
+  ));
   return <ul className="tag-list">{items}</ul>;
 };
 
