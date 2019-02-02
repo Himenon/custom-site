@@ -1,6 +1,4 @@
 "use strict";
-// tslint:disable-next-line:no-reference
-/// <reference path="../../typings/@custom-site/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 exports.onGenerateMetaData = payload => {
