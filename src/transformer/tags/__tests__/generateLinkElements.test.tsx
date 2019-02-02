@@ -26,10 +26,9 @@ describe("Link Element", () => {
         {},
       ],
     });
-    // tslint:disable max-line-length
-    expect(domString).toBe(
-      '<head><link href="/a.css"/><link href="a.css"/><link href="./a/b/c.css" rel="stylesheet"/><link href="./a/b/d.css"/><link href="a/b/c.css" rel="stylesheet"/></head>',
-    );
+    expect(domString).toMatch(/link href=".\/a\/b\/d.css\?/);
+    expect(domString).toMatch(/link href="a\/b\/c.css\?/);
+    expect(domString).toMatch(/link href="a.css\?/);
   });
 
   test("no params", () => {
