@@ -5,8 +5,19 @@ import * as path from "path";
 import { CommonOption } from "@custom-site/config";
 import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
+import { app } from "./store";
 
 export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
+
+const rewriteNodeModulePathToLib = (link: string): string => {
+  const config = app.get({ type: "config", id: "" }) || { __type: "DEVELOPMENT" };
+  const isProduction = config.__type === "PRODUCTION";
+  const startList = ["node_modules", "./node_modules", "../node_modules"];
+  if (!isProduction || !startList.map(s => link.startsWith(s)).includes(true)) {
+    return link;
+  }
+  return path.join("lib", path.basename(link));
+};
 
 const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath: string): string | ScriptHTMLAttributes => {
   if (typeof attribute === "string") {
@@ -18,9 +29,13 @@ const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath:
 
 const rewriteLinkSource = (attribute: string | LinkHTMLAttributes, basePath: string): string | LinkHTMLAttributes => {
   if (typeof attribute === "string") {
-    return isStartWithHttp(attribute) ? attribute : path.join(basePath, attribute);
+    return isStartWithHttp(attribute) ? attribute : path.join(basePath, rewriteNodeModulePathToLib(attribute));
   }
-  const href = attribute.href ? (isStartWithHttp(attribute.href) ? attribute.href : path.join(basePath, attribute.href)) : undefined;
+  const href = attribute.href
+    ? isStartWithHttp(attribute.href)
+      ? attribute.href
+      : path.join(basePath, rewriteNodeModulePathToLib(attribute.href))
+    : undefined;
   return { ...attribute, href };
 };
 

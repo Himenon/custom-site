@@ -13,7 +13,7 @@ import { notifyLog } from "./logger";
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
-import { copyAssetFiles } from "./build/copyFiles";
+import { copyAssetFiles, copyNodeModulesLibs } from "./build/copyFiles";
 import { exportPages } from "./exportPage";
 
 import { Option } from "@custom-site/cli";
@@ -106,7 +106,7 @@ const main = async () => {
     // 開発環境ではなく、サイトを生成する
     const pages = await generateStaticPages(options);
     if (pages) {
-      Promise.all([exportPages(pages, options), copyAssetFiles()]);
+      Promise.all([exportPages(pages, options), copyAssetFiles(), copyNodeModulesLibs()]);
     }
   }
 };

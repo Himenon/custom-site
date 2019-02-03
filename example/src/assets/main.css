@@ -16,7 +16,6 @@ html {
 body {
   height: 100%;
   position: relative;
-  background-color: #EEE;
 }
 
 .wrapper {
@@ -55,7 +54,6 @@ body {
   top: -2.5em;
   padding: 2em;
   background-color: #FFF;
-  box-shadow: 0 2px 3px #333;
 }
 
 .site-wrapper {

@@ -4,10 +4,7 @@ import * as path from "path";
 import { BuildOption } from "@custom-site/config";
 import { RenderedStaticPage } from "@custom-site/page";
 
-/**
- * TODO config.jsonの link,script のファイルをコピー対象に含める
- */
-const exportPages = async (pages: RenderedStaticPage[], option: BuildOption): Promise<void> => {
+export const exportPages = async (pages: RenderedStaticPage[], option: BuildOption): Promise<void> => {
   const dest = option.destination;
   /**
    * ファイルの出力先の確認
@@ -35,5 +32,3 @@ const exportPages = async (pages: RenderedStaticPage[], option: BuildOption): Pr
 
   return Promise.resolve();
 };
-
-export { exportPages };
