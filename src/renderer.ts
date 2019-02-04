@@ -4,9 +4,8 @@ import * as path from "path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createTemplateHOC } from "./createTemplate";
 import { generateIndexes } from "./generateProps";
-import { pluginEventEmitter } from "./plugin";
+import { appQueryService, pluginEventEmitter, pluginQueryService } from "./lifeCycle";
 import { loadExternalFunction } from "./resolver/importer";
-import { app, plugin } from "./store";
 import { combine, createHeadContent, transformRawStringToHtml } from "./transformer";
 import { generateAnchorElement } from "./transformer/tags/generateAnchorElement";
 import { generateImageElement } from "./transformer/tags/generateImageElement";
@@ -19,19 +18,19 @@ const getCustomComponents = (page: PageState, basePath: string): CustomComponent
 };
 
 const getExternalTemplate = (): ExternalTemplate | undefined => {
-  const config = app.get({ type: "config", id: "" });
-  if (!config || !config.layoutFile) {
+  const layoutFile = appQueryService.getLayoutFile();
+  if (!layoutFile) {
     return;
   }
-  return loadExternalFunction<ExternalTemplate>(config.layoutFile);
+  return loadExternalFunction<ExternalTemplate>(layoutFile);
 };
 
 const getExternalCustomComponents = (): ExternalCustomComponent | undefined => {
-  const config = app.get({ type: "config", id: "" });
-  if (!config || !config.customComponentsFile) {
+  const customComponentsFile = appQueryService.getCustomComponentsFile();
+  if (!customComponentsFile) {
     return;
   }
-  return loadExternalFunction<ExternalCustomComponent>(config.customComponentsFile);
+  return loadExternalFunction<ExternalCustomComponent>(customComponentsFile);
 };
 
 const createTemplate = (site: SiteState, page: PageState, indexes: Index[]) => {
@@ -47,7 +46,7 @@ const createHead = (site: SiteState, page: PageState) => {
   const id = `GENERATE_META_DATA/${page.uri}`;
   const state = { site, page, id };
   pluginEventEmitter.emit("GENERATE_META_DATA", state);
-  const metaData = plugin.get({ type: "GENERATE_META_DATA", id }, state).page.metaData;
+  const metaData = pluginQueryService.getGenerateMetaData(id);
   return createHeadContent(metaData);
 };
 
@@ -77,7 +76,7 @@ const createRenderPage = (site: SiteState, indexes: Index[]) => (page: PageState
   );
   const state = { id, html };
   pluginEventEmitter.emit("AFTER_RENDER_PAGE", state);
-  const result = plugin.get({ type: "AFTER_RENDER_PAGE", id }, state).html;
+  const result = pluginQueryService.getAfterRenderPage(id);
   return {
     name: path.join(site.baseUri, page.name),
     originalName: page.name,

@@ -5,13 +5,12 @@ import * as path from "path";
 import { CommonOption } from "@custom-site/config";
 import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes } from "@custom-site/page";
 import * as recursive from "recursive-readdir";
-import { app } from "./store";
+import { appQueryService } from "./lifeCycle";
 
 export const isStartWithHttp = (url: string): boolean => url.match(/^https?\:\/\/|^\/\//) !== null;
 
 const rewriteNodeModulePathToLib = (link: string): string => {
-  const config = app.get({ type: "config", id: "" }) || { __type: "DEVELOPMENT" };
-  const isProduction = config.__type === "PRODUCTION";
+  const isProduction = appQueryService.getCurrentMode() === "PRODUCTION";
   const startList = ["node_modules", "./node_modules", "../node_modules"];
   if (!isProduction || !startList.map(s => link.startsWith(s)).includes(true)) {
     return link;

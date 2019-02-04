@@ -1,4 +1,4 @@
-import { pluginEventEmitter } from "../plugin";
+import { pluginEventEmitter } from "../lifeCycle";
 import { render } from "../renderer";
 import { pageStateExamples, siteStateExample } from "./SiteExample";
 

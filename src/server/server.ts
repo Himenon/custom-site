@@ -14,10 +14,8 @@ import { generateSiteState } from "../generateProps";
 import { generateStatic } from "../generator";
 import { getPages } from "../getPage";
 import { getDefaultConfig } from "../helpers";
-import { init, initPlugins } from "../lifeCycle";
-import { pluginEventEmitter } from "../plugin";
+import { appCommandService, appQueryService, init, initPlugins, pluginEventEmitter } from "../lifeCycle";
 import { getPluginPath } from "../resolver/index";
-import { app } from "../store";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -59,7 +57,7 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 
 const start = async (option: DevelopOption) => {
   init(option);
-  let config: DevelopOption = { ...app.get({ type: "config", id: "" }, option), __type: "DEVELOPMENT" };
+  let config: DevelopOption = { ...(appQueryService.getConfig() || option), __type: "DEVELOPMENT" };
   const socketPort: number = await portfinder.getPortPromise({
     port: config.port - 2,
   });
@@ -67,7 +65,7 @@ const start = async (option: DevelopOption) => {
   let socket: WebSocket;
   let renderedPages = await generateStatic(generateSiteState(config), initPages);
 
-  const loadedPluginPaths = app.get({ type: "pluginPaths", id: "" }, []);
+  const loadedPluginPaths = appQueryService.getPluginPaths();
   const requiredPaths = [config.layoutFile || "", config.customComponentsFile || ""];
   const watchFiles: string[] = [config.source, ...requiredPaths, ...loadedPluginPaths];
 
@@ -88,7 +86,7 @@ const start = async (option: DevelopOption) => {
     if (config.configFile === updateParams.filename) {
       const updateConfig = getDefaultConfig(config.configFile);
       const state = { ...config, ...updateConfig };
-      app.set({ type: "config", id: "", state });
+      appCommandService.saveConfig(state);
       init(state);
     }
     if (requiredPaths.includes(updateParams.filename)) {
@@ -104,7 +102,7 @@ const start = async (option: DevelopOption) => {
       pluginEventEmitter.clearAll();
       initPlugins();
     }
-    config = { ...app.get({ type: "config", id: "" }, config), __type: "DEVELOPMENT" };
+    config = { ...(appQueryService.getConfig() || config), __type: "DEVELOPMENT" };
     const newConfig = { ...config, watcher: updateParams };
     const newPages = await getPages(newConfig);
     renderedPages = await generateStatic(generateSiteState(config), newPages);
