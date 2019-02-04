@@ -2,7 +2,7 @@ import { CommonOption } from "@custom-site/config";
 import { PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
 import { generateSiteState } from "./generateProps";
 import { getPages } from "./getPage";
-import { init, appQueryService } from "./lifeCycle";
+import { appQueryService, init } from "./lifeCycle";
 import { render } from "./renderer";
 
 /**

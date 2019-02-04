@@ -73,4 +73,8 @@ export class QueryService {
     }
     return config.customComponentsFile;
   }
+
+  public getLibraryOutputPath(): string {
+    return "lib";
+  }
 }

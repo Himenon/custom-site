@@ -18,8 +18,8 @@ export const copyAssetFiles = async (source: string, destination: string, extens
   });
 };
 
-export const copyNodeModulesLibs = async (files: string[], destination: string) => {
-  const dest = path.join(destination, "lib");
+export const copyNodeModulesLibs = async (files: string[], destination: string, outputLibPath: string) => {
+  const dest = path.join(destination, outputLibPath);
   const promises = files.map(async (filename: string) => {
     if (!fsExtra.existsSync(filename) || !fsExtra.statSync(filename).isFile()) {
       return Promise.resolve();

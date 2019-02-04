@@ -109,7 +109,7 @@ const main = async () => {
       Promise.all([
         exportPages(pages, options),
         copyAssetFiles(options.source, options.destination, options.blacklist.extensions),
-        copyNodeModulesLibs(appQueryService.getCssFiles(), options.destination),
+        copyNodeModulesLibs(appQueryService.getCssFiles(), options.destination, appQueryService.getLibraryOutputPath()),
       ]);
       notifyLog("files saved to", options.destination);
     } catch (err) {

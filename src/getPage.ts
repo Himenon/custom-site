@@ -15,7 +15,8 @@ const rewriteNodeModulePathToLib = (link: string): string => {
   if (!isProduction || !startList.map(s => link.startsWith(s)).includes(true)) {
     return link;
   }
-  return path.join("lib", path.basename(link));
+  const libPath = appQueryService.getLibraryOutputPath();
+  return path.join(libPath, path.basename(link));
 };
 
 const rewriteScriptSource = (attribute: string | ScriptHTMLAttributes, basePath: string): string | ScriptHTMLAttributes => {
