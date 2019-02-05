@@ -1,5 +1,5 @@
-import { CommonOption } from "@custom-site/config";
 import { State as AppState } from "@custom-site/internal";
+import { defaultConfig } from "../../../__tests__/ExampleSiteParameters";
 import { Model } from "../../../models";
 import { CommandService as AppCommandService } from "../command";
 import { QueryService as AppQueryService } from "../query";
@@ -8,15 +8,6 @@ describe("QueryService Test", () => {
   let appModel: Model<AppState>;
   let appQueryService: AppQueryService;
   let commandService: AppCommandService;
-  const defaultConfig: CommonOption = {
-    source: "source_test",
-    global: {},
-    baseUri: "/baseUri",
-    baseUrl: "http://base.url",
-    port: 8000,
-    blacklist: { extensions: [] },
-    plugins: [],
-  };
   beforeAll(() => {
     appModel = new Model<AppState>();
     appQueryService = new AppQueryService(appModel);
@@ -49,11 +40,11 @@ describe("QueryService Test", () => {
   });
 
   it("getLayoutFile", () => {
-    expect(appQueryService.getLayoutFile()).toBeUndefined();
+    expect(appQueryService.getLayoutFile()).toBe(defaultConfig.layoutFile);
   });
 
   it("getCustomComponentsFile", () => {
-    expect(appQueryService.getCustomComponentsFile()).toBeUndefined();
+    expect(appQueryService.getCustomComponentsFile()).toBe(defaultConfig.customComponentsFile);
   });
 
   it("getLibraryOutputPath", () => {

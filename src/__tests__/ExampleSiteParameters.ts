@@ -1,3 +1,4 @@
+import { CommonOption } from "@custom-site/config";
 import { PageState, SiteState } from "@custom-site/page";
 
 export const siteStateExample: SiteState = {
@@ -31,3 +32,15 @@ export const pageStateExamples: PageState[] = [
     raw: "test page",
   },
 ];
+
+export const defaultConfig: CommonOption = {
+  source: "./example/src",
+  global: {},
+  baseUri: "/baseUri",
+  baseUrl: "http://base.url",
+  port: 8000,
+  blacklist: { extensions: [".html", ".json", ".mdx", ".ts", ".tsx"] },
+  plugins: [],
+  layoutFile: "./example/template/template.js",
+  customComponentsFile: "./example/components/components.js",
+};
