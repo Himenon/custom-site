@@ -2,7 +2,7 @@ import * as objectRestSpread from "@babel/plugin-proposal-object-rest-spread";
 import * as transformJSX from "@babel/plugin-transform-react-jsx";
 import * as babelStandAlone from "@babel/standalone";
 import * as mdx from "@mdx-js/mdx";
-import { MDXTag, MDXTagProps } from "@mdx-js/tag";
+import { CustomComponents, MDXTag, MDXTagProps } from "@mdx-js/tag";
 import * as React from "react";
 
 const convertWithBabel = (raw: string): string | null =>
@@ -18,7 +18,7 @@ export const applyMarkdownTextToMdxTag = (markdownText: string): string => {
     .trim();
 };
 
-export interface TransformConfig<T extends keyof JSX.IntrinsicElements> {
+export interface TransformConfig<T extends keyof CustomComponents> {
   customComponents: MDXTagProps<T>["components"];
   props: MDXTagProps<T>["props"];
 }
@@ -29,6 +29,7 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
   const raw = applyMarkdownTextToMdxTag(content);
   const code = convertWithBabel(raw);
   const fullScope = {
+    ...config.customComponents, // TODO これ良い？
     MDXTag,
     components: config.customComponents,
     props: config.props,

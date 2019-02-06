@@ -13,11 +13,11 @@ import { notifyLog } from "./logger";
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
 
-import { copyAssetFiles } from "./build/copyFiles";
-import { exportPages } from "./exportPage";
+import { copyAssetFiles, copyNodeModulesLibs, exportPages } from "./build-tools";
 
 import { Option } from "@custom-site/cli";
 import { getDefaultConfig } from "./helpers";
+import { appQueryService } from "./lifeCycle";
 import { parser } from "./parser";
 
 const flags: meow.Options["flags"] = {
@@ -103,10 +103,18 @@ const main = async () => {
     }
   }
   if (options.__type === "PRODUCTION") {
-    // 開発環境ではなく、サイトを生成する
-    const pages = await generateStaticPages(options);
-    if (pages) {
-      Promise.all([exportPages(pages, options), copyAssetFiles()]);
+    try {
+      // 開発環境ではなく、サイトを生成する
+      const pages = await generateStaticPages(options);
+      Promise.all([
+        exportPages(pages, options),
+        copyAssetFiles(options.source, options.destination, options.blacklist.extensions),
+        copyNodeModulesLibs(appQueryService.getCssFiles(), options.destination, appQueryService.getLibraryOutputPath()),
+      ]);
+      notifyLog("files saved to", options.destination);
+    } catch (err) {
+      notifyLog("error", err);
+      process.exit(1);
     }
   }
 };

@@ -14,9 +14,8 @@ import { generateSiteState } from "../generateProps";
 import { generateStatic } from "../generator";
 import { getPages } from "../getPage";
 import { getDefaultConfig } from "../helpers";
-import { init, initPlugins } from "../lifeCycle";
-import { pluginEventEmitter } from "../plugin";
-import { app } from "../store";
+import { appCommandService, appQueryService, init, initPlugins, pluginEventEmitter } from "../lifeCycle";
+import { getPluginPath } from "../resolver/index";
 import { reloadScript } from "./reloadScript";
 import { makeWebSocketServer } from "./wsServer";
 
@@ -24,6 +23,7 @@ const OBSERVE_FILE_EXTENSION = /\.(js|css|jsx|md|mdx|json)$/;
 
 export const redirectToLocalFile = (filePath: string, res: http.ServerResponse): boolean => {
   if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+    console.log(`LOAD : ${filePath}`);
     res.writeHead(200, { "Content-Type": lookup(filePath) || "text/plain" });
     fs.createReadStream(filePath).pipe(res);
     return true;
@@ -57,7 +57,7 @@ export const getRedirectLocalDirectoryPath = (dirname: string, pathname: string,
 
 const start = async (option: DevelopOption) => {
   init(option);
-  let config: DevelopOption = { ...app.get({ type: "config", id: "" }, option), __type: "DEVELOPMENT" };
+  let config: DevelopOption = { ...(appQueryService.getConfig() || option), __type: "DEVELOPMENT" };
   const socketPort: number = await portfinder.getPortPromise({
     port: config.port - 2,
   });
@@ -65,8 +65,9 @@ const start = async (option: DevelopOption) => {
   let socket: WebSocket;
   let renderedPages = await generateStatic(generateSiteState(config), initPages);
 
-  const loadedPluginPaths = app.get({ type: "pluginPaths", id: "" }, []);
-  const watchFiles: string[] = [config.source, config.layoutFile || "", config.customComponentsFile || "", ...loadedPluginPaths];
+  const loadedPluginPaths = appQueryService.getPluginPaths();
+  const requiredPaths = [config.layoutFile || "", config.customComponentsFile || ""];
+  const watchFiles: string[] = [config.source, ...requiredPaths, ...loadedPluginPaths];
 
   const watcher: chokidar.FSWatcher = chokidar.watch(watchFiles, {
     ignoreInitial: true,
@@ -85,8 +86,15 @@ const start = async (option: DevelopOption) => {
     if (config.configFile === updateParams.filename) {
       const updateConfig = getDefaultConfig(config.configFile);
       const state = { ...config, ...updateConfig };
-      app.set({ type: "config", id: "", state });
+      appCommandService.saveConfig(state);
       init(state);
+    }
+    if (requiredPaths.includes(updateParams.filename)) {
+      const externalPath = getPluginPath(updateParams.filename, process.cwd());
+      console.log(externalPath);
+      if (externalPath) {
+        delete require.cache[externalPath];
+      }
     }
     if (loadedPluginPaths.includes(updateParams.filename)) {
       console.log("reload plugins");
@@ -94,7 +102,7 @@ const start = async (option: DevelopOption) => {
       pluginEventEmitter.clearAll();
       initPlugins();
     }
-    config = { ...app.get({ type: "config", id: "" }, config), __type: "DEVELOPMENT" };
+    config = { ...(appQueryService.getConfig() || config), __type: "DEVELOPMENT" };
     const newConfig = { ...config, watcher: updateParams };
     const newPages = await getPages(newConfig);
     renderedPages = await generateStatic(generateSiteState(config), newPages);
@@ -115,6 +123,7 @@ const start = async (option: DevelopOption) => {
     if (!req.url) {
       return;
     }
+    console.log(`\nGET  : ${req.url}`);
     const { pathname } = url.parse(req.url);
     if (!pathname) {
       return;
@@ -124,7 +133,7 @@ const start = async (option: DevelopOption) => {
     if (redirectToLocalFile(filePath, res)) {
       return;
     }
-    // basepathが存在する場合
+    // ローカルディレクトリに返せるファイルがある場合
     if (redirectToLocalFile(getRedirectLocalDirectoryPath(config.source, pathname, config), res)) {
       return;
     }
@@ -138,7 +147,12 @@ const start = async (option: DevelopOption) => {
       res.end();
       return;
     }
+    // サーバー外のファイルを見る場合
+    if (redirectToLocalFile(path.relative(config.baseUri, pathname), res)) {
+      return;
+    }
 
+    res.statusCode = 404;
     res.write("page not found: " + name);
     res.end();
     return;

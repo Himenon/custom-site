@@ -1,7 +1,7 @@
 import { CreateHandler, EventHandlerMap, State } from "@custom-site/plugin";
-import { plugin, PluginStore } from "./store";
+import { CommandService } from "./domain/plugin"; // TODO Namespace
 
-const createPluginEventEmitter = (store: PluginStore) => {
+export const createPluginEventEmitter = (commandService: CommandService) => {
   const handlers: EventHandlerMap = {};
   return {
     on<K extends keyof EventHandlerMap>(event: K, handler?: CreateHandler<K>): void {
@@ -14,12 +14,10 @@ const createPluginEventEmitter = (store: PluginStore) => {
       ((handlers[event] || (handlers[event] = [])) as Array<CreateHandler<K>>).forEach(handler => {
         newState = handler(newState);
       });
-      store.set({ type: event, id: state.id, state: newState });
+      commandService.savePlugin({ type: event, id: state.id, state: newState });
     },
     clearAll(): void {
       Object.keys(handlers).forEach(key => (handlers[key] = []));
     },
   };
 };
-
-export const pluginEventEmitter = createPluginEventEmitter(plugin);

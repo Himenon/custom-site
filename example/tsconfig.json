@@ -1,0 +1,18 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": false,
+    "outDir": "",
+    "composite": false,
+    "declaration": false
+  },
+  "include": [
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "template/**/*.ts",
+    "template/**/*.tsx",
+    "plugins/**/*.ts",
+    "plugins/**/*.tsx"
+  ]
+}

@@ -21,6 +21,7 @@ describe("rendering test", () => {
       name: "",
       raw: "",
     },
+    indexes: [],
   };
   test("Component", () => {
     // tslint:disable-next-line:variable-name
