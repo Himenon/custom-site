@@ -12,10 +12,10 @@ describe("render test", () => {
   test("sample page", async done => {
     const pages = await render(siteStateExample, [pageStateExamples[0]]);
     expect(pages.length).toBe(1);
-    expect(pages[0].html).toBe(
-      // tslint:disable-next-line:max-line-length
-      '<html><head lang="en"><title>test page title a</title><meta charSet="utf-8"/></head><body><div><p>test page a</p></div></body></html>',
-    );
+    expect(pages[0].html).toMatch(/<title>test page title a<\/title>/);
+    expect(pages[0].html).toMatch(/<meta charSet="utf-8"\/>/);
+    expect(pages[0].html).toMatch(/<head lang="en">/);
+    expect(pages[0].html).toMatch(/<body><div><p>test page a<\/p><\/div><\/body>/);
     done();
   });
 

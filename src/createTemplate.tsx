@@ -8,7 +8,7 @@ export const createTemplateComponent = (props: TemplateProps) => {
       if (applyTemplate) {
         return applyTemplate(this.props.children);
       }
-      return <body>{this.props.children}</body>;
+      return <>{this.props.children}</>;
     }
   };
 };
