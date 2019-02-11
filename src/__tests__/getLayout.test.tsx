@@ -38,15 +38,15 @@ describe("rendering test", () => {
     const wrapper = createTemplateHOC({ postProps: pageProps });
     const element = wrapper(<div>{"hello"}</div>);
     const result = ReactDOM.renderToStaticMarkup(element);
-    expect(result).toBe("<body><div>hello</div></body>");
+    expect(result).toBe("<div>hello</div>");
   });
 
   test("custom template", () => {
     const applyLayout = (_props: PostProps) => (content?: React.ReactNode): React.ReactElement<any> => {
       return (
-        <body id="my-template">
-          <main>{content}</main>
-        </body>
+        <>
+          <main id="my-template">{content}</main>
+        </>
       );
     };
     const wrapper = createTemplateHOC({
@@ -55,6 +55,6 @@ describe("rendering test", () => {
     });
     const element = wrapper(<div>{"hello"}</div>);
     const result = ReactDOM.renderToStaticMarkup(element);
-    expect(result).toBe('<body id="my-template"><main><div>hello</div></main></body>');
+    expect(result).toBe('<main id="my-template"><div>hello</div></main>');
   });
 });

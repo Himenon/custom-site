@@ -1,4 +1,12 @@
-import { ExternalCustomComponent, ExternalTemplate, Index, PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
+import {
+  ExternalCustomComponent,
+  ExternalTemplate,
+  HtmlMetaData,
+  Index,
+  PageState,
+  RenderedStaticPage,
+  SiteState,
+} from "@custom-site/page";
 import { CustomComponents } from "@mdx-js/tag";
 import * as path from "path";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -42,12 +50,15 @@ const createTemplate = (site: SiteState, page: PageState, indexes: Index[]) => {
   });
 };
 
-const createHead = (site: SiteState, page: PageState) => {
+const createHead = (site: SiteState, page: PageState): { htmlMetaData: HtmlMetaData; element: React.ReactElement<any> } => {
   const id = `GENERATE_META_DATA/${page.uri}`;
   const state = { site, page, id };
   pluginEventEmitter.emit("GENERATE_META_DATA", state);
   const metaData = pluginQueryService.getGenerateMetaData(id);
-  return createHeadContent(metaData);
+  return {
+    htmlMetaData: metaData,
+    element: createHeadContent(metaData),
+  };
 };
 
 const createBody = (page: PageState, site: SiteState) => {
@@ -68,9 +79,15 @@ const createBody = (page: PageState, site: SiteState) => {
 const createRenderPage = (site: SiteState, indexes: Index[]) => (page: PageState): RenderedStaticPage => {
   const applyTemplate = createTemplate(site, page, indexes);
   const id = `AFTER_RENDER_PAGE/${page.uri}`;
+  const headContent = createHead(site, page);
   const html = renderToStaticMarkup(
     combine({
-      head: createHead(site, page),
+      csrProps: {
+        htmlMetaData: headContent.htmlMetaData,
+        page,
+        site,
+      },
+      head: headContent.element,
       body: applyTemplate(createBody(page, site)),
     }),
   );
@@ -87,7 +104,7 @@ const createRenderPage = (site: SiteState, indexes: Index[]) => (page: PageState
 const render = async (site: SiteState, pages: PageState[]): Promise<RenderedStaticPage[]> => {
   const indexes = generateIndexes(pages);
   const renderPage = createRenderPage(site, indexes);
-  return pages.map(renderPage);
+  return Promise.all(pages.map(renderPage));
 };
 
 export { render };

@@ -72,12 +72,12 @@ export const createHeadContent = (htmlMetaData: HtmlMetaData): React.ReactElemen
   const thirdParty = htmlMetaData.thirdParty;
   const metaAttributes = convertMetaHTMLAttributes(htmlMetaData);
   return (
-    <head lang={htmlMetaData.lang || "en"}>
+    <>
       <title>{htmlMetaData.title}</title>
       {generateMetaElements(metaAttributes)}
       {generateScriptElements(htmlMetaData)}
       {generateLinkElements(htmlMetaData)}
       {thirdParty && thirdParty.googleAnalytics && generateGoogleAnalyticsElement(thirdParty.googleAnalytics)}
-    </head>
+    </>
   );
 };
