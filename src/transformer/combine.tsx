@@ -11,21 +11,12 @@ export interface ViewProps {
   body: React.ReactElement<any>;
 }
 
-const generateCsrInitialPropsScript = (csrProps: ViewProps["csrProps"]) => {
-  const props: JSX.IntrinsicElements["script"] = {
-    dangerouslySetInnerHTML: {
-      __html: `window.__INITIAL_PROPS__ = ${JSON.stringify(csrProps)}`,
-    },
-  };
-  return <script {...props} />;
-};
-
 export const combine = (viewProps: ViewProps): React.ReactElement<any> => {
   return (
     <html>
       <head lang={viewProps.csrProps.htmlMetaData.lang || "en"}>
         {viewProps.head}
-        {generateCsrInitialPropsScript(viewProps.csrProps)}
+        <script id="csr-props" data-csr-props={JSON.stringify(viewProps.csrProps)} />
       </head>
       <body>{viewProps.body}</body>
     </html>
