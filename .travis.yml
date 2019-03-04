@@ -5,6 +5,9 @@ branches:
   - master
   - develop
 cache: yarn
+install:
+- yarn install --frozen-lockfile
+- yarn bootstrap
 stages:
 - name: lint
   if: branch = develop OR branch = master
@@ -30,7 +33,6 @@ jobs:
     - '11'
   - stage: deploy
     script:
-    - yarn install
     - yarn build
     - echo "//registry.npmjs.org/:_authToken='${NPM_TOKEN}'" >> .npmrc
     - npm publish
