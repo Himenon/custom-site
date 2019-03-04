@@ -1,5 +1,5 @@
 {
-  "name": "@custom-site/custom-site",
+  "name": "@custom-site/core",
   "version": "0.3.0",
   "description": "Static Site Generator",
   "keywords": [
