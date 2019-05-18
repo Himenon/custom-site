@@ -1,60 +1,22 @@
 {
+  "extends": "../tsconfig.shared",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "lib",
-    "module": "commonjs",
-    "target": "esnext",
-    "lib": [
-      "esnext"
-    ],
-    "experimentalDecorators": true,
-    "removeComments": true,
-    "composite": true,
-    "sourceMap": false,
-    "allowJs": false,
-    "jsx": "react",
-    "moduleResolution": "node",
-    "rootDir": "./src",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "baseUrl": "./",
+    "rootDir": "src",
+    "lib": ["dom", "esnext"],
+    "paths": {
+      "gray-matter": ["./typings/gray-matter/index.d.ts"],
+      "@babel/*": ["./typings/@babel/*"],
+      "@mdx-js/*": ["./typings/@mdx-js/*"]
+    },
     "typeRoots": [
       "./typings",
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "../../node_modules/@types"
     ],
-    "paths": {
-      "gray-matter": [
-        "./typings/gray-matter/index.d.ts"
-      ],
-      "@babel/*": [
-        "./typings/@babel/*"
-      ],
-      "@mdx-js/*": [
-        "./typings/@mdx-js/*"
-      ]
-    },
+    "tsBuildInfoFile": "../../buildcache/core/tsconfig.json.tsbuildinfo"
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "typings/**/*.ts"
-  ],
-  "exclude": [
-    "./node_modules",
-    "./lib",
-    "jest"
-  ],
-  "ordered-imports": [
-    true,
-    {
-      "import-sources-order": "any",
-      "named-imports-order": "case-insensitive"
-    }
-  ]
+  "include": ["src/*.ts", "src/*.tsx", "src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
 }

@@ -7,7 +7,7 @@ import {
   RenderedStaticPage,
   SiteState,
 } from "@custom-site/page";
-import { CustomComponents } from "@mdx-js/tag";
+import { CustomComponents } from "@mdx-js/react";
 import * as path from "path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createTemplateHOC } from "./createTemplate";

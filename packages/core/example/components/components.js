@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Prism = require("prismjs");
 const React = require("react");
-const example_1 = require("./example");
+const Example = require("./example");
 require("prismjs/components/prism-typescript.min.js");
 require("prismjs/components/prism-jsx.min.js");
 require("prismjs/components/prism-tsx.min.js");
@@ -26,7 +26,7 @@ exports.generateCustomComponents = () => {
             const grammar = getLanguageDefinition(lang);
             let highlightHtml;
             if (grammar) {
-                highlightHtml = Prism.highlight(code, grammar);
+                highlightHtml = Prism.highlight(code, grammar, lang);
             }
             if (!lang || !grammar) {
                 return (React.createElement("pre", null,
@@ -42,6 +42,6 @@ exports.generateCustomComponents = () => {
             return (React.createElement("pre", { className: props.className },
                 React.createElement("code", Object.assign({}, newProps))));
         },
-        ExampleComponent: (props) => React.createElement(example_1.ExampleComponent, Object.assign({}, props)),
+        ExampleComponent: (props) => React.createElement(Example.Component, Object.assign({}, props)),
     };
 };

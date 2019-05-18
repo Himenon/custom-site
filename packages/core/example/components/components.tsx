@@ -4,10 +4,10 @@
 /// <reference path="../../typings/@custom-site/index.d.ts"/>
 
 import { ExternalCustomComponent } from "@custom-site/page";
-import { CustomComponents } from "@mdx-js/tag";
+import { CustomComponents } from "@mdx-js/react";
 import * as Prism from "prismjs";
 import * as React from "react";
-import { ExampleComponent, ExampleComponentProps } from "./example";
+import * as Example from "./example";
 
 /**
  * ハイライトしたい言語のjsファイルを読み込んでおく
@@ -22,7 +22,7 @@ require("prismjs/components/prism-markdown.min.js");
 
 const SUPPORT_LANGUAGES = Object.keys(Prism.languages);
 
-const getLanguageDefinition = (lang: string): Prism.LanguageDefinition | null => {
+const getLanguageDefinition = (lang: string): Prism.Grammar | null => {
   if (SUPPORT_LANGUAGES.includes(lang)) {
     return Prism.languages[lang];
   }
@@ -38,7 +38,7 @@ export const generateCustomComponents: ExternalCustomComponent["generateCustomCo
       const grammar = getLanguageDefinition(lang);
       let highlightHtml: string | undefined;
       if (grammar) {
-        highlightHtml = Prism.highlight(code, grammar);
+        highlightHtml = Prism.highlight(code, grammar, lang);
       }
       if (!lang || !grammar) {
         return (
@@ -60,6 +60,6 @@ export const generateCustomComponents: ExternalCustomComponent["generateCustomCo
         </pre>
       );
     },
-    ExampleComponent: (props: ExampleComponentProps) => <ExampleComponent {...props} />,
+    ExampleComponent: (props: Example.Props) => <Example.Component {...props} />,
   };
 };

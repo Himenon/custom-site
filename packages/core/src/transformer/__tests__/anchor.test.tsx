@@ -13,16 +13,16 @@ describe("anchor tag link", () => {
 
   test("/", () => {
     const result = converter("[link](/)");
-    expect(result).toBe('<div><p><a href="/">link</a></p></div>');
+    expect(result).toBe('<p><a href="/">link</a></p>');
   });
 
   test("/index", () => {
     const result = converter("[link](/index)");
-    expect(result).toBe('<div><p><a href="/index">link</a></p></div>');
+    expect(result).toBe('<p><a href="/index">link</a></p>');
   });
 
   test("../index", () => {
     const result = converter("[link](../index)");
-    expect(result).toBe('<div><p><a href="../index">link</a></p></div>');
+    expect(result).toBe('<p><a href="../index">link</a></p>');
   });
 });
