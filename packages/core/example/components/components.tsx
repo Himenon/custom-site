@@ -4,7 +4,7 @@
 /// <reference path="../../typings/@custom-site/index.d.ts"/>
 
 import { ExternalCustomComponent } from "@custom-site/page";
-import { CustomComponents } from "@mdx-js/tag";
+import { CustomComponents } from "@mdx-js/react";
 import * as Prism from "prismjs";
 import * as React from "react";
 import { ExampleComponent, ExampleComponentProps } from "./example";

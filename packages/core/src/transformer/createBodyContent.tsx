@@ -2,7 +2,7 @@ import * as objectRestSpread from "@babel/plugin-proposal-object-rest-spread";
 import * as transformJSX from "@babel/plugin-transform-react-jsx";
 import * as babelStandAlone from "@babel/standalone";
 import * as mdx from "@mdx-js/mdx";
-import { CustomComponents, MDXTag, MDXTagProps } from "@mdx-js/tag";
+import { CustomComponents, mdx as createElement, MDXProvider, MDXTagProps } from "@mdx-js/react";
 import * as React from "react";
 
 const convertWithBabel = (raw: string): string | null =>
@@ -29,16 +29,22 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
   const raw = applyMarkdownTextToMdxTag(content);
   const code = convertWithBabel(raw);
   const fullScope = {
+    mdx: createElement,
+    MDXProvider,
     ...config.customComponents, // TODO これ良い？
-    MDXTag,
     components: config.customComponents,
     props: config.props,
   };
   const keys = Object.keys(fullScope);
   const values = keys.map(key => fullScope[key]);
-  const mainLogic = `${code} return React.createElement(MDXContent, { components, ...props });`;
+  console.log(code);
+  const mainLogic = `${code} return React.createElement(MDXProvider, { components },
+    React.createElement(MDXContent, props)
+  );`;
   // tslint:disable-next-line:function-constructor
-  const fn = new Function("React", ...keys, mainLogic);
-  const resultComponent = fn(React, ...values);
+  // const fn = new Function("React", ...keys, mainLogic);
+  // tslint:disable-next-line:function-constructor
+  const fn = new Function("_fn", "React", ...keys, mainLogic);
+  const resultComponent = fn({}, React, ...values);
   return resultComponent;
 };

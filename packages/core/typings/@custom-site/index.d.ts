@@ -104,7 +104,7 @@ declare module "@custom-site/config" {
 }
 
 declare module "@custom-site/page" {
-  import { CustomComponents } from "@mdx-js/tag";
+  import { CustomComponents } from "@mdx-js/react";
 
   // TODO Plugin
   export interface TwitterMeta {

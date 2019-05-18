@@ -15,13 +15,17 @@ declare module "@mdx-js/mdx" {
   export default mdx;
 }
 
-declare module "@mdx-js/tag" {
+declare module "@mdx-js/react" {
   import * as React from "react";
 
   export interface LayoutProps {
     children: React.ReactNode[];
     id: string;
   }
+
+  export function MDXProvider<T>(props: T): React.Context<T>
+  
+  export function mdx(type: string, props?: { mdxType?: string }): React.FunctionComponent;
 
   export type CustomComponents = { [P in keyof JSX.IntrinsicElements]?: (props: JSX.IntrinsicElements[P]) => React.ReactNode } & {
     [key: string]: (props: any) => React.ReactNode;
@@ -38,7 +42,7 @@ declare module "@mdx-js/tag" {
     layoutProps?: LayoutProps;
   }
 
-  export class MDXTag<T extends keyof JSX.IntrinsicElements> extends React.Component<MDXTagProps<T>, {}> {
-    public render(): JSX.Element;
-  }
+  // export class MDXTag<T extends keyof JSX.IntrinsicElements> extends React.Component<MDXTagProps<T>, {}> {
+  //   public render(): JSX.Element;
+  // }
 }
