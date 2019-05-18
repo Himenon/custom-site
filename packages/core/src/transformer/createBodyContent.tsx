@@ -31,7 +31,6 @@ export const transformRawStringToHtml = <T extends keyof JSX.IntrinsicElements>(
   const fullScope = {
     mdx: createElement,
     MDXProvider,
-    ...config.customComponents, // TODO これ良い？
     components: config.customComponents,
     props: config.props,
   };

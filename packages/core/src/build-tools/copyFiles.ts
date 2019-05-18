@@ -27,7 +27,7 @@ export const copyNodeModulesLibs = async (files: string[], destination: string, 
     const destFile = path.join(dest, path.basename(filename));
     const destDir = path.dirname(destFile);
     if (!fsExtra.existsSync(destDir) || !fsExtra.statSync(destDir).isDirectory()) {
-      console.log(`MKDIR :, ${destDir}`);
+      console.log(`MKDIR : ${destDir}`);
       fsExtra.mkdirSync(path.dirname(destFile), { recursive: true });
     }
     console.log(`COPY  : ${filename} -> ${destFile}`);

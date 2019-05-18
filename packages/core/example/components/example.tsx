@@ -14,3 +14,5 @@ export class ExampleComponent extends React.Component<ExampleComponentProps, {}>
     );
   }
 }
+
+export { ExampleComponent as Component, ExampleComponentProps as Props };

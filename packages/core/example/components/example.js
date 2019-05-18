@@ -10,3 +10,4 @@ class ExampleComponent extends React.Component {
     }
 }
 exports.ExampleComponent = ExampleComponent;
+exports.Component = ExampleComponent;
