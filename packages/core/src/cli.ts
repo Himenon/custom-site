@@ -3,17 +3,17 @@
 import * as dot from "dot-prop";
 import * as http from "http";
 import * as meow from "meow";
-import opn = require("opn");
+import * as open from "open";
 import * as path from "path";
 import * as readPkgUp from "read-pkg-up";
 
 import { UpdateNotifier } from "update-notifier";
 import { notifyLog } from "./logger";
 
+import { CommonOption } from "@custom-site/config";
+import { copyAssetFiles, copyNodeModulesLibs, exportPages } from "./build-tools";
 import { generateStaticPages } from "./generator";
 import { server } from "./server";
-
-import { copyAssetFiles, copyNodeModulesLibs, exportPages } from "./build-tools";
 
 import { Option } from "@custom-site/cli";
 import { getDefaultConfig } from "./helpers";
@@ -71,12 +71,13 @@ const cli = meow(
 );
 
 const main = async () => {
-  const pkg = readPkgUp.sync().pkg;
+  const normalizedPkg: readPkgUp.NormalizedReadResult = readPkgUp.sync()!;
+  const pkg = normalizedPkg.package;
   new UpdateNotifier({ pkg }).notify();
   const inputFlags: Option = cli.flags;
   const isProduction: boolean = !inputFlags.dev;
-  const packageConfig = dot.get(pkg, "pkg.custom-site");
-  const defaultConfig = { ...getDefaultConfig(inputFlags.config || "config.json"), ...packageConfig };
+  const packageConfig: CommonOption = dot.get(pkg, "pkg.custom-site");
+  const defaultConfig: CommonOption = { ...getDefaultConfig(inputFlags.config || "config.json"), ...packageConfig };
   const options = parser(defaultConfig, isProduction, inputFlags);
   notifyLog("custom-site");
   if (options.__type === "DEVELOPMENT") {
@@ -88,13 +89,16 @@ const main = async () => {
       if (typeof address === "string") {
         notifyLog(`listening on ${address}`);
         url = address;
-      } else {
+        if (options.open) {
+          open(url);
+        }
+      } else if (address) {
         const { port } = address;
         notifyLog(`listening on port: ${port}`);
         url = path.join(`http://localhost:${port}`, options.baseUri);
-      }
-      if (options.open) {
-        opn(url);
+        if (options.open) {
+          open(url);
+        }
       }
     } catch (err) {
       notifyLog("error");
