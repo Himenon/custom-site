@@ -6,6 +6,7 @@
   "scripts": {
     "start": "run-p *:watch",
     "clean": "rimraf components/*.js",
+    "serve": " open http://localhost:5000/sample && serve .",
     "develop": "chmod +x ../lib/cli.js && node ../lib/cli.js -c config.json -Do",
     "develop2": "chmod +x ../lib/cli.js && node ../lib/cli.js --config ./src/config.json -Do",
     "build:components": "tsc -p tsconfig.json",
