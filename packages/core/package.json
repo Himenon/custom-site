@@ -31,8 +31,8 @@
     "example": "example"
   },
   "scripts": {
-    "build": "yarn run clean && tsc -p ./tsconfig.build.json",
-    "build:watch": "yarn run build --watch",
+    "build": "yarn run clean && tsc -b ./tsconfig.build.json",
+    "build:watch": "tsc -b ./tsconfig.json --watch",
     "ci:notify:release": "ts-node ./scripts/notify.ts",
     "clean": "rimraf ./lib ./out",
     "cli": "node ./lib/cli.js",

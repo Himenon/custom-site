@@ -1,20 +1,21 @@
+/* @jsx mdx */
+const makeShortcode = name => function MDXDefaultShortcode(props){
+	console.warn("Component" + name + "was not imported, exported, or provided by MDXProvider as global scope")
+	return <div{...props}/>
+};
+
 const layoutProps = {};
 
-class MDXContent extends React.Component {
-  constructor(props) {
-    super(props)
-    this.layout = null
-  }
-  render() {
-    const { components, ...props } = this.props
-    return 
-      <MDXTag name="wrapper" components={components}>
-        <MDXTag name="h1" components={components}>
-          {`Hello World`}
-        </MDXTag>
-        <MDXTag name="p" components={components}>{`body message`}</MDXTag>
-        <MDXTag name="h2" components={components}>{`h2 title`}</MDXTag>
-        <MDXTag name="p" components={components}>{`highlight`}</MDXTag>
-      </MDXTag>
-  }
+const MDXLayout = "wrapper"
+
+function MDXContent( { components,...props } ) {
+	return  <MDXLayout {...layoutProps} {...props} components = {components} mdxType = "MDXLayout">
+		<h1>{`HelloWorld`}</h1>
+    <p>{`body message`}</p>
+		<h2>{`h2 title`}</h2>
+		<p>{`highlight`}</p>
+	</MDXLayout>
+	;
 }
+
+MDXContent.isMDXComponent = true;

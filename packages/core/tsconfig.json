@@ -1,9 +1,9 @@
 {
   "extends": "../tsconfig.shared",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "lib",
     "rootDir": "src",
-    "baseUrl": ".",
     "lib": ["dom", "esnext"],
     "paths": {
       "gray-matter": ["./typings/gray-matter/index.d.ts"],
@@ -12,7 +12,8 @@
     },
     "typeRoots": [
       "./typings",
-      "./node_modules/@types"
+      "./node_modules/@types",
+      "../../node_modules/@types"
     ],
     "tsBuildInfoFile": "../../buildcache/core/tsconfig.json.tsbuildinfo"
   },

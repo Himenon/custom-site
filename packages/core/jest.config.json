@@ -1,33 +1,36 @@
 {
-    "automock": false,
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/*"
-    ],
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfig": "tsconfig.json",
-        "diagnostics": false
-      }
-    },
-    "moduleDirectories": [
-      "node_modules"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "node",
-      "ts",
-      "tsx"
-    ],
-    "testMatch": [
-      "**/__tests__/*.test.+(ts|tsx)"
-    ],
-    "collectCoverage": true,
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "preset": "ts-jest"
+  "automock": false,
+  "unmockedModulePathPatterns": [
+    "<rootDir>/node_modules/*"
+  ],
+  "roots": [
+    "<rootDir>/src"
+  ],
+  "testEnvironment": "jsdom",
+  "globals": {
+    "ts-jest": {
+      "tsConfig": "tsconfig.json",
+      "diagnostics": false
+    }
+  },
+  "moduleDirectories": [
+    "node_modules"
+  ],
+  "moduleNameMapper": {},
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "node"
+  ],
+  "testMatch": [
+    "**/__tests__/*.test.+(ts|tsx)"
+  ],
+  "collectCoverage": true,
+  "transform": {
+    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.jsx?$": "babel-jest"
+  },
+  "cacheDirectory": "<rootDir>/../../buildcache/core"
 }
