@@ -12,8 +12,10 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "build:lib": "tsc -b @build.txt",
     "clean": "lerna run clean",
     "commitmsg": "commitlint -e $GIT_PARAMS",
+    "format": "lerna run format",
     "lint": "lerna run lint",
     "test": "lerna run test",
     "test:ci": "lerna run test:ci"

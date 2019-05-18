@@ -3,39 +3,35 @@ language: node_js
 branches:
   only:
   - master
-  - develop
-cache: yarn
-install:
-- yarn install --frozen-lockfile
-- yarn bootstrap
+cache:
+  directories:
+    - $HOME/.cache/yarn
+    - ./node_modules
+    - ./packages/core/lib
+    - ./buildcache
 stages:
-- name: lint
-  if: branch = develop OR branch = master
-- name: compile
-  if: branch = develop OR branch = master
-- name: test
-  if: branch = develop OR branch = master
+- name: lint & build & test
+  if: branch = master AND type = pull_request
 - name: deploy
   if: branch = master AND type = push
 jobs:
   include:
-  - stage: lint
-    script: yarn run lint
-    node_js:
-    - '11'
-  - stage: compile
-    script: yarn build
-    node_js:
-    - '11'
-  - stage: test
-    script: yarn test:ci
+  - stage: lint & build & test
+    script:
+    - yarn run bootstrap
+    - yarn run lint
+    - yarn run build:lib --verbose
+    - yarn run test:ci
     node_js:
     - '11'
   - stage: deploy
     script:
+    - yarn run bootstrap
+    - yarn run setup
+    - yarn run test:ci
     - yarn build
-    - echo "//registry.npmjs.org/:_authToken='${NPM_TOKEN}'" >> .npmrc
-    - npm publish
-    - cp .npmrc.template .npmrc
+    - echo '//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
+    # - npm publish
+    # - cp .npmrc.template .npmrc
     node_js:
     - '11'
