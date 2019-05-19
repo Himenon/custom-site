@@ -1,6 +1,6 @@
 {
   "name": "@custom-site/core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Static Site Generator",
   "keywords": [
     "template",
@@ -75,7 +75,7 @@
     "ws": "^7.0.0"
   },
   "devDependencies": {
-    "@custom-site/interfaces": "0.3.0",
+    "@custom-site/interfaces": "^0.3.1",
     "@types/chokidar": "^2.1.3",
     "@types/dot-prop": "^5.0.1",
     "@types/fs-extra": "^7.0.0",

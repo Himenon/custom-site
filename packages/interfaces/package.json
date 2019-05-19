@@ -1,6 +1,6 @@
 {
   "name": "@custom-site/interfaces",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/custom-site/custom-site#readme",
@@ -25,7 +25,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "scripts": {}
 }

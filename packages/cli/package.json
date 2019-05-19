@@ -1,6 +1,6 @@
 {
   "name": "@custom-site/cli",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/custom-site/custom-site#readme",
@@ -33,13 +33,13 @@
     "build": "rimraf lib && tsc -b ./tsconfig.json"
   },
   "dependencies": {
+    "@custom-site/core": "^0.3.1",
     "dot-prop": "^5.0.0",
     "meow": "^5.0.0",
     "open": "^6.3.0",
-    "read-pkg-up": "^6.0.0",
-    "@custom-site/core": "0.3.0"
+    "read-pkg-up": "^6.0.0"
   },
   "devDependencies": {
-    "@custom-site/interfaces": "0.3.0"
+    "@custom-site/interfaces": "^0.3.1"
   }
 }
