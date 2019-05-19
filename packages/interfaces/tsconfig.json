@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.shared",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "lib",
+    "rootDir": "lib",
+    "lib": ["dom", "esnext"],
+    "paths": {
+      "gray-matter": ["./typings/gray-matter/index.d.ts"],
+      "@babel/*": ["./typings/@babel/*"],
+      "@mdx-js/*": ["./typings/@mdx-js/*"]
+    },
+    "typeRoots": [
+      "./typings",
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "tsBuildInfoFile": "../../buildcache/core/tsconfig.json.tsbuildinfo"
+  },
+  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
+}
