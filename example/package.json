@@ -16,7 +16,14 @@
     "tsc:watch": "tsc -p tsconfig.json -w"
   },
   "dependencies": {
-    "@custom-site/cli": "0.3.0"
+    "@custom-site/core": "file:../packages/core",
+    "@custom-site/interfaces": "file:../packages/interfaces",
+    "@custom-site/cli": "file:../packages/cli"
+  },
+  "resolutions": {
+    "@custom-site/interfaces": "file:../packages/interfaces",
+    "@custom-site/core": "file:../packages/core",
+    "@custom-site/cli": "file:../packages/cli"
   },
   "devDependencies": {
     "@types/prismjs": "^1.16.0",

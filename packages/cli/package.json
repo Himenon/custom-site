@@ -21,7 +21,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "bin": {
-    "custom-site": "./lib/cli.js"
+    "custom-site": "./lib/index.js"
   },
   "directories": {
     "lib": "lib"

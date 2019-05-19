@@ -1,11 +1,6 @@
 # example
 
 ```sh
-# link
-yarn link @custom-site/cli
-```
-
-```sh
 # build
 yarn run build:components
 
@@ -15,6 +10,8 @@ yarn run clean:components
 
 ## develop
 
-```
+```sh
 yarn run develop
+# or
+yarn run develop2
 ```
