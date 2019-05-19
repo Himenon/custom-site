@@ -3,8 +3,6 @@
   "references": [
     { "path": "cli" },
     { "path": "core" },
-    { "path": "logger" },
-    { "path": "page" },
-    { "path": "plugin" }
+    { "path": "interfaces" }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "@custom-site/cli",
-  "version": "0.0.3",
+  "version": "0.3.0",
   "description": "",
   "keywords": [],
   "homepage": "https://github.com/custom-site/custom-site#readme",
@@ -20,13 +20,26 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "bin": {
+    "custom-site": "./lib/cli.js"
+  },
   "directories": {
     "lib": "lib"
   },
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {},
-  "dependencies": {},
-  "devDependencies": {}
+  "scripts": {
+    "build": "rimraf lib && tsc -b ./tsconfig.json"
+  },
+  "dependencies": {
+    "dot-prop": "^5.0.0",
+    "meow": "^5.0.0",
+    "open": "^6.3.0",
+    "read-pkg-up": "^6.0.0",
+    "@custom-site/core": "0.3.0"
+  },
+  "devDependencies": {
+    "@custom-site/interfaces": "0.3.0"
+  }
 }

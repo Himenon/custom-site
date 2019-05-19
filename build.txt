@@ -1,1 +1,3 @@
+packages/interfaces
 packages/core
+packages/cli

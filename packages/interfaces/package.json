@@ -25,9 +25,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "scripts": {
-    "build": "rimraf lib && tsc -b tsconfig.json --force"
-  },
+  "scripts": {},
   "dependencies": {},
   "devDependencies": {}
 }

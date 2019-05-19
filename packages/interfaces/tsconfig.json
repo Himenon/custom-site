@@ -15,7 +15,8 @@
       "./node_modules/@types",
       "../../node_modules/@types"
     ],
-    "tsBuildInfoFile": "../../buildcache/core/tsconfig.json.tsbuildinfo"
+    "tsBuildInfoFile": "../../buildcache/interfaces/tsconfig.json.tsbuildinfo"
   },
+  "include": ["./typings/**/*.ts"],
   "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
 }
