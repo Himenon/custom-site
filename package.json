@@ -19,7 +19,8 @@
     "lint": "lerna run lint",
     "publish": "lerna publish from-package",
     "test": "lerna run test",
-    "test:ci": "lerna run test:ci"
+    "test:ci": "lerna run test:ci",
+    "version": "lerna version"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.6.1",
