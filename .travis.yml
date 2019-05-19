@@ -30,7 +30,7 @@ jobs:
     - yarn run test:ci
     - yarn build:lib --verbose
     - echo '//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
-    - yarn run publish
+    - yarn run publish --yes
     - cp .npmrc.template .npmrc
     node_js:
     - '11'
