@@ -1,5 +1,5 @@
 jest.unmock("../createTemplate");
-import { PostProps } from "@custom-site/page";
+import { PostProps } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { createTemplateHOC } from "../createTemplate";

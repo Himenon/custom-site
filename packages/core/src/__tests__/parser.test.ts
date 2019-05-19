@@ -1,5 +1,5 @@
 jest.unmock("../parser");
-import { BuildOption, CommonOption, DevelopOption } from "@custom-site/config";
+import { BuildOption, CommonOption, DevelopOption } from "@custom-site/interfaces";
 import * as path from "path";
 import { parser } from "../parser";
 

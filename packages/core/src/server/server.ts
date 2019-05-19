@@ -7,8 +7,8 @@ import * as chokidar from "chokidar";
 import * as portfinder from "portfinder";
 import * as WebSocket from "ws";
 
-import { DevelopOption } from "@custom-site/config";
-import { RenderedStaticPage } from "@custom-site/page";
+import { DevelopOption } from "@custom-site/interfaces";
+import { RenderedStaticPage } from "@custom-site/interfaces/lib/page";
 import { lookup } from "mime-types";
 import { generateSiteState } from "../generateProps";
 import { generateStatic } from "../generator";

@@ -1,4 +1,4 @@
-import { HtmlMetaData, PageState, SiteState } from "@custom-site/page";
+import { HtmlMetaData, PageState, SiteState } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 
 export interface ViewProps {

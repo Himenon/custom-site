@@ -1,5 +1,5 @@
-import { State as AppState } from "@custom-site/internal";
-import { State as PluginState } from "@custom-site/plugin";
+import { State as AppState } from "@custom-site/interfaces";
+import { State as PluginState } from "@custom-site/interfaces/lib/plugin";
 
 export { Model } from "./model";
 import { Model } from "./model";

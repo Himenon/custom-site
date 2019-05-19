@@ -1,5 +1,5 @@
 jest.unmock("../server.ts");
-import { DevelopOption } from "@custom-site/config";
+import { DevelopOption } from "@custom-site/interfaces";
 import { getRedirectPagePath } from "../server";
 
 describe("routing test", () => {

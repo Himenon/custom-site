@@ -1,5 +1,5 @@
-import { Option as CLIOption } from "@custom-site/cli";
-import { BuildOption, CommonOption, DevelopOption } from "@custom-site/config";
+import { BuildOption, CommonOption, DevelopOption } from "@custom-site/interfaces";
+import { Option as CLIOption } from "@custom-site/interfaces/lib/cli";
 import * as path from "path";
 
 export const getBaseUriPath = (text: string | undefined): string => {

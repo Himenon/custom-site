@@ -1,5 +1,5 @@
 jest.unmock("../generateScriptElements");
-import { HtmlMetaData } from "@custom-site/page";
+import { HtmlMetaData } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 import * as ReactDOM from "react-dom/server";
 import { generateScriptElements } from "../generateScriptElements";

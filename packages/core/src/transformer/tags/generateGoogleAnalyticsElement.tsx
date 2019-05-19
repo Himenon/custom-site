@@ -1,4 +1,4 @@
-import { ThirdParty } from "@custom-site/page";
+import { ThirdParty } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 
 /**

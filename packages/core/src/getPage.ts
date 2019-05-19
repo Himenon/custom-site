@@ -2,8 +2,8 @@ import * as fs from "fs";
 import * as matter from "gray-matter";
 import * as path from "path";
 
-import { CommonOption } from "@custom-site/config";
-import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes } from "@custom-site/page";
+import { CommonOption } from "@custom-site/interfaces";
+import { HtmlMetaData, LinkHTMLAttributes, PageState, ScriptHTMLAttributes } from "@custom-site/interfaces/lib/page";
 import * as recursive from "recursive-readdir";
 import { appQueryService } from "./lifeCycle";
 

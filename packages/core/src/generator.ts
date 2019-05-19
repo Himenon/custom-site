@@ -1,5 +1,5 @@
-import { CommonOption } from "@custom-site/config";
-import { PageState, RenderedStaticPage, SiteState } from "@custom-site/page";
+import { CommonOption } from "@custom-site/interfaces";
+import { PageState, RenderedStaticPage, SiteState } from "@custom-site/interfaces/lib/page";
 import { generateSiteState } from "./generateProps";
 import { getPages } from "./getPage";
 import { appQueryService, init } from "./lifeCycle";

@@ -1,5 +1,5 @@
-import { CommonOption } from "@custom-site/config";
-import { PageState, SiteState } from "@custom-site/page";
+import { CommonOption } from "@custom-site/interfaces";
+import { PageState, SiteState } from "@custom-site/interfaces/lib/page";
 
 export const siteStateExample: SiteState = {
   title: "test site",
