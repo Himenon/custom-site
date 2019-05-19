@@ -23,8 +23,20 @@ declare module "@mdx-js/react" {
     id: string;
   }
 
+  export const MDXContext: {
+    $$typeof: symbol;
+    Consumer: {
+      $$typeof: symbol;
+      Consumer: any;
+      Provider: any;
+    };
+    Provider: {
+      $$typeof: symbol;
+    };
+  };
+
   export function MDXProvider<T>(props: T): React.Context<T>
-  
+
   export function mdx(type: string, props?: { mdxType?: string }): React.FunctionComponent;
 
   export type CustomComponents = { [P in keyof JSX.IntrinsicElements]?: (props: JSX.IntrinsicElements[P]) => React.ReactNode } & {
@@ -42,7 +54,6 @@ declare module "@mdx-js/react" {
     layoutProps?: LayoutProps;
   }
 
-  // export class MDXTag<T extends keyof JSX.IntrinsicElements> extends React.Component<MDXTagProps<T>, {}> {
-  //   public render(): JSX.Element;
-  // }
+  export function useMDXComponents(e: any): any;
+  export function withMDXComponents(e: any): any;
 }

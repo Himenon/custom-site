@@ -5,18 +5,8 @@
     "outDir": "lib",
     "rootDir": "lib",
     "lib": ["dom", "esnext"],
-    "paths": {
-      "gray-matter": ["./typings/gray-matter/index.d.ts"],
-      "@babel/*": ["./typings/@babel/*"],
-      "@mdx-js/*": ["./typings/@mdx-js/*"]
-    },
-    "typeRoots": [
-      "./typings",
-      "./node_modules/@types",
-      "../../node_modules/@types"
-    ],
     "tsBuildInfoFile": "../../buildcache/interfaces/tsconfig.json.tsbuildinfo"
   },
-  "include": ["./typings/**/*.ts"],
+  "include": ["lib/*.d.ts"],
   "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
 }

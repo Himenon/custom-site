@@ -1,8 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { BuildOption } from "@custom-site/config";
-import { RenderedStaticPage } from "@custom-site/page";
+import { BuildOption } from "@custom-site/interfaces";
+import { RenderedStaticPage } from "@custom-site/interfaces/lib/page";
 
 export const exportPages = async (pages: RenderedStaticPage[], option: BuildOption): Promise<void> => {
   const dest = option.destination;

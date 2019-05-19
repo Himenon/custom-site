@@ -2,6 +2,7 @@
   "extends": "../tsconfig.shared",
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "compilerOptions": {
+    "paths": { "*": ["types/*"] },
     "composite": true,
     "baseUrl": ".",
     "outDir": "lib",
