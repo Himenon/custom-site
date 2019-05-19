@@ -29,8 +29,9 @@ jobs:
     - yarn run bootstrap
     - yarn run test:ci
     - yarn build:lib --verbose
+    - cp .npmrc .npmrc.tmp
     - echo '//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
     - yarn run publish --yes
-    - cp .npmrc.template .npmrc
+    - cp .npmrc.tmp .npmrc
     node_js:
     - '11'
