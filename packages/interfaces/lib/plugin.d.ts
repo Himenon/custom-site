@@ -1,5 +1,5 @@
 export type PluginName = string;
-import { PageState, SiteState } from "@custom-site/page";
+import { PageState, SiteState } from "./page";
 
 export interface State {
   /** Return Value only Use page.metaData */

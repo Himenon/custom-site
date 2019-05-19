@@ -47,3 +47,9 @@ export interface Options {
   develop?: DevelopOption;
   build?: BuildOption;
 }
+
+export interface State {
+  plugins: Plugin[];
+  pluginPaths: string[];
+  config: CommonOption;
+}
