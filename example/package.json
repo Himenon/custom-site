@@ -5,17 +5,18 @@
   "license": "MIT",
   "scripts": {
     "start": "run-p *:watch",
-    "clean": "rimraf components/*.js",
     "serve": " open http://localhost:5000/sample && serve .",
-    "develop": "chmod +x ../lib/cli.js && node ../lib/cli.js -c config.json -Do",
-    "develop2": "chmod +x ../lib/cli.js && node ../lib/cli.js --config ./src/config.json -Do",
-    "build:components": "tsc -p tsconfig.json",
-    "build": "rimraf sample && chmod +x ../lib/cli.js && node ../lib/cli.js --config ./config.json --out-dir sample",
-    "build2": "chmod +x ../lib/cli.js && node ../lib/cli.js . --config ./src/config.json",
+    "develop": "custom-site -c config.json -Do",
+    "develop2": "custom-site --config ./src/config.json -Do",
+    "build:components": "yarn run clean && tsc -p tsconfig.json",
+    "clean": "rimraf tsconfig.tsbuildinfo && yarn run clean:components",
+    "clean:components": "rimraf components/*.d.ts components/*.js components/*.ts.map plugins/*.d.ts plugins/*.js plugins/*.ts.map",
+    "build": "rimraf sample && custom-site --config ./config.json --out-dir sample",
+    "build2": "custom-site . --config ./src/config.json",
     "tsc:watch": "tsc -p tsconfig.json -w"
   },
   "dependencies": {
-    "@custom-site/custom-site": "file:../"
+    "@custom-site/cli": "0.3.0"
   },
   "devDependencies": {
     "@types/prismjs": "^1.16.0",
