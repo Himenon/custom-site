@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "outDir": "lib",
+    "module": "commonjs",
+    "target": "esnext",
+    "lib": ["dom", "esnext"],
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "removeComments": true,
+    "allowJs": false,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "noLib": false,
+    "jsx": "react",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "typeRoots": [
+      "./interfaces/types",
+      "../node_modules/@types"
+    ]
+  },
+  "ordered-imports": [
+    true,
+    {"import-sources-order": "any", "named-imports-order": "case-insensitive"}
+  ]
+}

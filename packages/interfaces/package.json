@@ -1,0 +1,29 @@
+{
+  "name": "@custom-site/interfaces",
+  "version": "0.3.1",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/custom-site/custom-site#readme",
+  "bugs": {
+    "url": "https://github.com/custom-site/custom-site/issues"
+  },
+  "repository": "https://github.com/custom-site/custom-site/packages/interfaces/README.md",
+  "license": "MIT",
+  "author": {
+    "name": "Himenon",
+    "email": "k.himeno314@gmail.com",
+    "url": "https://github.com/Himenon"
+  },
+  "files": [
+    "lib",
+    "package.json"
+  ],
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {}
+}

@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.shared",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "lib",
+    "rootDir": "src",
+    "lib": ["dom", "esnext"],
+    "tsBuildInfoFile": "../../buildcache/core/tsconfig.json.tsbuildinfo"
+  },
+  "references": [
+    { "path": "../interfaces" }
+  ],
+  "include": ["src/*.ts", "src/*.tsx", "src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "./src/**/__tests__/*", "scripts"]
+}

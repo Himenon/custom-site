@@ -1,0 +1,1 @@
+export { generateStaticPages } from "./generator";

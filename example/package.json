@@ -5,21 +5,34 @@
   "license": "MIT",
   "scripts": {
     "start": "run-p *:watch",
-    "develop": "chmod +x ../lib/cli.js && node ../lib/cli.js -c config.json -Do",
-    "develop2": "chmod +x ../lib/cli.js && node ../lib/cli.js --config ./src/config.json -Do",
-    "build": "chmod +x ../lib/cli.js && node ../lib/cli.js --config ./config.json --out-dir hoge",
-    "build2": "chmod +x ../lib/cli.js && node ../lib/cli.js . --config ./src/config.json",
-    "components": "tsc ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "components:watch": "tsc -w ./CustomComponent/components.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "layout": "tsc ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "layout:watch": "tsc -w ./CustomTemplate/template.tsx --jsx react --lib esnext --target esnext --module commonjs",
-    "plugin:watch": "tsc -w ./plugins/*.ts --jsx react --lib esnext --target esnext --module commonjs"
+    "serve": " open http://localhost:5000/sample && serve .",
+    "develop": "custom-site -c config.json -Do",
+    "develop2": "custom-site --config ./src/config.json -Do",
+    "build:components": "yarn run clean && tsc -p tsconfig.json",
+    "clean": "rimraf tsconfig.tsbuildinfo && yarn run clean:components",
+    "clean:components": "rimraf components/*.d.ts components/*.js components/*.ts.map plugins/*.d.ts plugins/*.js plugins/*.ts.map",
+    "build": "rimraf sample && custom-site --config ./config.json --out-dir sample",
+    "build2": "custom-site . --config ./src/config.json",
+    "tsc:watch": "tsc -p tsconfig.json -w"
   },
   "dependencies": {
-    "@custom-site/custom-site": "file:../"
+    "@custom-site/core": "file:../packages/core",
+    "@custom-site/interfaces": "file:../packages/interfaces",
+    "@custom-site/cli": "file:../packages/cli"
+  },
+  "resolutions": {
+    "@custom-site/interfaces": "file:../packages/interfaces",
+    "@custom-site/core": "file:../packages/core",
+    "@custom-site/cli": "file:../packages/cli"
   },
   "devDependencies": {
+    "@types/prismjs": "^1.16.0",
+    "@types/url-join": "^4.0.0",
     "npm-run-all": "^4.1.5",
-    "typescript": "^3.2.4"
+    "pretty": "^2.0.0",
+    "prismjs": "^1.16.0",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.4.5",
+    "url-join": "^4.0.0"
   }
 }

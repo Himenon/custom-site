@@ -1,0 +1,21 @@
+{
+  "command": {
+    "create": {
+      "license": "MIT"
+    },
+    "publish": {
+      "allowBranch": "master",
+      "ignoreChanges": [
+        "CHANGELOG.md"
+      ]
+    }
+  },
+  "packages": [
+    "packages/*"
+  ],
+  "version": "0.3.1",
+  "loglevel": "success",
+  "npmClient": "yarn",
+  "registry": "https://registry.npmjs.org/",
+  "useWorkspaces": true
+}

@@ -1,0 +1,109 @@
+{
+  "name": "@custom-site/core",
+  "version": "0.3.1",
+  "description": "Static Site Generator",
+  "keywords": [
+    "template",
+    "typescript"
+  ],
+  "homepage": "https://github.com/custom-site/custom-site#readme",
+  "bugs": {
+    "url": "https://github.com/custom-site/custom-site/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/custom-site/custom-site.git"
+  },
+  "license": "MIT",
+  "author": "Himenon",
+  "files": [
+    "lib",
+    "typings",
+    "package.json"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "example": "example"
+  },
+  "scripts": {
+    "build": "yarn run clean && tsc -b ./tsconfig.build.json",
+    "build:watch": "tsc -b ./tsconfig.json --watch",
+    "ci:notify:release": "ts-node ./scripts/notify.ts",
+    "clean": "rimraf ./lib ./out",
+    "cli": "node ./lib/cli.js",
+    "cli:example": "node ./lib/cli.js example -Do",
+    "cruiser:image": "depcruise  --exclude \"^node_modules\" --output-type dot src/server | dot -T png > docs/dependencygraph.png",
+    "develop": "yarn run build --watch",
+    "format": "prettier --config .prettierrc --write src/*.{ts,tsx}",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "lint:fix": "yarn run lint --fix",
+    "prettier": "prettier --config .prettierrc --write src/*.{ts,tsx}",
+    "start": "run-p *:watch",
+    "test": "yarn run test:cruiser && yarn run test:jest",
+    "test:ci": "yarn run test && codecov",
+    "test:cruiser": "dependency-cruiser --validate .dependency-cruiser.json src",
+    "test:jest": "jest -c ./jest.config.json",
+    "test:watch": "yarn run test:jest --watch",
+    "version_up:major": "changelog -M && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version major",
+    "version_up:minor": "changelog -m && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version minor",
+    "version_up:patch": "changelog -p && git add CHANGELOG.md && git commit -m \"chore(change-log): updated CHANGELOG.md\" && npm version patch"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/standalone": "^7.4.4",
+    "@mdx-js/mdx": "^1.0.19",
+    "@mdx-js/react": "^1.0.16",
+    "@types/resolve-pkg": "^2.0.0",
+    "chalk": "^2.4.2",
+    "chokidar": "^3.0.0",
+    "fs-extra": "^8.0.1",
+    "gray-matter": "^4.0.2",
+    "load-json-file": "^6.0.0",
+    "mime-types": "^2.1.24",
+    "normalize-path": "^3.0.0",
+    "portfinder": "^1.0.20",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "read-pkg": "^5.1.1",
+    "recursive-readdir": "^2.2.2",
+    "resolve-pkg": "^2.0.0",
+    "update-notifier": "^3.0.0",
+    "ws": "^7.0.0"
+  },
+  "devDependencies": {
+    "@custom-site/interfaces": "^0.3.1",
+    "@types/chokidar": "^2.1.3",
+    "@types/dot-prop": "^5.0.1",
+    "@types/fs-extra": "^7.0.0",
+    "@types/load-json-file": "^5.1.0",
+    "@types/meow": "^5.0.0",
+    "@types/mime-types": "^2.1.0",
+    "@types/node": "^12.0.2",
+    "@types/normalize-path": "^3.0.0",
+    "@types/react": "^16.8.13",
+    "@types/react-dom": "^16.8.4",
+    "@types/read-pkg-up": "^3.0.1",
+    "@types/recursive-readdir": "^2.2.0",
+    "@types/update-notifier": "^2.5.0",
+    "@types/ws": "^6.0.1",
+    "codecov": "^3.5.0",
+    "dependency-cruiser": "^4.18.0",
+    "generate-changelog": "^1.7.1",
+    "lint-staged": "^8.1.7",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.17.1",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.1.0",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-plugin-prettier": "^2.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

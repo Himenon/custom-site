@@ -1,8 +1,7 @@
 "use strict";
-// tslint:disable-next-line:no-reference
-/// <reference path="../../typings/@custom-site/index.d.ts"/>
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
+const pretty = require("pretty");
 exports.onGenerateMetaData = payload => {
     const page = payload.page;
     const newMetaData = {
@@ -21,4 +20,9 @@ exports.onGenerateMetaData = payload => {
     };
     payload.page.metaData = { ...payload.page.metaData, ...newMetaData };
     return payload;
+};
+exports.onAfterRenderPage = payload => {
+    return {
+        html: pretty(payload.html),
+    };
 };

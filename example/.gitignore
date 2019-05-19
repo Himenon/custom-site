@@ -1,2 +1,5 @@
 out
 hoge
+sample
+*.d.ts
+*.d.ts.map

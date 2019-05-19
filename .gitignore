@@ -1,5 +1,4 @@
 .DS_Store
-lib
 coverage
 node_modules
 package-lock.json
@@ -7,3 +6,6 @@ package-lock.json
 *.log
 private_npm_cache
 out
+*.tsbuildinfo
+buildcache
+*.d.map.ts
