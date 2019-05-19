@@ -1,6 +1,5 @@
-import { CommonOption } from "@custom-site/config";
-import { State as AppState } from "@custom-site/internal";
-import { PluginFunctionMap, State as PluginState } from "@custom-site/plugin";
+import { CommonOption, State as AppState } from "@custom-site/interfaces";
+import { PluginFunctionMap, State as PluginState } from "@custom-site/interfaces/lib/plugin";
 import * as path from "path";
 import { CommandService as AppCommandService, QueryService as AppQueryService } from "./domain/config";
 import { CommandService as PluginCommandService, QueryService as PluginQueryService } from "./domain/plugin";

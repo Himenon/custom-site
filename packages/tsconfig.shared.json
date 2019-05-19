@@ -22,9 +22,12 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "composite": true
+    "composite": true,
+    "typeRoots": [
+      "./interfaces/types",
+      "../node_modules/@types"
+    ]
   },
-  "exclude": ["./node_modules"],
   "ordered-imports": [
     true,
     {"import-sources-order": "any", "named-imports-order": "case-insensitive"}

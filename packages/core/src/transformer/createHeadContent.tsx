@@ -1,4 +1,4 @@
-import { HtmlMetaData, MetaHTMLAttributes } from "@custom-site/page";
+import { HtmlMetaData, MetaHTMLAttributes } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 import { generateGoogleAnalyticsElement } from "./tags/generateGoogleAnalyticsElement";
 import { generateLinkElements } from "./tags/generateLinkElements";

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { CommonOption } from "@custom-site/config";
+import { CommonOption } from "@custom-site/interfaces";
 
 const loadJsonFile = (filePath: string) => JSON.parse(fs.readFileSync(filePath, { encoding: "utf8" }));
 

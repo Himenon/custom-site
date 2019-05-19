@@ -11,12 +11,13 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
     "build:lib": "tsc -b @build.txt",
     "clean": "lerna run clean",
+    "clean:lib": "tsc -b @build.txt --clean",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "format": "lerna run format",
     "lint": "lerna run lint",
+    "publish": "lerna publish from-package",
     "test": "lerna run test",
     "test:ci": "lerna run test:ci"
   },
@@ -30,7 +31,8 @@
     "lerna": "^3.14.1",
     "lerna-changelog": "^0.8.2",
     "sort-package-json": "^1.22.1",
-    "ts-jest": "^24.0.2"
+    "ts-jest": "^24.0.2",
+    "typescript": "^3.4.5"
   },
   "engines": {
     "node": ">=9.8.0",

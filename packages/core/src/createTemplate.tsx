@@ -1,4 +1,4 @@
-import { TemplateProps } from "@custom-site/page";
+import { TemplateProps } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 
 export const createTemplateComponent = (props: TemplateProps) => {

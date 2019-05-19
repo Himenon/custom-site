@@ -1,5 +1,5 @@
 jest.unmock("../helpers");
-import { PageState } from "@custom-site/page";
+import { PageState } from "@custom-site/interfaces/lib/page";
 
 import { rewriteUrl } from "../helpers";
 

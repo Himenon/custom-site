@@ -6,7 +6,7 @@ import {
   PageState,
   RenderedStaticPage,
   SiteState,
-} from "@custom-site/page";
+} from "@custom-site/interfaces/lib/page";
 import { CustomComponents } from "@mdx-js/react";
 import * as path from "path";
 import { renderToStaticMarkup } from "react-dom/server";

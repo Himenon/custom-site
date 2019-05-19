@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.shared",
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "compilerOptions": {
+    "paths": { "*": ["types/*"] },
+    "composite": true,
+    "baseUrl": ".",
+    "outDir": "lib",
+    "rootDir": "src",
+    "tsBuildInfoFile": "../../buildcache/cli/tsconfig.json.tsbuildinfo"
+  },
+  "references": [
+    {"path": "../interfaces"},
+    {"path": "../core"}
+  ],
+  "exclude": ["node_modules", "./src/**/__tests__/*"]
+}

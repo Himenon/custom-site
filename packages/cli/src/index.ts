@@ -10,15 +10,15 @@ import * as readPkgUp from "read-pkg-up";
 import { UpdateNotifier } from "update-notifier";
 import { notifyLog } from "./logger";
 
-import { CommonOption } from "@custom-site/config";
+import { CommonOption } from "@custom-site/interfaces";
 import { copyAssetFiles, copyNodeModulesLibs, exportPages } from "./build-tools";
-import { generateStaticPages } from "./generator";
-import { server } from "./server";
+import { generateStaticPages } from "@custom-site/core";
+import { server } from "@custom-site/core/lib/server";
 
-import { Option } from "@custom-site/cli";
-import { getDefaultConfig } from "./helpers";
-import { appQueryService } from "./lifeCycle";
-import { parser } from "./parser";
+import { Option } from "./types";
+import { getDefaultConfig } from "@custom-site/core/lib/helpers";
+import { appQueryService } from "@custom-site/core/lib/lifeCycle";
+import { parser } from "@custom-site/core/lib/parser";
 
 const flags: meow.Options["flags"] = {
   dev: {

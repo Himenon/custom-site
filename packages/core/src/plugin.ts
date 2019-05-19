@@ -1,4 +1,4 @@
-import { CreateHandler, EventHandlerMap, State } from "@custom-site/plugin";
+import { CreateHandler, EventHandlerMap, State } from "@custom-site/interfaces/lib/plugin";
 import { CommandService } from "./domain/plugin"; // TODO Namespace
 
 export const createPluginEventEmitter = (commandService: CommandService) => {

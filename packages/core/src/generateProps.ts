@@ -1,5 +1,5 @@
-import { CommonOption } from "@custom-site/config";
-import { Index, PageState, SiteState } from "@custom-site/page";
+import { CommonOption } from "@custom-site/interfaces";
+import { Index, PageState, SiteState } from "@custom-site/interfaces/lib/page";
 
 export const generateSiteState = (option: CommonOption): SiteState => {
   return {

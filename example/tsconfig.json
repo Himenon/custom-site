@@ -1,10 +1,12 @@
 {
-  "extends": "../../tsconfig.shared",
+  "extends": "../packages/tsconfig.shared.json",
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": false,
     "outDir": "",
-    "declarationMap": false
+    "declarationMap": false,
+    "declaration": false,
+    "composite": false
   },
   "include": [
     "components/**/*.ts",

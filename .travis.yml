@@ -27,11 +27,10 @@ jobs:
   - stage: deploy
     script:
     - yarn run bootstrap
-    - yarn run setup
     - yarn run test:ci
-    - yarn build
+    - yarn build:lib --verbose
     - echo '//registry.npmjs.org/:_authToken="${NPM_TOKEN}"' >> .npmrc
-    # - npm publish
-    # - cp .npmrc.template .npmrc
+    - yarn run publish
+    - cp .npmrc.template .npmrc
     node_js:
     - '11'

@@ -1,4 +1,4 @@
-import { Plugin } from "@custom-site/plugin";
+import { Plugin } from "@custom-site/interfaces/lib/plugin";
 import normalize = require("normalize-path");
 import * as path from "path";
 // tslint:disable

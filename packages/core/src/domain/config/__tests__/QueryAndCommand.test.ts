@@ -1,4 +1,4 @@
-import { State as AppState } from "@custom-site/internal";
+import { State as AppState } from "@custom-site/interfaces";
 import { defaultConfig } from "../../../__tests__/ExampleSiteParameters";
 import { Model } from "../../../models";
 import { CommandService as AppCommandService } from "../command";

@@ -1,4 +1,4 @@
-import { HtmlMetaData, LinkHTMLAttributes } from "@custom-site/page";
+import { HtmlMetaData, LinkHTMLAttributes } from "@custom-site/interfaces/lib/page";
 import * as React from "react";
 import { appendHash } from "./helpers";
 

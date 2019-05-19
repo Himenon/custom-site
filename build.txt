@@ -1,1 +1,3 @@
-packages/core
+packages/interfaces
+packages/core/tsconfig.build.json
+packages/cli

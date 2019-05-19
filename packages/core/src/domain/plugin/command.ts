@@ -1,4 +1,4 @@
-import { State as PluginState } from "@custom-site/plugin";
+import { State as PluginState } from "@custom-site/interfaces/lib/plugin";
 import { PluginModel } from "../../models";
 
 export class CommandService {

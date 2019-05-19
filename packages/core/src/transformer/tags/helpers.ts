@@ -1,4 +1,4 @@
-import { PageState } from "@custom-site/page";
+import { PageState } from "@custom-site/interfaces/lib/page";
 import * as crypto from "crypto";
 import * as path from "path";
 

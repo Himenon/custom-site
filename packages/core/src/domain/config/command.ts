@@ -1,6 +1,6 @@
 // TODO import from '@custom-site'
-import { CommonOption } from "@custom-site/config";
-import { Plugin } from "@custom-site/plugin";
+import { CommonOption } from "@custom-site/interfaces";
+import { Plugin } from "@custom-site/interfaces/lib/plugin";
 import { AppModel } from "../../models";
 
 export class CommandService {

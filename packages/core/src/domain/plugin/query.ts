@@ -1,5 +1,5 @@
-import { HtmlMetaData } from "@custom-site/page";
-import { State as PluginState } from "@custom-site/plugin";
+import { HtmlMetaData } from "@custom-site/interfaces/lib/page";
+import { State as PluginState } from "@custom-site/interfaces/lib/plugin";
 import { PluginModel } from "../../models";
 
 export class QueryService {
