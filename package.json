@@ -23,17 +23,17 @@
     "version": "lerna version"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.6.1",
-    "@commitlint/config-conventional": "^7.6.0",
-    "@types/jest": "^24.0.11",
-    "husky": "^2.3.0",
-    "jest": "^24.7.1",
-    "jest-cli": "^24.7.1",
-    "lerna": "^3.14.1",
-    "lerna-changelog": "^0.8.2",
-    "sort-package-json": "^1.22.1",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5"
+    "@commitlint/cli": "7.6.1",
+    "@commitlint/config-conventional": "7.6.0",
+    "@types/jest": "24.0.13",
+    "husky": "2.3.0",
+    "jest": "24.8.0",
+    "jest-cli": "24.8.0",
+    "lerna": "3.14.1",
+    "lerna-changelog": "0.8.2",
+    "sort-package-json": "1.22.1",
+    "ts-jest": "24.0.2",
+    "typescript": "3.4.5"
   },
   "engines": {
     "node": ">=9.8.0",
